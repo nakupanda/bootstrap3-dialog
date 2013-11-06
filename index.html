@@ -189,7 +189,7 @@
     <div class="source-code runnable">
         <!--
         BootstrapDialog.show({
-            message: 'I sent ajax request!',
+            message: 'I send ajax request!',
             buttons: [{
                 icon: 'glyphicon glyphicon-send',
                 label: 'Send ajax request',
@@ -494,6 +494,7 @@ BootstrapDialog.show({
         icon: 'glyphicon glyphicon-check',       
         label: 'OK',
         cssClass: 'btn-primary', 
+        autospin: true,
         action: function(dialogRef){    
             dialogRef.close();
         }
@@ -503,6 +504,7 @@ BootstrapDialog.show({
                     <strong>id</strong>: optional, if id is set, you can use dialogInstance.getButton(id) to get the button later. <br />
                     <strong>icon</strong>: optional, if set, the specified icon will be added to the button. <br />
                     <strong>cssClass</strong>: optinal, additional css class to be added to the button. <br />
+                    <strong>autospin</strong>: optinal, if it's true, after clicked the button a spinning icon appears. <br />
                     <strong>action</strong>: optional, if provided, the callback will be invoked after the button is clicked, and the dialog instance will be passed to the callback function.
                 </td>
             </tr>
@@ -518,15 +520,6 @@ BootstrapDialog.show({
                         <li>Clicking outside the dialog.</li>
                         <li>ESC key.</li>
                     </ul>
-                </td>
-            </tr>
-            <tr>
-                <td>autospin</td>
-                <td>
-                    true | false
-                </td>
-                <td>
-                    When set to <strong>true</strong>, after clicked on a button, a spinning icon appears in which button you have clicked automatically.
                 </td>
             </tr>
             <tr>
