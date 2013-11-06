@@ -190,11 +190,11 @@
         <!--
         BootstrapDialog.show({
             message: 'I sent ajax request!',
-            autospin: true,
             buttons: [{
                 icon: 'glyphicon glyphicon-send',
                 label: 'Send ajax request',
                 cssClass: 'btn-primary',
+                autospin: true,
                 action: function(dialogRef){
                     dialogRef.enableButtons(false);
                     dialogRef.setClosable(false);
@@ -202,6 +202,11 @@
                     setTimeout(function(){
                         dialogRef.close();
                     }, 5000);
+                }
+            }, {
+                label: 'Close',
+                action: function(dialogRef){
+                    dialogRef.close();
                 }
             }]
         });
