@@ -19,7 +19,6 @@ var BootstrapDialog = null;
             message: null,
             buttons: [],
             closable: true,
-            autospin: false,
             spinicon: BootstrapDialog.ICON_SPINNER,
             data: {},
             onshow: null,
@@ -204,14 +203,6 @@ var BootstrapDialog = null;
 
             return this;
         },
-        isAutospin: function() {
-            return this.options.autospin;
-        },
-        setAutospin: function(autospin) {
-            this.options.autospin = autospin;
-
-            return this;
-        },
         getSpinicon: function() {
             return this.options.spinicon;
         },
@@ -369,19 +360,20 @@ var BootstrapDialog = null;
                 $button.addClass('btn-default');
             }
 
-            // Action
-            if (typeof button.action === 'function') {
-                $button.on('click', {dialog: this, callback: button.action}, function(event) {
-                    var dialog = event.data.dialog;
-                    event.data.callback.call(this, dialog);
+            // Button on click
+            $button.on('click', {dialog: this, button: button}, function(event) {
+                var dialog = event.data.dialog;
+                var button = event.data.button;
+                if (typeof button.action === 'function') {
+                    button.action.call(this, dialog);
+                }
 
-                    if (dialog.isAutospin()) {
-                        var $button = $(this);
-                        $button.find('.' + dialog.getNamespace('button-icon')).remove();
-                        $button.prepend(dialog.createButtonIcon(dialog.getSpinicon()).addClass('icon-spin'));
-                    }
-                });
-            }
+                if (button.autospin) {
+                    var $button = $(this);
+                    $button.find('.' + dialog.getNamespace('button-icon')).remove();
+                    $button.prepend(dialog.createButtonIcon(dialog.getSpinicon()).addClass('icon-spin'));
+                }
+            });
 
             return $button;
         },
