@@ -478,7 +478,8 @@ var BootstrapDialog = null;
             this.getModalFooter().append(this.createFooterContent());
             this.getModal().modal({
                 backdrop: 'static',
-                keyboard: false
+                keyboard: false,
+                show: false
             });
             this.handleModalEvents();
             this.setRealized(true);
