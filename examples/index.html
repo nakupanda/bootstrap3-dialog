@@ -82,6 +82,52 @@
         });
         -->
     </div>
+
+    <h3>Creating dialog instances</h3>
+    <p>BootstrapDialog.show(...) is just a shortcut method, if you need dialog instances, use 'new'.</p>
+    <div class="source-code runnable">
+        <!--
+        // Using init options
+        var dialogInstance1 = new BootstrapDialog({
+            title: 'Dialog instance 1',
+            message: 'Hi Apple!'
+        });
+        dialogInstance1.open();
+        
+        // Construct by using setters
+        var dialogInstance2 = new BootstrapDialog();
+        dialogInstance2.setTitle('Dialog instance 2');
+        dialogInstance2.setMessage('Hi Orange!');
+        dialogInstance2.setType(BootstrapDialog.TYPE_SUCCESS);
+        dialogInstance2.open();
+        
+        // Using chain callings
+        var dialogInstance3 = new BootstrapDialog()
+            .setTitle('Dialog instance 3')
+            .setMessage('Hi Everybody!')
+            .setType(BootstrapDialog.TYPE_INFO)
+            .open();
+        -->
+    </div>
+    
+    <h3>Button with identifier</h3>
+    <div class="source-code runnable">
+        <!--
+        var dialog = new BootstrapDialog({
+            message: 'Hi Apple!',
+            buttons: [{
+                id: 'btn-1',
+                label: 'Button 1'
+            }]
+        });
+        dialog.realize();
+        var btn1 = dialog.getButton('btn-1');
+        btn1.click({'name': 'Apple'}, function(event){
+            alert('Hi, ' + event.data.name);
+        });
+        dialog.open();
+        -->
+    </div>
     
     <h3>Message types</h3>
     <div class="source-code runnable">
@@ -261,33 +307,6 @@
                 }
             }]
         });
-        -->
-    </div>
-    
-    <h3>Creating dialog instances</h3>
-    <p>BootstrapDialog.show(...) is just a shortcut method, if you need dialog instances, use 'new'.</p>
-    <div class="source-code runnable">
-        <!--
-        // Using init options
-        var dialogInstance1 = new BootstrapDialog({
-            title: 'Dialog instance 1',
-            message: 'Hi Apple!'
-        });
-        dialogInstance1.open();
-        
-        // Construct by using setters
-        var dialogInstance2 = new BootstrapDialog();
-        dialogInstance2.setTitle('Dialog instance 2');
-        dialogInstance2.setMessage('Hi Orange!');
-        dialogInstance2.setType(BootstrapDialog.TYPE_SUCCESS);
-        dialogInstance2.open();
-        
-        // Using chain callings
-        var dialogInstance3 = new BootstrapDialog()
-            .setTitle('Dialog instance 3')
-            .setMessage('Hi Everybody!')
-            .setType(BootstrapDialog.TYPE_INFO)
-            .open();
         -->
     </div>
     
