@@ -209,7 +209,7 @@
         -->
     </div>
     
-    <h3>Dialog unclosable</h3>
+    <h3>Dialog closable / unclosable</h3>
     <p>
         If option 'closable' is set to false, the default closing behaviors will be disabled, but you can still close the dialog by using dialog.close().
     </p>
@@ -219,6 +219,18 @@
             message: 'Hi Apple!',
             closable: false,
             buttons: [{
+                label: 'Dialog CLOSABLE!',
+                cssClass: 'btn-success',
+                action: function(dialogRef){
+                    dialogRef.setClosable(true);
+                }
+            }, {
+                label: 'Dialog UNCLOSABLE!',
+                cssClass: 'btn-warning',
+                action: function(dialogRef){
+                    dialogRef.setClosable(false);
+                }
+            }, {
                 label: 'Close the dialog',
                 action: function(dialogRef){
                     dialogRef.close();
