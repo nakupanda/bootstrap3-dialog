@@ -275,9 +275,7 @@ var BootstrapDialog = null;
             $container.append(this.createTitleContent());
 
             // Close button
-            if (this.isClosable()) {
-                $container.append(this.createCloseButton());
-            }
+            $container.append(this.createCloseButton());
 
             return $container;
         },
