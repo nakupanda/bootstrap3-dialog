@@ -147,12 +147,20 @@ var BootstrapDialog = null;
             return this;
         },
         createDynamicContent: function(rawContent) {
-            var contentType = typeof rawContent;
-            if (contentType === 'function') {
-                return rawContent.call(rawContent, this);
+            var content = null;
+            if (typeof rawContent === 'function') {
+                content = rawContent.call(rawContent, this);
+            } else {
+                content = rawContent;
+            }
+            if (typeof content === 'string') {
+                content = this.formatStringContent(content);
             }
 
-            return rawContent;
+            return content;
+        },
+        formatStringContent: function(content) {
+            return content.replace(/\r\n/g, '<br />').replace(/[\r\n]/g, '<br />');
         },
         setData: function(key, value) {
             this.options.data[key] = value;
