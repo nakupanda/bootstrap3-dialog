@@ -1,12 +1,12 @@
 /* ================================================
- * Make use of Twitter Bootstrap's modal more monkey-friendly
- * 
- * For Bootstrap 3.
- * 
- * javanoob@hotmail.com
- * 
- * Licensed under The MIT License.
- * ================================================ */
+* Make use of Twitter Bootstrap's modal more monkey-friendly
+* 
+* For Bootstrap 3.
+* 
+* javanoob@hotmail.com
+* 
+* Licensed under The MIT License.
+* ================================================ */
 var BootstrapDialog = null;
 !function($) {
     "use strict";
@@ -28,6 +28,8 @@ var BootstrapDialog = null;
         this.indexedButtons = {};
         this.realized = false;
         this.initOptions(options);
+        this.id = BootstrapDialog.newGuid();
+        BootstrapDialog.dialogs[this.id] = this;
     };
 
     BootstrapDialog.NAMESPACE = 'bootstrap-dialog';
@@ -65,30 +67,29 @@ var BootstrapDialog = null;
         },
         initModalStuff: function() {
             this.setModal(this.createModal())
-                    .setModalDialog(this.createModalDialog())
-                    .setModalContent(this.createModalContent())
-                    .setModalHeader(this.createModalHeader())
-                    .setModalBody(this.createModalBody())
-                    .setModalFooter(this.createModalFooter());
+            .setModalDialog(this.createModalDialog())
+            .setModalContent(this.createModalContent())
+            .setModalHeader(this.createModalHeader())
+            .setModalBody(this.createModalBody())
+            .setModalFooter(this.createModalFooter());
 
             this.getModal().append(this.getModalDialog());
             this.getModalDialog().append(this.getModalContent());
             this.getModalContent()
-                    .append(this.getModalHeader())
-                    .append(this.getModalBody())
-                    .append(this.getModalFooter());
+            .append(this.getModalHeader())
+            .append(this.getModalBody())
+            .append(this.getModalFooter());
 
             return this;
         },
         createModal: function() {
-            return $('<div class="modal fade" tabindex="-1"></div>');
+            return $('<div class="modal fade" tabindex="-1" id="' + this.id + '"></div>');
         },
         getModal: function() {
             return this.$modal;
         },
         setModal: function($modal) {
             this.$modal = $modal;
-
             return this;
         },
         createModalDialog: function() {
@@ -110,7 +111,7 @@ var BootstrapDialog = null;
         },
         setModalContent: function($modalContent) {
             this.$modalContent = $modalContent;
-
+            
             return this;
         },
         createModalHeader: function() {
@@ -191,7 +192,10 @@ var BootstrapDialog = null;
         },
         setTitle: function(title) {
             this.options.title = title;
-
+            
+            if(typeof this.$modalHeader !== 'undefined')
+                this.$modalHeader.html(title);
+            
             return this;
         },
         getMessage: function() {
@@ -199,7 +203,10 @@ var BootstrapDialog = null;
         },
         setMessage: function(message) {
             this.options.message = message;
-
+            
+            if(typeof this.$modalBody !== 'undefined')
+                this.$modalBody.html(message);
+            
             return this;
         },
         isClosable: function() {
@@ -242,13 +249,13 @@ var BootstrapDialog = null;
             return this;
         },
         /**
-         * If there is id provided for a button option, it will be in dialog.indexedButtons list.
-         * 
-         * In that case you can use dialog.getButton(id) to find the button.
-         * 
-         * @param {type} id
-         * @returns {undefined}
-         */
+        * If there is id provided for a button option, it will be in dialog.indexedButtons list.
+        * 
+        * In that case you can use dialog.getButton(id) to find the button.
+        * 
+        * @param {type} id
+        * @returns {undefined}
+        */
         getButton: function(id) {
             if (typeof this.indexedButtons[id] !== 'undefined') {
                 return this.indexedButtons[id];
@@ -390,11 +397,11 @@ var BootstrapDialog = null;
             return $icon;
         },
         /**
-         * Invoke this only after the dialog is realized.
-         * 
-         * @param {type} enable
-         * @returns {undefined}
-         */
+        * Invoke this only after the dialog is realized.
+        * 
+        * @param {type} enable
+        * @returns {undefined}
+        */
         enableButtons: function(enable) {
             var $buttons = this.getModalFooter().find('.btn');
             $buttons.prop("disabled", !enable).toggleClass('disabled', !enable);
@@ -402,11 +409,11 @@ var BootstrapDialog = null;
             return this;
         },
         /**
-         * Invoke this only after the dialog is realized.
-         * 
-         * @param {type} enable
-         * @returns {undefined}
-         */
+        * Invoke this only after the dialog is realized.
+        * 
+        * @param {type} enable
+        * @returns {undefined}
+        */
         updateClosable: function() {
             if (this.isRealized()) {
                 // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is poped up, so here's a new wheel.
@@ -427,24 +434,24 @@ var BootstrapDialog = null;
             return this;
         },
         /**
-         * Set handler for modal event 'show'.
-         * This is a setter!
-         * 
-         * @param {type} onopen
-         * @returns {_L9.BootstrapDialog.prototype}
-         */
+        * Set handler for modal event 'show'.
+        * This is a setter!
+        * 
+        * @param {type} onopen
+        * @returns {_L9.BootstrapDialog.prototype}
+        */
         onShow: function(onshow) {
             this.options.onshow = onshow;
 
             return this;
         },
         /**
-         * Set handler for modal event 'hide'.
-         * This is a setter!
-         * 
-         * @param {type} onclose
-         * @returns {_L9.BootstrapDialog.prototype}
-         */
+        * Set handler for modal event 'hide'.
+        * This is a setter!
+        * 
+        * @param {type} onclose
+        * @returns {_L9.BootstrapDialog.prototype}
+        */
         onHide: function(onhide) {
             this.options.onhide = onhide;
 
@@ -477,8 +484,8 @@ var BootstrapDialog = null;
         realize: function() {
             this.initModalStuff();
             this.getModal().addClass(BootstrapDialog.NAMESPACE)
-                    .addClass(this.getType())
-                    .addClass(this.getSize());
+            .addClass(this.getType())
+            .addClass(this.getSize());
             this.getModalHeader().append(this.createHeaderContent());
             this.getModalBody().append(this.createBodyContent());
             this.getModalFooter().append(this.createFooterContent());
@@ -501,32 +508,61 @@ var BootstrapDialog = null;
         },
         close: function() {
             this.getModal().modal('hide');
-
+            delete BootstrapDialog.dialogs[this.id];
             return this;
         }
     };
 
     /* ================================================
-     * For lazy people
-     * ================================================ */
+    * For lazy people
+    * ================================================ */
 
     /**
-     * Shortcut function: show
-     * 
-     * @param {type} options
-     * @returns {undefined}
-     */
+    * Shortcut function: show
+    * 
+    * @param {type} options
+    * @returns {undefined}
+    */
     BootstrapDialog.show = function(options) {
         new BootstrapDialog(options).open();
     };
 
     /**
-     * Alert window
-     * 
-     * @param {type} message
-     * @param {type} callback
-     * @returns {undefined}
-     */
+    * rfc4122 version 4 compliant unique id creator
+    */
+    BootstrapDialog.newGuid = function()
+    {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+            return v.toString(16);
+        });
+    }
+
+    BootstrapDialog.dialogs = {};
+
+    BootstrapDialog.closeAll = function()
+    {
+        for(var i in  BootstrapDialog.dialogs)
+        {
+            BootstrapDialog.dialogs[i].close();
+        }
+    }
+
+    BootstrapDialog.openAll = function()
+    {
+        for(var i in  BootstrapDialog.dialogs)
+        {
+            BootstrapDialog.dialogs[i].open();
+        }
+    }
+
+    /**
+    * Alert window
+    * 
+    * @param {type} message
+    * @param {type} callback
+    * @returns {undefined}
+    */
     BootstrapDialog.alert = function(message, callback) {
         new BootstrapDialog({
             message: message,
@@ -535,22 +571,22 @@ var BootstrapDialog = null;
             },
             closable: false,
             buttons: [{
-                    label: 'OK',
-                    action: function(dialog) {
-                        typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
-                        dialog.close();
-                    }
-                }]
+                label: 'OK',
+                action: function(dialog) {
+                    typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
+                    dialog.close();
+                }
+            }]
         }).open();
     };
 
     /**
-     * Confirm window
-     * 
-     * @param {type} message
-     * @param {type} callback
-     * @returns {undefined}
-     */
+    * Confirm window
+    * 
+    * @param {type} message
+    * @param {type} callback
+    * @returns {undefined}
+    */
     BootstrapDialog.confirm = function(message, callback) {
         new BootstrapDialog({
             title: 'Confirmation',
@@ -560,11 +596,11 @@ var BootstrapDialog = null;
                 'callback': callback
             },
             buttons: [{
-                    label: 'Cancel',
-                    action: function(dialog) {
-                        typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
-                        dialog.close();
-                    }
+                label: 'Cancel',
+                action: function(dialog) {
+                    typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
+                    dialog.close();
+                }
                 }, {
                     label: 'OK',
                     cssClass: 'btn-primary',
@@ -572,7 +608,7 @@ var BootstrapDialog = null;
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
                         dialog.close();
                     }
-                }]
+            }]
         }).open();
     };
 }(window.jQuery);
