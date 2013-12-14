@@ -29,7 +29,7 @@ var BootstrapDialog = null;
         this.realized = false;
         this.initOptions(options);
         this.id = BootstrapDialog.newGuid();
-        BootstrapDialog.dialogs.push(this);
+        BootstrapDialog.dialogs[this.id] = this;
     };
 
     BootstrapDialog.NAMESPACE = 'bootstrap-dialog';
@@ -83,14 +83,13 @@ var BootstrapDialog = null;
             return this;
         },
         createModal: function() {
-            return $('<div class="modal fade" tabindex="-1"></div>');
+            return $('<div class="modal fade" tabindex="-1" id="' + this.id + '"></div>');
         },
         getModal: function() {
             return this.$modal;
         },
         setModal: function($modal) {
             this.$modal = $modal;
-
             return this;
         },
         createModalDialog: function() {
@@ -112,7 +111,7 @@ var BootstrapDialog = null;
         },
         setModalContent: function($modalContent) {
             this.$modalContent = $modalContent;
-
+            
             return this;
         },
         createModalHeader: function() {
@@ -193,7 +192,10 @@ var BootstrapDialog = null;
         },
         setTitle: function(title) {
             this.options.title = title;
-
+            
+            if(typeof this.$modalHeader !== 'undefined')
+                this.$modalHeader.html(title);
+            
             return this;
         },
         getMessage: function() {
@@ -201,7 +203,10 @@ var BootstrapDialog = null;
         },
         setMessage: function(message) {
             this.options.message = message;
-
+            
+            if(typeof this.$modalBody !== 'undefined')
+                this.$modalBody.html(message);
+            
             return this;
         },
         isClosable: function() {
@@ -503,7 +508,7 @@ var BootstrapDialog = null;
         },
         close: function() {
             this.getModal().modal('hide');
-
+            delete BootstrapDialog.dialogs[this.id];
             return this;
         }
     };
@@ -533,7 +538,23 @@ var BootstrapDialog = null;
         });
     }
 
-    BootstrapDialog.dialogs = [];
+    BootstrapDialog.dialogs = {};
+
+    BootstrapDialog.closeAll = function()
+    {
+        for(var i in  BootstrapDialog.dialogs)
+        {
+            BootstrapDialog.dialogs[i].close();
+        }
+    }
+
+    BootstrapDialog.openAll = function()
+    {
+        for(var i in  BootstrapDialog.dialogs)
+        {
+            BootstrapDialog.dialogs[i].open();
+        }
+    }
 
     /**
     * Alert window
