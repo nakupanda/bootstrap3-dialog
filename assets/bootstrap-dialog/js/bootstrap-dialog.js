@@ -1,5 +1,5 @@
 /* ================================================
- * Make use of Twitter Bootstrap's modal more monkey-friendly
+ * Make use of Twitter Bootstrap's modal more monkey-friendly.
  * 
  * For Bootstrap 3.
  * 
@@ -13,6 +13,7 @@ var BootstrapDialog = null;
 
     BootstrapDialog = function(options) {
         this.defaultOptions = {
+            id: BootstrapDialog.newGuid(),
             type: BootstrapDialog.TYPE_PRIMARY,
             size: BootstrapDialog.SIZE_NORMAL,
             title: null,
@@ -28,8 +29,12 @@ var BootstrapDialog = null;
         this.indexedButtons = {};
         this.realized = false;
         this.initOptions(options);
+        this.holdThisInstance();
     };
 
+    /**
+     *  Some constants.
+     */
     BootstrapDialog.NAMESPACE = 'bootstrap-dialog';
 
     BootstrapDialog.TYPE_DEFAULT = 'type-default';
@@ -56,10 +61,30 @@ var BootstrapDialog = null;
 
     BootstrapDialog.ICON_SPINNER = 'glyphicon glyphicon-asterisk';
 
+    /**
+     * Open / Close all created dialogs all at once.
+     */
+    BootstrapDialog.dialogs = {};
+    BootstrapDialog.openAll = function() {
+        $.each(BootstrapDialog.dialogs, function(id, dialogInstance) {
+            dialogInstance.open();
+        });
+    };
+    BootstrapDialog.closeAll = function() {
+        $.each(BootstrapDialog.dialogs, function(id, dialogInstance) {
+            dialogInstance.close();
+        });
+    };
+
     BootstrapDialog.prototype = {
         constructor: BootstrapDialog,
         initOptions: function(options) {
             this.options = $.extend(true, this.defaultOptions, options);
+
+            return this;
+        },
+        holdThisInstance: function() {
+            BootstrapDialog.dialogs[this.getId()] = this;
 
             return this;
         },
@@ -81,7 +106,7 @@ var BootstrapDialog = null;
             return this;
         },
         createModal: function() {
-            return $('<div class="modal fade" tabindex="-1"></div>');
+            return $('<div class="modal fade" tabindex="-1" id="' + this.getId() + '"></div>');
         },
         getModal: function() {
             return this.$modal;
@@ -169,6 +194,14 @@ var BootstrapDialog = null;
         },
         getData: function(key) {
             return this.options.data[key];
+        },
+        setId: function(id) {
+            this.options.id = id;
+
+            return this;
+        },
+        getId: function() {
+            return this.options.id;
         },
         getType: function() {
             return this.options.type;
@@ -462,6 +495,7 @@ var BootstrapDialog = null;
             this.getModal().on('show.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
                 typeof dialog.options.onshow === 'function' && dialog.options.onshow(dialog);
+                dialog.showScrollBar(true);
             });
             this.getModal().on('hide.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
@@ -470,9 +504,13 @@ var BootstrapDialog = null;
             this.getModal().on('hidden.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
                 dialog.isAutodestroy() && $(this).remove();
+                dialog.showScrollBar(false);
             });
 
             return this;
+        },
+        showScrollBar: function(show){
+            $(document.body).toggleClass('modal-open', show);
         },
         realize: function() {
             this.initModalStuff();
@@ -501,9 +539,26 @@ var BootstrapDialog = null;
         },
         close: function() {
             this.getModal().modal('hide');
-
+            if(this.isAutodestroy()) {
+                delete BootstrapDialog.dialogs[this.getId()];
+            }
+            
             return this;
         }
+    };
+
+    /**
+     * RFC4122 version 4 compliant unique id creator.
+     *
+     * Added by https://github.com/tufanbarisyildirim/
+     *
+     *  @returns {String}
+     */
+    BootstrapDialog.newGuid = function() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
     };
 
     /* ================================================
