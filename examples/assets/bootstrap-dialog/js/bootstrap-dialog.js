@@ -495,6 +495,7 @@ var BootstrapDialog = null;
             this.getModal().on('show.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
                 typeof dialog.options.onshow === 'function' && dialog.options.onshow(dialog);
+                dialog.showScrollBar(true);
             });
             this.getModal().on('hide.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
@@ -503,9 +504,13 @@ var BootstrapDialog = null;
             this.getModal().on('hidden.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
                 dialog.isAutodestroy() && $(this).remove();
+                dialog.showScrollBar(false);
             });
 
             return this;
+        },
+        showScrollBar: function(show){
+            $(document.body).toggleClass('modal-open', show);
         },
         realize: function() {
             this.initModalStuff();
