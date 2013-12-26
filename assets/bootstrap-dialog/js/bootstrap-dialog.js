@@ -28,6 +28,7 @@ var BootstrapDialog = null;
         };
         this.indexedButtons = {};
         this.realized = false;
+        this.opened = false;
         this.initOptions(options);
         this.holdThisInstance();
     };
@@ -442,7 +443,7 @@ var BootstrapDialog = null;
          */
         updateClosable: function() {
             if (this.isRealized()) {
-                // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is poped up, so here's a new wheel.
+                // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is popped up, so here's a new wheel.
                 var $theBigMask = this.getModal();
                 $theBigMask.off('click').on('click', {dialog: this}, function(event) {
                     event.target === this && event.data.dialog.isClosable() && event.data.dialog.close();
@@ -491,11 +492,19 @@ var BootstrapDialog = null;
 
             return this;
         },
+        isOpened: function() {
+            return this.opened;
+        },
+        setOpened: function(opened) {
+            this.opened = opened;
+
+            return this;
+        },
         handleModalEvents: function() {
             this.getModal().on('show.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
                 typeof dialog.options.onshow === 'function' && dialog.options.onshow(dialog);
-                dialog.showScrollBar(true);
+                dialog.showPageScrollBar(true);
             });
             this.getModal().on('hide.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
@@ -504,12 +513,12 @@ var BootstrapDialog = null;
             this.getModal().on('hidden.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
                 dialog.isAutodestroy() && $(this).remove();
-                dialog.showScrollBar(false);
+                dialog.showPageScrollBar(false);
             });
 
             return this;
         },
-        showScrollBar: function(show){
+        showPageScrollBar: function(show) {
             $(document.body).toggleClass('modal-open', show);
         },
         realize: function() {
@@ -534,15 +543,17 @@ var BootstrapDialog = null;
             !this.isRealized() && this.realize();
             this.updateClosable();
             this.getModal().modal('show');
+            this.setOpened(true);
 
             return this;
         },
         close: function() {
             this.getModal().modal('hide');
-            if(this.isAutodestroy()) {
+            if (this.isAutodestroy()) {
                 delete BootstrapDialog.dialogs[this.getId()];
             }
-            
+            this.setOpened(false);
+
             return this;
         }
     };
