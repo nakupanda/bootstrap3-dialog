@@ -110,6 +110,35 @@
         -->
     </div>
     
+    <h3>Open / Close multiple dialogs</h3>
+    <p>This example demonstrates opening and closing a batch of dialogs at one time. <br />Dialog that created by BootstrapDialog will be in a container <strong>BootstrapDialog.dialogs</strong> before it's closed and destroyed, iterate <strong>BootstrapDialog.dialogs</strong> to find all dialogs that havn't been destroyed.</p>
+    <div class="source-code runnable">
+        <!--
+        var howManyDialogs = 5;
+        for(var i = 1; i <= howManyDialogs; i++) {
+            var dialog = new BootstrapDialog({
+                title: 'Dialog No.' + i,
+                message: 'Hello Houston, this is dialog No.' + i,
+                buttons: [{
+                    label: 'Close this dialog.',
+                    action: function(dialogRef){
+                        dialogRef.close();
+                    }
+                }, {
+                    label: 'Close ALL opened dialogs',
+                    cssClass: 'btn-warning',
+                    action: function(){
+                        $.each(BootstrapDialog.dialogs, function(id, dialog){
+                            dialog.close();
+                        });
+                    }
+                }]
+            });
+            dialog.open();
+        }
+        -->
+    </div>
+    
     <h3>Button with identifier</h3>
     <div class="source-code runnable">
         <!--
@@ -560,7 +589,7 @@ BootstrapDialog.show({
                     <strong>Default value is 'glyphicon glyphicon-asterisk'.</strong>
                 </td>
                 <td>
-                    When set to <strong>true</strong>, after clicked on a button, a spinning icon appears in which button you have clicked automatically.
+                    Specify what icon to be used as the spinning icon when button's 'autospin' is set to true.
                 </td>
             </tr>
             <tr>
