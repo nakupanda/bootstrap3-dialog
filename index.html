@@ -128,6 +128,7 @@
                     label: 'Close ALL opened dialogs',
                     cssClass: 'btn-warning',
                     action: function(){
+                        // You can also use BootstrapDialog.closeAll() to close all dialogs.
                         $.each(BootstrapDialog.dialogs, function(id, dialog){
                             dialog.close();
                         });
