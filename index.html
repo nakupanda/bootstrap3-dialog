@@ -9,6 +9,11 @@
 <script src="assets/bootstrap-dialog/js/bootstrap-dialog.js"></script>
 <meta charset="utf-8" />
 <title>BootstrapDialog examples</title>
+<style>
+    .login-dialog .modal-dialog {
+        width: 300px;
+    }
+</style>
 </head>
 <body style="padding-bottom: 100px;">
 <div class="container">
@@ -326,6 +331,35 @@
         -->
     </div>
     
+    <h3>Adding additional css classes to your dialog</h3>
+    <p>This is useful for applying effects to specific dialogs.<br />
+    For example if you would like to give your 'login-dialog' a smaller size, you can do this way:</p>
+    <div class="source-code">
+        <!--
+        <style>
+           .login-dialog .modal-dialog {
+                width: 300px;
+            }
+        </style>
+        -->
+    </div>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'Sign In',
+            message: 'Your sign-in form goes here.',
+            cssClass: 'login-dialog',
+            buttons: [{
+                label: 'Sign In Now!',
+                cssClass: 'btn-primary',
+                action: function(dialog){
+                    dialog.close();
+                }
+            }]
+        });
+        -->
+    </div>
+    
     <h3>Data binding</h3>
     <div class="source-code runnable">
         <!--
@@ -519,6 +553,15 @@
                 </td>
                 <td>
                     -
+                </td>
+            </tr>
+            <tr>
+                <td>cssClass</td>
+                <td>
+                    -
+                </td>
+                <td>
+                    Additional css classes that will be added to your dialog.
                 </td>
             </tr>
             <tr>
