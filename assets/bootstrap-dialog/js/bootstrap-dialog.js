@@ -16,6 +16,7 @@ var BootstrapDialog = null;
             id: BootstrapDialog.newGuid(),
             type: BootstrapDialog.TYPE_PRIMARY,
             size: BootstrapDialog.SIZE_NORMAL,
+            cssClass: '',
             title: null,
             message: null,
             buttons: [],
@@ -91,18 +92,18 @@ var BootstrapDialog = null;
         },
         initModalStuff: function() {
             this.setModal(this.createModal())
-                    .setModalDialog(this.createModalDialog())
-                    .setModalContent(this.createModalContent())
-                    .setModalHeader(this.createModalHeader())
-                    .setModalBody(this.createModalBody())
-                    .setModalFooter(this.createModalFooter());
+            .setModalDialog(this.createModalDialog())
+            .setModalContent(this.createModalContent())
+            .setModalHeader(this.createModalHeader())
+            .setModalBody(this.createModalBody())
+            .setModalFooter(this.createModalFooter());
 
             this.getModal().append(this.getModalDialog());
             this.getModalDialog().append(this.getModalContent());
             this.getModalContent()
-                    .append(this.getModalHeader())
-                    .append(this.getModalBody())
-                    .append(this.getModalFooter());
+            .append(this.getModalHeader())
+            .append(this.getModalBody())
+            .append(this.getModalFooter());
 
             return this;
         },
@@ -217,6 +218,14 @@ var BootstrapDialog = null;
         },
         setSize: function(size) {
             this.options.size = size;
+
+            return this;
+        },
+        getCssClass: function() {
+            return this.options.cssClass;
+        },
+        setCssClass: function(cssClass){
+            this.options.cssClass = cssClass;
 
             return this;
         },
@@ -524,8 +533,9 @@ var BootstrapDialog = null;
         realize: function() {
             this.initModalStuff();
             this.getModal().addClass(BootstrapDialog.NAMESPACE)
-                    .addClass(this.getType())
-                    .addClass(this.getSize());
+            .addClass(this.getType())
+            .addClass(this.getSize())
+            .addClass(this.getCssClass());
             this.getModalHeader().append(this.createHeaderContent());
             this.getModalBody().append(this.createBodyContent());
             this.getModalFooter().append(this.createFooterContent());
