@@ -224,7 +224,7 @@ var BootstrapDialog = null;
         getCssClass: function() {
             return this.options.cssClass;
         },
-        setCssClass: function(cssClass){
+        setCssClass: function(cssClass) {
             this.options.cssClass = cssClass;
 
             return this;
