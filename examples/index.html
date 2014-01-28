@@ -114,6 +114,15 @@
             .open();
         -->
     </div>
+    <p>In fact BootstrapDialog.show(...) will also return the created dialog instance.</p>
+    <div class="source-code runnable">
+        <!--
+        // You can use dialogInstance later.
+        var dialogInstance = BootstrapDialog.show({
+            message: 'Hello Banana!'
+        });
+        -->
+    </div>
     
     <h3>Open / Close multiple dialogs</h3>
     <p>This example demonstrates opening and closing a batch of dialogs at one time. <br />Dialog that created by BootstrapDialog will be in a container <strong>BootstrapDialog.dialogs</strong> before it's closed and destroyed, iterate <strong>BootstrapDialog.dialogs</strong> to find all dialogs that havn't been destroyed.</p>
