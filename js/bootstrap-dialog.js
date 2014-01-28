@@ -590,10 +590,10 @@ var BootstrapDialog = null;
      * Shortcut function: show
      * 
      * @param {type} options
-     * @returns {undefined}
+     * @returns the created dialog instance
      */
     BootstrapDialog.show = function(options) {
-        new BootstrapDialog(options).open();
+        return new BootstrapDialog(options).open();
     };
 
     /**
@@ -601,10 +601,10 @@ var BootstrapDialog = null;
      * 
      * @param {type} message
      * @param {type} callback
-     * @returns {undefined}
+     * @returns the created dialog instance
      */
     BootstrapDialog.alert = function(message, callback) {
-        new BootstrapDialog({
+        return new BootstrapDialog({
             message: message,
             data: {
                 'callback': callback
@@ -625,10 +625,10 @@ var BootstrapDialog = null;
      * 
      * @param {type} message
      * @param {type} callback
-     * @returns {undefined}
+     * @returns the created dialog instance
      */
     BootstrapDialog.confirm = function(message, callback) {
-        new BootstrapDialog({
+        return new BootstrapDialog({
             title: 'Confirmation',
             message: message,
             closable: false,
