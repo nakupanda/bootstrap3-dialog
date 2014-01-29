@@ -87,6 +87,45 @@
         });
         -->
     </div>
+    
+    <h3>Manipulating Buttons</h3>
+    <p>
+        Buttons that created by BootstrapDialog have some extra functions available: <br />
+        $button.toggleEnable(true|false); <br />
+        $button.enable(); // Equals to $button.toggleEnable(true); <br />
+        $button.disable(); // Equals to $button.toggleEnable(false); <br />
+        $button.toggleSpin(true|false); <br />
+        $button.spin(); // Equals to $button.toggleSpin(true);<br />
+        $button.stopSpin(); // Equals to $button.toggleSpin(false);<br />
+    </p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'Manipulating Buttons',
+            message: function(dialog) {
+                var $content = $('<div><button class="btn btn-success">Revert button status right now.</button></div>');
+                var $footerButton = dialog.getButton('btn-1');
+                $content.find('button').click({$footerButton: $footerButton}, function(event) {
+                    event.data.$footerButton.enable();
+                    event.data.$footerButton.stopSpin();
+                    dialog.setClosable(true);
+                });
+                
+                return $content;
+            },
+            buttons: [{
+                id: 'btn-1',
+                label: 'Click to disable and spin.',
+                action: function(dialog) {
+                    var $button = this; // 'this' here is a jQuery object that wrapping the <button> DOM element.
+                    $button.disable();
+                    $button.spin();
+                    dialog.setClosable(false);
+                }
+            }]
+        });
+        -->
+    </div>
 
     <h3>Creating dialog instances</h3>
     <p>BootstrapDialog.show(...) is just a shortcut method, if you need dialog instances, use 'new'.</p>
