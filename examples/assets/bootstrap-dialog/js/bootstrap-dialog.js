@@ -5,6 +5,8 @@
  * 
  * javanoob@hotmail.com
  * 
+ * https://github.com/nakupanda/bootstrap3-dialog
+ * 
  * Licensed under The MIT License.
  * ================================================ */
 var BootstrapDialog = null;
@@ -108,7 +110,10 @@ var BootstrapDialog = null;
             return this;
         },
         createModal: function() {
-            return $('<div class="modal fade" tabindex="-1" id="' + this.getId() + '"></div>');
+            var $modal = $('<div class="modal fade" tabindex="-1"></div>');
+            $modal.prop('id', this.getId());
+
+            return $modal;
         },
         getModal: function() {
             return this.$modal;
