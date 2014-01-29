@@ -274,7 +274,6 @@ var BootstrapDialog = null;
         },
         addButtons: function(buttons) {
             var that = this;
-
             $.each(buttons, function(index, button) {
                 that.addButton(button);
             });
@@ -384,10 +383,11 @@ var BootstrapDialog = null;
             $container.addClass(this.getNamespace('footer-buttons'));
             this.indexedButtons = {};
             $.each(this.options.buttons, function(index, button) {
-                var $button = that.createButton(button);
-                if (typeof button.id !== 'undefined') {
-                    that.indexedButtons[button.id] = $button;
+                if (!button.id) {
+                    button.id = BootstrapDialog.newGuid();
                 }
+                var $button = that.createButton(button);
+                that.indexedButtons[button.id] = $button;
                 $container.append($button);
             });
 
@@ -396,6 +396,7 @@ var BootstrapDialog = null;
         createButton: function(button) {
             var $button = $('<button class="btn"></button>');
             $button.addClass(this.getButtonSize());
+            $button.prop('id', button.id);
 
             // Icon
             if (typeof button.icon !== undefined && $.trim(button.icon) !== '') {
@@ -414,22 +415,85 @@ var BootstrapDialog = null;
                 $button.addClass('btn-default');
             }
 
+            // Dynamically add extra functions to $button
+            this.enhanceButton($button);
+
             // Button on click
-            $button.on('click', {dialog: this, button: button}, function(event) {
+            $button.on('click', {dialog: this, $button: $button, button: button}, function(event) {
                 var dialog = event.data.dialog;
+                var $button = event.data.$button;
                 var button = event.data.button;
                 if (typeof button.action === 'function') {
-                    button.action.call(this, dialog);
+                    button.action.call($button, dialog);
                 }
 
                 if (button.autospin) {
-                    var $button = $(this);
-                    $button.find('.' + dialog.getNamespace('button-icon')).remove();
-                    $button.prepend(dialog.createButtonIcon(dialog.getSpinicon()).addClass('icon-spin'));
+                    $button.toggleSpin(true);
                 }
             });
 
             return $button;
+        },
+        /**
+         * Dynamically add extra functions to $button
+         * 
+         * Using '$this' to reference 'this' is just for better readability.
+         * 
+         * @param {type} $button
+         * @returns {_L13.BootstrapDialog.prototype}
+         */
+        enhanceButton: function($button) {
+            $button.dialog = this;
+
+            // Enable / Disable
+            $button.toggleEnable = function(enable) {
+                var $this = this;
+                $this.prop("disabled", !enable).toggleClass('disabled', !enable);
+
+                return $this;
+            };
+            $button.enable = function() {
+                var $this = this;
+                $this.toggleEnable(true);
+
+                return $this;
+            };
+            $button.disable = function() {
+                var $this = this;
+                $this.toggleEnable(false);
+
+                return $this;
+            };
+
+            // Icon spinning, helpful for indicating ajax loading status.
+            $button.toggleSpin = function(spin) {
+                var $this = this;
+                var dialog = $this.dialog;
+                var $icon = $this.find('.' + dialog.getNamespace('button-icon'));
+                if (spin) {
+                    $icon.hide();
+                    $button.prepend(dialog.createButtonIcon(dialog.getSpinicon()).addClass('icon-spin'));
+                } else {
+                    $icon.show();
+                    $button.find('.icon-spin').remove();
+                }
+
+                return $this;
+            };
+            $button.spin = function() {
+                var $this = this;
+                $this.toggleSpin(true);
+
+                return $this;
+            };
+            $button.stopSpin = function() {
+                var $this = this;
+                $this.toggleSpin(false);
+
+                return $this;
+            };
+
+            return this;
         },
         createButtonIcon: function(icon) {
             var $icon = $('<span></span>');
@@ -444,15 +508,15 @@ var BootstrapDialog = null;
          * @returns {undefined}
          */
         enableButtons: function(enable) {
-            var $buttons = this.getModalFooter().find('.btn');
-            $buttons.prop("disabled", !enable).toggleClass('disabled', !enable);
+            $.each(this.indexedButtons, function(id, $button) {
+                $button.toggleEnable(enable);
+            });
 
             return this;
         },
         /**
          * Invoke this only after the dialog is realized.
          * 
-         * @param {type} enable
          * @returns {undefined}
          */
         updateClosable: function() {
@@ -541,9 +605,9 @@ var BootstrapDialog = null;
             .addClass(this.getType())
             .addClass(this.getSize())
             .addClass(this.getCssClass());
+            this.getModalFooter().append(this.createFooterContent());
             this.getModalHeader().append(this.createHeaderContent());
             this.getModalBody().append(this.createBodyContent());
-            this.getModalFooter().append(this.createFooterContent());
             this.getModal().modal({
                 backdrop: 'static',
                 keyboard: false,
