@@ -432,6 +432,15 @@ var BootstrapDialog = null;
                 }
             });
 
+            // Button hotKey
+            if (button.hotKey)
+                this.getModalDialog().on('keypress', function(event){
+                    if (!event || !event.which)
+                        return;
+                    if (event.which === button.hotKey)
+                        $button.trigger('click');
+                });
+
             return $button;
         },
         /**
