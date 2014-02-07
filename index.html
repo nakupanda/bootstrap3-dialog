@@ -50,12 +50,55 @@
         -->
     </div>
     
-    <h3>Title</h3>
+    <h3>Dialog Title</h3>
     <div class="source-code runnable">
         <!--
         BootstrapDialog.show({
             title: 'Say-hello dialog',
             message: 'Hi Apple!'
+        });
+        -->
+    </div>
+    
+    <a name="manipulating-title-message"></a>
+    <h3>Manipulating Dialog Title</h3>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'Default Title',
+            message: 'Click buttons below.',
+            buttons: [{
+                label: 'Title 1',
+                action: function(dialog) {
+                    dialog.setTitle('Title 1');
+                }
+            }, {
+                label: 'Title 2',
+                action: function(dialog) {
+                    dialog.setTitle('Title 2');
+                }
+            }]
+        });
+        -->
+    </div>
+    
+    <h3>Manipulating Dialog Message</h3>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'Default Title',
+            message: 'Click buttons below.',
+            buttons: [{
+                label: 'Message 1',
+                action: function(dialog) {
+                    dialog.setMessage('Message 1');
+                }
+            }, {
+                label: 'Message 2',
+                action: function(dialog) {
+                    dialog.setMessage('Message 2');
+                }
+            }]
         });
         -->
     </div>
