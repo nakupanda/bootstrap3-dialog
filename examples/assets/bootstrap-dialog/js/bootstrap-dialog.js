@@ -171,10 +171,10 @@ var BootstrapDialog = null;
             return $('<div class="modal-footer"></div>');
         },
         getModalFooter: function() {
-            return this.$modaFooter;
+            return this.$modalFooter;
         },
-        setModalFooter: function($modaFooter) {
-            this.$modaFooter = $modaFooter;
+        setModalFooter: function($modalFooter) {
+            this.$modalFooter = $modalFooter;
 
             return this;
         },
@@ -239,6 +239,15 @@ var BootstrapDialog = null;
         },
         setTitle: function(title) {
             this.options.title = title;
+            this.updateTitle();
+
+            return this;
+        },
+        updateTitle: function() {
+            if (this.isRealized()) {
+                var title = this.getTitle() !== null ? this.createDynamicContent(this.getTitle()) : this.getDefaultText();
+                this.getModalHeader().find('.' + this.getNamespace('title')).html('').append(title);
+            }
 
             return this;
         },
@@ -247,6 +256,15 @@ var BootstrapDialog = null;
         },
         setMessage: function(message) {
             this.options.message = message;
+            this.updateMessage();
+
+            return this;
+        },
+        updateMessage: function() {
+            if (this.isRealized()) {
+                var message = this.createDynamicContent(this.getMessage());
+                this.getModalBody().find('.' + this.getNamespace('message')).html('').append(message);
+            }
 
             return this;
         },
@@ -337,7 +355,6 @@ var BootstrapDialog = null;
         createTitleContent: function() {
             var $title = $('<div></div>');
             $title.addClass(this.getNamespace('title'));
-            $title.append(this.getTitle() !== null ? this.createDynamicContent(this.getTitle()) : this.getDefaultText());
 
             return $title;
         },
@@ -364,7 +381,6 @@ var BootstrapDialog = null;
         createMessageContent: function() {
             var $message = $('<div></div>');
             $message.addClass(this.getNamespace('message'));
-            $message.append(this.createDynamicContent(this.getMessage()));
 
             return $message;
         },
@@ -431,6 +447,15 @@ var BootstrapDialog = null;
                     $button.toggleSpin(true);
                 }
             });
+
+            // Button hotKey
+            if (button.hotKey)
+                this.getModalDialog().on('keypress', function(event) {
+                    if (!event || !event.which)
+                        return;
+                    if (event.which === button.hotKey)
+                        $button.trigger('click');
+                });
 
             return $button;
         },
@@ -620,6 +645,8 @@ var BootstrapDialog = null;
         },
         open: function() {
             !this.isRealized() && this.realize();
+            this.updateTitle();
+            this.updateMessage();
             this.updateClosable();
             this.getModal().modal('show');
             this.setOpened(true);

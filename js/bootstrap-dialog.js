@@ -256,6 +256,15 @@ var BootstrapDialog = null;
         },
         setMessage: function(message) {
             this.options.message = message;
+            this.updateMessage();
+
+            return this;
+        },
+        updateMessage: function() {
+            if (this.isRealized()) {
+                var message = this.createDynamicContent(this.getMessage());
+                this.getModalBody().find('.' + this.getNamespace('message')).html('').append(message);
+            }
 
             return this;
         },
@@ -372,7 +381,6 @@ var BootstrapDialog = null;
         createMessageContent: function() {
             var $message = $('<div></div>');
             $message.addClass(this.getNamespace('message'));
-            $message.append(this.createDynamicContent(this.getMessage()));
 
             return $message;
         },
@@ -638,6 +646,7 @@ var BootstrapDialog = null;
         open: function() {
             !this.isRealized() && this.realize();
             this.updateTitle();
+            this.updateMessage();
             this.updateClosable();
             this.getModal().modal('show');
             this.setOpened(true);
