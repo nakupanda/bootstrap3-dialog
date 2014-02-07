@@ -171,10 +171,10 @@ var BootstrapDialog = null;
             return $('<div class="modal-footer"></div>');
         },
         getModalFooter: function() {
-            return this.$modaFooter;
+            return this.$modalFooter;
         },
-        setModalFooter: function($modaFooter) {
-            this.$modaFooter = $modaFooter;
+        setModalFooter: function($modalFooter) {
+            this.$modalFooter = $modalFooter;
 
             return this;
         },
