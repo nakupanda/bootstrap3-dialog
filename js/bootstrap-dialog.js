@@ -239,6 +239,15 @@ var BootstrapDialog = null;
         },
         setTitle: function(title) {
             this.options.title = title;
+            this.updateTitle();
+
+            return this;
+        },
+        updateTitle: function() {
+            if (this.isRealized()) {
+                var title = this.getTitle() !== null ? this.createDynamicContent(this.getTitle()) : this.getDefaultText();
+                this.getModalHeader().find('.' + this.getNamespace('title')).html('').append(title);
+            }
 
             return this;
         },
@@ -337,7 +346,6 @@ var BootstrapDialog = null;
         createTitleContent: function() {
             var $title = $('<div></div>');
             $title.addClass(this.getNamespace('title'));
-            $title.append(this.getTitle() !== null ? this.createDynamicContent(this.getTitle()) : this.getDefaultText());
 
             return $title;
         },
@@ -434,7 +442,7 @@ var BootstrapDialog = null;
 
             // Button hotKey
             if (button.hotKey)
-                this.getModalDialog().on('keypress', function(event){
+                this.getModalDialog().on('keypress', function(event) {
                     if (!event || !event.which)
                         return;
                     if (event.which === button.hotKey)
@@ -629,6 +637,7 @@ var BootstrapDialog = null;
         },
         open: function() {
             !this.isRealized() && this.realize();
+            this.updateTitle();
             this.updateClosable();
             this.getModal().modal('show');
             this.setOpened(true);

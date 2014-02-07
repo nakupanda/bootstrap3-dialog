@@ -6,7 +6,7 @@
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/prettify/run_prettify.js"></script>
 <link href="assets/bootstrap-dialog/css/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
-<script src="assets/bootstrap-dialog/js/bootstrap-dialog.js"></script>
+<script src="../js/bootstrap-dialog.js"></script>
 <meta charset="utf-8" />
 <title>BootstrapDialog examples</title>
 <style>
@@ -50,12 +50,33 @@
         -->
     </div>
     
-    <h3>Title</h3>
+    <h3>Dialog Title</h3>
     <div class="source-code runnable">
         <!--
         BootstrapDialog.show({
             title: 'Say-hello dialog',
             message: 'Hi Apple!'
+        });
+        -->
+    </div>
+    
+    <h3>Manipulating Dialog Title</h3>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'Default Title',
+            message: 'Click buttons below.',
+            buttons: [{
+                label: 'Title 1',
+                action: function(dialog) {
+                    dialog.setTitle('Title 1');
+                }
+            }, {
+                label: 'Title 2',
+                action: function(dialog) {
+                    dialog.setTitle('Title 2');
+                }
+            }]
         });
         -->
     </div>
