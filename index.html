@@ -173,7 +173,8 @@
     <h3>Button Hotkey</h3>
     <p>
         Try to press the keys that have been associated with buttons below. <br /> 
-        Please note that the <strong>last button</strong> is disabled so nothing is going to happen when pressing its hotkey.
+        The <strong>last button</strong> is disabled so nothing is going to happen when pressing its hotkey. <br />
+        Please note that if there are some components that require keyboard operations in your dialog, conflicts may occur, you can try next example.
     </p>
     <div class="source-code runnable">
         <!--
@@ -201,6 +202,25 @@
                 hotkey: 67,
                 action: function(){
                     alert('This is Button C but you won\'t see me dance.');
+                }
+            }]
+        });
+        -->
+    </div>
+    
+    <h3>Keys Conflicts</h3>
+    <p>Try to avoid doing similar in your code.</p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'Button Hotkey',
+            message: $('<textarea class="form-control" placeholder="Try to input multiple lines here..."></textarea>'),
+            buttons: [{
+                label: '(Enter) Button A',
+                cssClass: 'btn-primary',
+                hotkey: 13, // Enter.
+                action: function() {
+                    alert('You pressed Enter.');
                 }
             }]
         });
