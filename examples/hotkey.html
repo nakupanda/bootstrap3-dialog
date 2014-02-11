@@ -15,12 +15,14 @@
         BootstrapDialog.show({
             buttons: [{
                     label: 'Cancel',
+                    hotkey: 81,
                     action: function(dialog){
                         alert('Canceling...');
                     }
             }, {
                     label: 'Confirm',
                     cssClass: 'btn-primary',
+                    hotkey: 13,
                     action: function(dialog){
                         alert('Confirming...');
                     }

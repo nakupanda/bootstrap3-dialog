@@ -30,6 +30,7 @@ var BootstrapDialog = null;
             autodestroy: true
         };
         this.indexedButtons = {};
+        this.registeredButtonHotkeys = {};
         this.realized = false;
         this.opened = false;
         this.initOptions(options);
@@ -431,8 +432,10 @@ var BootstrapDialog = null;
                 $button.addClass('btn-default');
             }
 
-            // Dynamically add extra functions to $button
-            this.enhanceButton($button);
+            // Hotkey
+            if (typeof button.hotkey !== undefined) {
+                this.registeredButtonHotkeys[button.hotkey] = $button;
+            }
 
             // Button on click
             $button.on('click', {dialog: this, $button: $button, button: button}, function(event) {
@@ -447,6 +450,9 @@ var BootstrapDialog = null;
                     $button.toggleSpin(true);
                 }
             });
+
+            // Dynamically add extra functions to $button
+            this.enhanceButton($button);
 
             return $button;
         },
@@ -607,6 +613,15 @@ var BootstrapDialog = null;
             // ESC key support
             this.getModal().on('keyup', {dialog: this}, function(event) {
                 event.which === 27 && event.data.dialog.isClosable() && event.data.dialog.close();
+            });
+
+            // Button hotkey
+            this.getModal().on('keyup', {dialog: this}, function(event) {
+                var dialog = event.data.dialog;
+                if (typeof dialog.registeredButtonHotkeys[event.which] !== 'undefined') {
+                    var $button = $(dialog.registeredButtonHotkeys[event.which]);
+                    !$button.prop('disabled') && $button.trigger('click');
+                }
             });
 
             return this;
