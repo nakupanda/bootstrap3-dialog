@@ -434,7 +434,7 @@ var BootstrapDialog = null;
 
             // Button hotKey
             if (button.hotKey)
-                this.getModalDialog().on('keypress', function(event){
+                this.getModal().on('keydown', function(event){
                     if (!event || !event.which)
                         return;
                     if (event.which === button.hotKey)
