@@ -112,6 +112,7 @@ var BootstrapDialog = null;
         createModal: function() {
             var $modal = $('<div class="modal fade" tabindex="-1"></div>');
             $modal.prop('id', this.getId());
+            this.updateModalBackdrop($modal);
 
             return $modal;
         },
@@ -120,6 +121,19 @@ var BootstrapDialog = null;
         },
         setModal: function($modal) {
             this.$modal = $modal;
+
+            return this;
+        },
+        updateModalBackdrop: function($modal) {
+            // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is popped up, so here's a new wheel.
+            $modal.on('click', {dialog: this}, function(event) {
+                event.target === this && event.data.dialog.isClosable() && event.data.dialog.close();
+            });
+
+            // ESC key support
+            $modal.on('keyup', {dialog: this}, function(event) {
+                event.which === 27 && event.data.dialog.isClosable() && event.data.dialog.close();
+            });
 
             return this;
         },
@@ -448,15 +462,6 @@ var BootstrapDialog = null;
                 }
             });
 
-            // Button hotKey
-            if (button.hotKey)
-                this.getModalDialog().on('keypress', function(event) {
-                    if (!event || !event.which)
-                        return;
-                    if (event.which === button.hotKey)
-                        $button.trigger('click');
-                });
-
             return $button;
         },
         /**
@@ -546,19 +551,8 @@ var BootstrapDialog = null;
          */
         updateClosable: function() {
             if (this.isRealized()) {
-                // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is popped up, so here's a new wheel.
-                var $theBigMask = this.getModal();
-                $theBigMask.off('click').on('click', {dialog: this}, function(event) {
-                    event.target === this && event.data.dialog.isClosable() && event.data.dialog.close();
-                });
-
                 // Close button
                 this.getModalHeader().find('.' + this.getNamespace('close-button')).toggle(this.isClosable());
-
-                // ESC key support
-                $theBigMask.off('keyup').on('keyup', {dialog: this}, function(event) {
-                    event.which === 27 && event.data.dialog.isClosable() && event.data.dialog.close();
-                });
             }
 
             return this;

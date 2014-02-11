@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="assets/jquery/jquery-1.10.2.min.js"></script>
+<link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/prettify/run_prettify.js"></script>
+<link href="assets/bootstrap-dialog/css/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
+<script src="../js/bootstrap-dialog.js"></script>
+<meta charset="utf-8" />
+<title>BootstrapDialog examples</title>
+</head>
+<body style="padding-bottom: 100px;">
+    <script>
+        BootstrapDialog.show({
+            buttons: [{
+                    label: 'Cancel',
+                    action: function(dialog){
+                        alert('Canceling...');
+                    }
+            }, {
+                    label: 'Confirm',
+                    cssClass: 'btn-primary',
+                    action: function(dialog){
+                        alert('Confirming...');
+                    }
+            }]
+        });
+    </script>
+</body>
+</html>
