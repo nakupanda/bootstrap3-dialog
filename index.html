@@ -168,6 +168,44 @@
         });
         -->
     </div>
+    
+    <a name="button-hotkey"></a>
+    <h3>Button Hotkey</h3>
+    <p>
+        Try to press the keys that have been associated with buttons below. <br /> 
+        Please note that the <strong>last button</strong> is disabled so nothing is going to happen when pressing its hotkey.
+    </p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'Button Hotkey',
+            message: 'Try to press some keys...',
+            onshow: function(dialog) {
+                dialog.getButton('button-c').disable();
+            },
+            buttons: [{
+                label: '(A) Button A',
+                hotkey: 65, // Keycode of keyup event of key 'A' is 65.
+                action: function() {
+                    alert('Finally, you loved Button A.');
+                }
+            }, {
+                label: '(B) Button B',
+                hotkey: 66,
+                action: function() {
+                    alert('Hello, this is Button B!');
+                }
+            }, {
+                id: 'button-c',
+                label: '(C) Button C',
+                hotkey: 67,
+                action: function(){
+                    alert('This is Button C but you won\'t see me dance.');
+                }
+            }]
+        });
+        -->
+    </div>
 
     <h3>Creating dialog instances</h3>
     <p>BootstrapDialog.show(...) is just a shortcut method, if you need dialog instances, use 'new'.</p>
@@ -820,7 +858,7 @@ BootstrapDialog.show({
             </tr>
             <tr>
                 <td>setData(key, value)</td>
-                <td>Bind data entry to dialog instance, value can be any types that javascript supports. </td>
+                <td>Bind data entry to dialog instance, value can be any types that javascript supports.</td>
             </tr>
             <tr>
                 <td>enableButtons(boolean)</td>
