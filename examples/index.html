@@ -6,7 +6,7 @@
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/prettify/run_prettify.js"></script>
 <link href="assets/bootstrap-dialog/css/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
-<script src="../js/bootstrap-dialog.js"></script>
+<script src="assets/bootstrap-dialog/js/bootstrap-dialog.js"></script>
 <meta charset="utf-8" />
 <title>BootstrapDialog examples</title>
 <style>
@@ -163,6 +163,44 @@
                     $button.disable();
                     $button.spin();
                     dialog.setClosable(false);
+                }
+            }]
+        });
+        -->
+    </div>
+    
+    <a name="button-hotkey"></a>
+    <h3>Button Hotkey</h3>
+    <p>
+        Try to press the keys that have been associated with buttons below. <br /> 
+        Please note that the <strong>last button</strong> is disabled so nothing is going to happen when you pressing its hotkey.
+    </p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'Button Hotkey',
+            message: 'Try to press some keys...',
+            onshow: function(dialog) {
+                dialog.getButton('button-c').disable();
+            },
+            buttons: [{
+                label: '(A) Button A',
+                hotkey: 65, // Keycode of keyup event of key 'A' is 65.
+                action: function() {
+                    alert('Finally, you loved Button A.');
+                }
+            }, {
+                label: '(B) Button B',
+                hotkey: 66,
+                action: function() {
+                    alert('Hello, this is Button B!');
+                }
+            }, {
+                id: 'button-c',
+                label: '(C) Button C',
+                hotkey: 67,
+                action: function(){
+                    alert('This is Button C but you won\'t see me dance.');
                 }
             }]
         });

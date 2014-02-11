@@ -30,6 +30,7 @@ var BootstrapDialog = null;
             autodestroy: true
         };
         this.indexedButtons = {};
+        this.registeredButtonHotkeys = {};
         this.realized = false;
         this.opened = false;
         this.initOptions(options);
@@ -431,8 +432,10 @@ var BootstrapDialog = null;
                 $button.addClass('btn-default');
             }
 
-            // Dynamically add extra functions to $button
-            this.enhanceButton($button);
+            // Hotkey
+            if (typeof button.hotkey !== undefined) {
+                this.registeredButtonHotkeys[button.hotkey] = $button;
+            }
 
             // Button on click
             $button.on('click', {dialog: this, $button: $button, button: button}, function(event) {
@@ -448,14 +451,8 @@ var BootstrapDialog = null;
                 }
             });
 
-            // Button hotKey
-            if (button.hotKey)
-                this.getModalDialog().on('keypress', function(event) {
-                    if (!event || !event.which)
-                        return;
-                    if (event.which === button.hotKey)
-                        $button.trigger('click');
-                });
+            // Dynamically add extra functions to $button
+            this.enhanceButton($button);
 
             return $button;
         },
@@ -546,19 +543,8 @@ var BootstrapDialog = null;
          */
         updateClosable: function() {
             if (this.isRealized()) {
-                // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is popped up, so here's a new wheel.
-                var $theBigMask = this.getModal();
-                $theBigMask.off('click').on('click', {dialog: this}, function(event) {
-                    event.target === this && event.data.dialog.isClosable() && event.data.dialog.close();
-                });
-
                 // Close button
                 this.getModalHeader().find('.' + this.getNamespace('close-button')).toggle(this.isClosable());
-
-                // ESC key support
-                $theBigMask.off('keyup').on('keyup', {dialog: this}, function(event) {
-                    event.which === 27 && event.data.dialog.isClosable() && event.data.dialog.close();
-                });
             }
 
             return this;
@@ -617,6 +603,25 @@ var BootstrapDialog = null;
                 var dialog = event.data.dialog;
                 dialog.isAutodestroy() && $(this).remove();
                 dialog.showPageScrollBar(false);
+            });
+
+            // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is popped up, so here's a new wheel.
+            this.getModal().on('click', {dialog: this}, function(event) {
+                event.target === this && event.data.dialog.isClosable() && event.data.dialog.close();
+            });
+
+            // ESC key support
+            this.getModal().on('keyup', {dialog: this}, function(event) {
+                event.which === 27 && event.data.dialog.isClosable() && event.data.dialog.close();
+            });
+
+            // Button hotkey
+            this.getModal().on('keyup', {dialog: this}, function(event) {
+                var dialog = event.data.dialog;
+                if (typeof dialog.registeredButtonHotkeys[event.which] !== 'undefined') {
+                    var $button = $(dialog.registeredButtonHotkeys[event.which]);
+                    !$button.prop('disabled') && $button.trigger('click');
+                }
             });
 
             return this;
