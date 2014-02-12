@@ -27,7 +27,8 @@ var BootstrapDialog = null;
             data: {},
             onshow: null,
             onhide: null,
-            autodestroy: true
+            autodestroy: true,
+            draggable: true
         };
         this.indexedButtons = {};
         this.registeredButtonHotkeys = {};
@@ -107,6 +108,31 @@ var BootstrapDialog = null;
             .append(this.getModalHeader())
             .append(this.getModalBody())
             .append(this.getModalFooter());
+
+            var _isMouseDown = false;
+            var _self = this;
+            var _mouseOffset = {};
+            if (this.options.draggable) {
+                this.getModalHeader().on('mousedown', function (event) {
+                    _isMouseDown = true;
+                    var _dialogOffset = _self.getModalContent().offset();
+                    _mouseOffset = {
+                        top: event.clientY - _dialogOffset.top,
+                        left: event.clientX - _dialogOffset.left
+                    }
+                });
+                this.getModal().on('mouseup mouseleave', function () {
+                    _isMouseDown = false;
+                });
+                $('body').on('mousemove', function (event) {
+                    if (!_isMouseDown)
+                        return;
+                    _self.getModalContent().offset({
+                        top: event.clientY - _mouseOffset.top,
+                        left: event.clientX - _mouseOffset.left,
+                    });
+                });
+            }
 
             return this;
         },
