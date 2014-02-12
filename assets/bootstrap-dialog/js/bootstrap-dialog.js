@@ -645,14 +645,14 @@ var BootstrapDialog = null;
             });
             this.handleModalEvents();
             this.setRealized(true);
+            this.updateTitle();
+            this.updateMessage();
+            this.updateClosable();
 
             return this;
         },
         open: function() {
             !this.isRealized() && this.realize();
-            this.updateTitle();
-            this.updateMessage();
-            this.updateClosable();
             this.getModal().modal('show');
             this.setOpened(true);
 
