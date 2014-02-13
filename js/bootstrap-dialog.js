@@ -28,10 +28,14 @@ var BootstrapDialog = null;
             onshow: null,
             onhide: null,
             autodestroy: true,
-            draggable: true
+            draggable: false
         };
         this.indexedButtons = {};
         this.registeredButtonHotkeys = {};
+        this.draggableData = {
+            isMouseDown: false,
+            mouseOffset: {}
+        };
         this.realized = false;
         this.opened = false;
         this.initOptions(options);
@@ -108,31 +112,6 @@ var BootstrapDialog = null;
             .append(this.getModalHeader())
             .append(this.getModalBody())
             .append(this.getModalFooter());
-
-            var _isMouseDown = false;
-            var _self = this;
-            var _mouseOffset = {};
-            if (this.options.draggable) {
-                this.getModalHeader().on('mousedown', function (event) {
-                    _isMouseDown = true;
-                    var _dialogOffset = _self.getModalContent().offset();
-                    _mouseOffset = {
-                        top: event.clientY - _dialogOffset.top,
-                        left: event.clientX - _dialogOffset.left
-                    }
-                });
-                this.getModal().on('mouseup mouseleave', function () {
-                    _isMouseDown = false;
-                });
-                $('body').on('mousemove', function (event) {
-                    if (!_isMouseDown)
-                        return;
-                    _self.getModalContent().offset({
-                        top: event.clientY - _mouseOffset.top,
-                        left: event.clientX - _mouseOffset.left,
-                    });
-                });
-            }
 
             return this;
         },
@@ -652,6 +631,34 @@ var BootstrapDialog = null;
 
             return this;
         },
+        makeModalDraggable: function() {
+            if (this.options.draggable) {
+                this.getModalHeader().addClass(this.getNamespace('draggable')).on('mousedown', {dialog: this}, function(event) {
+                    var dialog = event.data.dialog;
+                    dialog.draggableData.isMouseDown = true;
+                    var dialogOffset = dialog.getModalContent().offset();
+                    dialog.draggableData.mouseOffset = {
+                        top: event.clientY - dialogOffset.top,
+                        left: event.clientX - dialogOffset.left
+                    };
+                });
+                this.getModal().on('mouseup mouseleave', {dialog: this}, function(event) {
+                    event.data.dialog.draggableData.isMouseDown = false;
+                });
+                $('body').on('mousemove', {dialog: this}, function(event) {
+                    var dialog = event.data.dialog;
+                    if (!dialog.draggableData.isMouseDown) {
+                        return;
+                    }
+                    dialog.getModalContent().offset({
+                        top: event.clientY - dialog.draggableData.mouseOffset.top,
+                        left: event.clientX - dialog.draggableData.mouseOffset.left
+                    });
+                });
+            }
+
+            return this;
+        },
         showPageScrollBar: function(show) {
             $(document.body).toggleClass('modal-open', show);
         },
@@ -669,6 +676,7 @@ var BootstrapDialog = null;
                 keyboard: false,
                 show: false
             });
+            this.makeModalDraggable();
             this.handleModalEvents();
             this.setRealized(true);
             this.updateTitle();

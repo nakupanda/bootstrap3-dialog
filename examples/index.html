@@ -454,6 +454,27 @@
         -->
     </div>
     
+    <a name="dialog-draggable"></a>
+    <h3>Dialog Draggable</h3>
+    <p>
+        When option 'draggable' is set to <strong>true</strong>, your dialog can be moved by dragging on its header. <br />
+        If you would like to change the cursor shape of hovering on dialog header, you can try the following css lines: <br />
+        <div class="source-code">
+            .bootstrap-dialog .modal-header.bootstrap-dialog-draggable {
+                cursor: move;
+            }
+        </div>
+    </p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'Draggable Dialog',
+            message: 'Try to drag on dialog title to move your dialog.',
+            draggable: true
+        });
+        -->
+    </div>
+    
     <h3>Manipulating your dialog</h3>
     <div class="source-code runnable">
         <!--
