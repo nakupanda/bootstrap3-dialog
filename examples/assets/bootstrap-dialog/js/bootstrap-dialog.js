@@ -1,5 +1,5 @@
 /* ================================================
- * Make use of Twitter Bootstrap's modal more monkey-friendly.
+ * Make use of Bootstrap's modal more monkey-friendly.
  * 
  * For Bootstrap 3.
  * 
