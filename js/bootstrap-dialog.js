@@ -787,57 +787,20 @@
         }).open();
     };
 
-    /**
-     * Warning window
-     * 
-     * @param {type} message
-     * @returns the created dialog instance
-     */
-    BootstrapDialog.warning = function(message, callback) {
-        return new BootstrapDialog({
-            type: BootstrapDialog.TYPE_WARNING,
-            message: message
-        }).open();
+    BootstrapDialog.init = function() {
+        // check for nodeJS
+        var hasModule = (typeof module !== 'undefined' && module.exports);
+
+        // CommonJS module is defined
+        if (hasModule)
+            module.exports = BootstrapDialog;
+        else if (typeof define === "function" && define.amd)
+            define("bootstrap-dialog", function() {
+                return BootstrapDialog;
+            });
+        else
+            window.BootstrapDialog = BootstrapDialog;
     };
-
-    /**
-     * Danger window
-     * 
-     * @param {type} message
-     * @returns the created dialog instance
-     */
-    BootstrapDialog.danger = function(message, callback) {
-        return new BootstrapDialog({
-            type: BootstrapDialog.TYPE_DANGER,
-            message: message
-        }).open();
-    };
-
-
-    /**
-     * Success window
-     * 
-     * @param {type} message
-     * @returns the created dialog instance
-     */
-    BootstrapDialog.success = function(message, callback) {
-        return new BootstrapDialog({
-            type: BootstrapDialog.TYPE_SUCCESS,
-            message: message
-        }).open();
-    };
-
-    // check for nodeJS
-    var hasModule = (typeof module !== 'undefined' && module.exports);
-
-    // CommonJS module is defined
-    if (hasModule)
-        module.exports = BootstrapDialog;
-    else if (typeof define === "function" && define.amd)
-        define("bootstrap-dialog", function () {
-            return BootstrapDialog;
-        });
-    else
-        window.BootstrapDialog = BootstrapDialog;
+    BootstrapDialog.init();
 
 })(window.jQuery);

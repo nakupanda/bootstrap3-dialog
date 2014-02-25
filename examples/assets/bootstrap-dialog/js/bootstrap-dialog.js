@@ -9,11 +9,11 @@
  * 
  * Licensed under The MIT License.
  * ================================================ */
-var BootstrapDialog = null;
-!function($) {
+(function($) {
+
     "use strict";
 
-    BootstrapDialog = function(options) {
+    var BootstrapDialog = function(options) {
         this.defaultOptions = {
             id: BootstrapDialog.newGuid(),
             type: BootstrapDialog.TYPE_PRIMARY,
@@ -786,4 +786,21 @@ var BootstrapDialog = null;
                 }]
         }).open();
     };
-}(window.jQuery);
+
+    BootstrapDialog.init = function() {
+        // check for nodeJS
+        var hasModule = (typeof module !== 'undefined' && module.exports);
+
+        // CommonJS module is defined
+        if (hasModule)
+            module.exports = BootstrapDialog;
+        else if (typeof define === "function" && define.amd)
+            define("bootstrap-dialog", function() {
+                return BootstrapDialog;
+            });
+        else
+            window.BootstrapDialog = BootstrapDialog;
+    };
+    BootstrapDialog.init();
+
+})(window.jQuery);
