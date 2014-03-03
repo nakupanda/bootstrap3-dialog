@@ -367,7 +367,7 @@
         createCloseButton: function() {
             var $container = $('<div></div>');
             $container.addClass(this.getNamespace('close-button'));
-            var $icon = $('<button class="close">×</button>');
+            var $icon = $('<button class="close">&times;</button>');
             $container.append($icon);
             $container.on('click', {dialog: this}, function(event) {
                 event.data.dialog.close();
