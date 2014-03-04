@@ -734,20 +734,45 @@
     /**
      * Alert window
      * 
-     * @param {type} message
-     * @param {type} callback
      * @returns the created dialog instance
      */
-    BootstrapDialog.alert = function(message, callback) {
+    BootstrapDialog.alert = function() {
+        var options = {};
+        var defaultOptions = {
+            type: BootstrapDialog.TYPE_PRIMARY,
+            title: null,
+            message: null,
+            closable: true,
+            buttonLabel: 'OK',
+            callback: null
+        };
+
+        if (typeof arguments[0] === 'object' && arguments[0].constructor === {}.constructor) {
+            options = $.extend(true, defaultOptions, arguments[0]);
+        } else {
+            options = $.extend(true, defaultOptions, {
+                message: arguments[0],
+                closable: false,
+                buttonLabel: 'OK',
+                callback: typeof arguments[1] !== 'undefined' ? arguments[1] : null
+            });
+        }
+
         return new BootstrapDialog({
-            message: message,
+            type: options.type,
+            title: options.title,
+            message: options.message,
+            closable: options.closable,
             data: {
-                'callback': callback
+                callback: options.callback
             },
-            closable: false,
+            onhide: function(dialog) {
+                !dialog.getData('btnClicked') && dialog.isClosable() && typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
+            },
             buttons: [{
-                    label: 'OK',
+                    label: options.buttonLabel,
                     action: function(dialog) {
+                        dialog.setData('btnClicked', true);
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
                         dialog.close();
                     }

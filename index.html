@@ -592,6 +592,25 @@
         -->
     </div>
     
+    <a name="advanced-alert-window"></a>
+    <h3>Customizing dialog type, title, and more.</h3>
+    <p>All options shown below are optional.</p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.alert({
+            title: 'WARNING',
+            message: 'Warning! No Banana!',
+            type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is true
+            buttonLabel: 'Roar! Why!', // <-- Default value is 'OK',
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                alert('Result is: ' + result);
+            }
+        });
+        -->
+    </div>
+    
     <h3>Confirm</h3>
     <div class="source-code runnable">
         <!--
@@ -614,7 +633,7 @@
     
     <h3>Source code of the shortcut methods above</h3>
     <p>
-        I mean you can write your owned handy stuff :)
+        I mean you can write your own handy stuff :)
     </p>
     <div class="source-code">
         <!--
