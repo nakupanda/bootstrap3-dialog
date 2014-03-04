@@ -600,9 +600,9 @@
         BootstrapDialog.alert({
             title: 'WARNING',
             message: 'Warning! No Banana!',
-            type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-            closable: true, // <-- Default value is true
-            buttonLabel: 'Roar! Why!', // <-- Default value is 'OK',
+            type: BootstrapDialog.TYPE_WARNING,     // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true,                         // <-- Default value is true
+            buttonLabel: 'Roar! Why!',              // <-- Default value is 'OK',
             callback: function(result) {
                 // result will be true if button was click, while it will be false if users close the dialog directly.
                 alert('Result is: ' + result);
