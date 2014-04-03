@@ -111,7 +111,7 @@
             this.getModalContent()
             .append(this.getModalHeader())
             .append(this.getModalBody())
-            .append(this.getModalFooter());
+            .append(this.getButtons().length ? this.getModalFooter() : null);
 
             return this;
         },
