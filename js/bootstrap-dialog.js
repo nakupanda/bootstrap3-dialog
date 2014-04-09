@@ -14,23 +14,7 @@
     "use strict";
 
     var BootstrapDialog = function(options) {
-        this.defaultOptions = {
-            id: BootstrapDialog.newGuid(),
-            type: BootstrapDialog.TYPE_PRIMARY,
-            size: BootstrapDialog.SIZE_NORMAL,
-            cssClass: '',
-            title: null,
-            message: null,
-            nl2br: true,
-            buttons: [],
-            closable: true,
-            spinicon: BootstrapDialog.ICON_SPINNER,
-            data: {},
-            onshow: null,
-            onhide: null,
-            autodestroy: true,
-            draggable: false
-        };
+        this.defaultOptions = $.extend(true, {}, BootstrapDialog.defaultOptions);
         this.indexedButtons = {};
         this.registeredButtonHotkeys = {};
         this.draggableData = {
@@ -71,6 +55,33 @@
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_LARGE] = 'btn-lg';
 
     BootstrapDialog.ICON_SPINNER = 'glyphicon glyphicon-asterisk';
+
+    /**
+     * Default options.
+     */
+    BootstrapDialog.defaultOptions = {
+        type: BootstrapDialog.TYPE_PRIMARY,
+        size: BootstrapDialog.SIZE_NORMAL,
+        cssClass: '',
+        title: null,
+        message: null,
+        nl2br: true,
+        buttons: [],
+        closable: true,
+        spinicon: BootstrapDialog.ICON_SPINNER,
+        data: {},
+        onshow: null,
+        onhide: null,
+        autodestroy: true,
+        draggable: false
+    };
+
+    /**
+     * Config default options.
+     */
+    BootstrapDialog.configDefaultOptions = function(options) {
+        BootstrapDialog.defaultOptions = $.extend(true, BootstrapDialog.defaultOptions, options);
+    };
 
     /**
      * Open / Close all created dialogs all at once.
