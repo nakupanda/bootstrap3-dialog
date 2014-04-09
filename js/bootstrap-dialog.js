@@ -21,6 +21,7 @@
             cssClass: '',
             title: null,
             message: null,
+            nl2br: true,
             buttons: [],
             closable: true,
             spinicon: BootstrapDialog.ICON_SPINNER,
@@ -198,7 +199,11 @@
             return content;
         },
         formatStringContent: function(content) {
-            return content.replace(/\r\n/g, '<br />').replace(/[\r\n]/g, '<br />');
+            if (this.options.nl2br) {
+                return content.replace(/\r\n/g, '<br />').replace(/[\r\n]/g, '<br />');
+            }
+
+            return content;
         },
         setData: function(key, value) {
             this.options.data[key] = value;
