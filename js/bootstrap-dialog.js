@@ -14,7 +14,13 @@
     "use strict";
 
     var BootstrapDialog = function(options) {
-        this.defaultOptions = $.extend(true, {}, BootstrapDialog.defaultOptions);
+        this.defaultOptions = $.extend(true, {
+            id: BootstrapDialog.newGuid(),
+            buttons: [],
+            data: {},
+            onshow: null,
+            onhide: null
+        }, BootstrapDialog.defaultOptions);
         this.indexedButtons = {};
         this.registeredButtonHotkeys = {};
         this.draggableData = {
@@ -66,12 +72,8 @@
         title: null,
         message: null,
         nl2br: true,
-        buttons: [],
         closable: true,
         spinicon: BootstrapDialog.ICON_SPINNER,
-        data: {},
-        onshow: null,
-        onhide: null,
         autodestroy: true,
         draggable: false
     };
