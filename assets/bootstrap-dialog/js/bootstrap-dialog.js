@@ -14,22 +14,13 @@
     "use strict";
 
     var BootstrapDialog = function(options) {
-        this.defaultOptions = {
+        this.defaultOptions = $.extend(true, {
             id: BootstrapDialog.newGuid(),
-            type: BootstrapDialog.TYPE_PRIMARY,
-            size: BootstrapDialog.SIZE_NORMAL,
-            cssClass: '',
-            title: null,
-            message: null,
             buttons: [],
-            closable: true,
-            spinicon: BootstrapDialog.ICON_SPINNER,
             data: {},
             onshow: null,
-            onhide: null,
-            autodestroy: true,
-            draggable: false
-        };
+            onhide: null
+        }, BootstrapDialog.defaultOptions);
         this.indexedButtons = {};
         this.registeredButtonHotkeys = {};
         this.draggableData = {
@@ -70,6 +61,29 @@
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_LARGE] = 'btn-lg';
 
     BootstrapDialog.ICON_SPINNER = 'glyphicon glyphicon-asterisk';
+
+    /**
+     * Default options.
+     */
+    BootstrapDialog.defaultOptions = {
+        type: BootstrapDialog.TYPE_PRIMARY,
+        size: BootstrapDialog.SIZE_NORMAL,
+        cssClass: '',
+        title: null,
+        message: null,
+        nl2br: true,
+        closable: true,
+        spinicon: BootstrapDialog.ICON_SPINNER,
+        autodestroy: true,
+        draggable: false
+    };
+
+    /**
+     * Config default options.
+     */
+    BootstrapDialog.configDefaultOptions = function(options) {
+        BootstrapDialog.defaultOptions = $.extend(true, BootstrapDialog.defaultOptions, options);
+    };
 
     /**
      * Open / Close all created dialogs all at once.
@@ -198,7 +212,11 @@
             return content;
         },
         formatStringContent: function(content) {
-            return content.replace(/\r\n/g, '<br />').replace(/[\r\n]/g, '<br />');
+            if (this.options.nl2br) {
+                return content.replace(/\r\n/g, '<br />').replace(/[\r\n]/g, '<br />');
+            }
+
+            return content;
         },
         setData: function(key, value) {
             this.options.data[key] = value;
@@ -309,6 +327,7 @@
         },
         setButtons: function(buttons) {
             this.options.buttons = buttons;
+            this.updateButtons();
 
             return this;
         },
@@ -333,6 +352,17 @@
             }
 
             return '';
+        },
+        updateButtons: function() {
+            if (this.isRealized()) {
+                if (this.getButtons().length === 0) {
+                    this.getModalFooter().hide();
+                } else {
+                    this.getModalFooter().find('.' + this.getNamespace('footer')).html('').append(this.createFooterButtons());
+                }
+            }
+
+            return this;
         },
         isAutodestroy: function() {
             return this.options.autodestroy;
@@ -393,9 +423,6 @@
         createFooterContent: function() {
             var $container = $('<div></div>');
             $container.addClass(this.getNamespace('footer'));
-
-            // Buttons
-            $container.append(this.createFooterButtons());
 
             return $container;
         },
@@ -679,6 +706,7 @@
             this.makeModalDraggable();
             this.handleModalEvents();
             this.setRealized(true);
+            this.updateButtons();
             this.updateTitle();
             this.updateMessage();
             this.updateClosable();
