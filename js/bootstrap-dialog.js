@@ -309,6 +309,7 @@
         },
         setButtons: function(buttons) {
             this.options.buttons = buttons;
+            this.updateButtons();
 
             return this;
         },
@@ -333,6 +334,17 @@
             }
 
             return '';
+        },
+        updateButtons: function() {
+            if (this.isRealized()) {
+                if (this.getButtons().length === 0) {
+                    this.getModalFooter().hide();
+                } else {
+                    this.getModalFooter().find('.' + this.getNamespace('footer')).html('').append(this.createFooterButtons());
+                }
+            }
+
+            return this;
         },
         isAutodestroy: function() {
             return this.options.autodestroy;
@@ -393,9 +405,6 @@
         createFooterContent: function() {
             var $container = $('<div></div>');
             $container.addClass(this.getNamespace('footer'));
-
-            // Buttons
-            $container.append(this.createFooterButtons());
 
             return $container;
         },
@@ -679,6 +688,7 @@
             this.makeModalDraggable();
             this.handleModalEvents();
             this.setRealized(true);
+            this.updateButtons();
             this.updateTitle();
             this.updateMessage();
             this.updateClosable();

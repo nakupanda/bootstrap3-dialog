@@ -6,7 +6,7 @@
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/prettify/run_prettify.js"></script>
 <link href="assets/bootstrap-dialog/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
-<script src="assets/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
+<script src="../js/bootstrap-dialog.js"></script>
 <meta charset="utf-8" />
 <title>BootstrapDialog examples</title>
 <style>
@@ -75,7 +75,10 @@
             }, {
                 label: 'Title 2',
                 action: function(dialog) {
-                    dialog.setTitle('Title 2');
+                    dialog.setButtons([{
+                        label: 'Something',
+                        cssClass: 'btn-warning'
+                    }]);
                 }
             }]
         });
