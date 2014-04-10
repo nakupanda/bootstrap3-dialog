@@ -19,7 +19,9 @@
             buttons: [],
             data: {},
             onshow: null,
-            onhide: null
+            onshown: null,
+            onhide: null,
+            onhidden: null
         }, BootstrapDialog.defaultOptions);
         this.indexedButtons = {};
         this.registeredButtonHotkeys = {};
@@ -582,11 +584,8 @@
             return this;
         },
         /**
-         * Set handler for modal event 'show'.
+         * Set handler for modal event 'show.bs.modal'.
          * This is a setter!
-         * 
-         * @param {type} onopen
-         * @returns {_L9.BootstrapDialog.prototype}
          */
         onShow: function(onshow) {
             this.options.onshow = onshow;
@@ -594,14 +593,29 @@
             return this;
         },
         /**
-         * Set handler for modal event 'hide'.
+         * Set handler for modal event 'shown.bs.modal'.
          * This is a setter!
-         * 
-         * @param {type} onclose
-         * @returns {_L9.BootstrapDialog.prototype}
+         */
+        onShown: function(onshown) {
+            this.options.onshown = onshown;
+
+            return this;
+        },
+        /**
+         * Set handler for modal event 'hide.bs.modal'.
+         * This is a setter!
          */
         onHide: function(onhide) {
             this.options.onhide = onhide;
+
+            return this;
+        },
+        /**
+         * Set handler for modal event 'hidden.bs.modal'.
+         * This is a setter!
+         */
+        onHidden: function(onhidden) {
+            this.options.onhidden = onhidden;
 
             return this;
         },
@@ -627,12 +641,18 @@
                 typeof dialog.options.onshow === 'function' && dialog.options.onshow(dialog);
                 dialog.showPageScrollBar(true);
             });
+            this.getModal().on('shown.bs.modal', {dialog: this}, function(event) {
+                var dialog = event.data.dialog;
+                typeof dialog.options.onshown === 'function' && dialog.options.onshown(dialog);
+                dialog.showPageScrollBar(true);
+            });
             this.getModal().on('hide.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
                 typeof dialog.options.onhide === 'function' && dialog.options.onhide(dialog);
             });
             this.getModal().on('hidden.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
+                typeof dialog.options.onhidden === 'function' && dialog.options.onhidden(dialog);
                 dialog.isAutodestroy() && $(this).remove();
                 dialog.showPageScrollBar(false);
             });
