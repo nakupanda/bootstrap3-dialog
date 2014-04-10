@@ -557,7 +557,6 @@
     
     <h3>Dialog events</h3>
     <p>
-        Two dialog level events are supported currently: onshow, onhide. <br />
         Please note that if you're going to use setters to configure event handlers, use dialog.onShow(function) and dialog.onHide(function).
     </p>
     <div class="source-code runnable">
@@ -567,8 +566,14 @@
             onshow: function(dialogRef){
                 alert('Dialog is popping up, its message is ' + dialogRef.getMessage());
             },
+            onshown: function(dialogRef){
+                alert('Dialog is popped up.');
+            },
             onhide: function(dialogRef){
                 alert('Dialog is popping down, its message is ' + dialogRef.getMessage());
+            },
+            onhidden: function(dialogRef){
+                alert('Dialog is popped down.');
             }
         });
         -->
@@ -600,9 +605,9 @@
         BootstrapDialog.alert({
             title: 'WARNING',
             message: 'Warning! No Banana!',
-            type: BootstrapDialog.TYPE_WARNING,     // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-            closable: true,                         // <-- Default value is true
-            buttonLabel: 'Roar! Why!',              // <-- Default value is 'OK',
+            type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is true
+            buttonLabel: 'Roar! Why!', // <-- Default value is 'OK',
             callback: function(result) {
                 // result will be true if button was click, while it will be false if users close the dialog directly.
                 alert('Result is: ' + result);
@@ -843,12 +848,30 @@ BootstrapDialog.show({
                 </td>
             </tr>
             <tr>
+                <td>onshown</td>
+                <td>
+                    function
+                </td>
+                <td>
+                    If provided, it will be invoked when the dialog is popped up. <br />
+                </td>
+            </tr>
+            <tr>
                 <td>onhide</td>
                 <td>
                     function
                 </td>
                 <td>
                     If provided, it will be invoked when the dialog is popping down. <br />
+                </td>
+            </tr>
+            <tr>
+                <td>onhidden</td>
+                <td>
+                    function
+                </td>
+                <td>
+                    If provided, it will be invoked when the dialog is popped down. <br />
                 </td>
             </tr>
             <tr>
