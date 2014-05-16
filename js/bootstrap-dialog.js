@@ -77,7 +77,9 @@
         closable: true,
         spinicon: BootstrapDialog.ICON_SPINNER,
         autodestroy: true,
-        draggable: false
+        draggable: false,
+        backdrop: true,
+        keyboard: true
     };
 
     /**
@@ -658,14 +660,18 @@
             });
 
             // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is popped up, so here's a new wheel.
-            this.getModal().on('click', {dialog: this}, function(event) {
-                event.target === this && event.data.dialog.isClosable() && event.data.dialog.close();
-            });
+            if(this.options.backdrop == true){
+                this.getModal().on('click', {dialog: this}, function(event) {
+                    event.target === this && event.data.dialog.isClosable() && event.data.dialog.close();
+                });
+            }
 
             // ESC key support
-            this.getModal().on('keyup', {dialog: this}, function(event) {
-                event.which === 27 && event.data.dialog.isClosable() && event.data.dialog.close();
-            });
+            if(this.options.keyboard){
+                this.getModal().on('keyup', {dialog: this}, function(event) {
+                    event.which === 27 && event.data.dialog.isClosable() && event.data.dialog.close();
+                });
+            }
 
             // Button hotkey
             this.getModal().on('keyup', {dialog: this}, function(event) {
