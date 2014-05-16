@@ -11,4 +11,15 @@ Thanks for <a href="https://github.com/akinoniku">akinoniku</a>'s suggestions on
 
 ================
 
+Use Guidances from contributors
+
+================
+
+How to use bootstrap-dialog as Rails 4 confirm - @Genkilabs 
+
+https://gist.github.com/Genkilabs/bdcc5f62c5b46a8e0904
+
+================
+
+
 Licensed under The MIT License.
