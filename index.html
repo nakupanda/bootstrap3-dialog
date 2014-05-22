@@ -423,6 +423,30 @@
         -->
     </div>
     
+    <a name="more-close-controls"></a>
+    <h3>More controls on closing a dialog.</h3>
+    <p>
+        By default, when option 'closable' is set to true, dialog can be closed by these ways: clicking outside the dialog, pressing ESC key, clicking the close icon on the right of dialog header. <br />
+        If you want your dialog closes only when the close icon in dialog header was clicked, try setting both of the options 'closeByBackdrop' and 'closeByKeyboard' to false.
+    </p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            message: 'Hi Apple!',
+            message: 'You can not close this dialog by clicking outside and pressing ESC key.',
+            closable: true,
+            closeByBackdrop: false,
+            closeByKeyboard: false,
+            buttons: [{
+                label: 'Close the dialog',
+                action: function(dialogRef){
+                    dialogRef.close();
+                }
+            }]
+        });
+        -->
+    </div>
+    
     <h3>Auto spinning icon</h3>
     <p>
         Lazy guys must love this.
