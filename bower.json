@@ -1,7 +1,13 @@
 {
     "name": "bootstrap3-dialog",
     "version": "0.0.1",
-    "main": "dist/your-awesome-js-module.js",
+    "main": [
+        "dist/less/bootstrap-dialog.less",
+        "dist/css/bootstrap-dialog.css",
+        "dist/css/bootstrap-dialog.min.css",
+        "dist/js/bootstrap-dialog.js",
+        "dist/js/bootstrap-dialog.min.js"
+    ],
     "ignore": [
         "source",
         "spec",
@@ -15,6 +21,7 @@
         "README.md"
     ],
     "dependencies": {
-        "bootstrap": "~3.1.1"
-    },
+        "bootstrap": "~3.1.1",
+        "jquery": ">= 1.9.0"
+    }
 }
