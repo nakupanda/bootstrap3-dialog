@@ -1,0 +1,39 @@
+{
+    "name": "bootstrap3-dialog",
+    "description": "Make use of Twitter Bootstrap's modal more monkey-friendly. http://nakupanda.github.io/bootstrap3-dialog/",
+    "version": "1.28",
+    "keywords": [
+        "css",
+        "js",
+        "less",
+        "mobile-first",
+        "responsive",
+        "front-end",
+        "framework",
+        "web"
+    ],
+    "homepage": "http://nakupanda.github.io/bootstrap3-dialog/",
+    "main": [
+        "dist/less/bootstrap-dialog.less",
+        "dist/css/bootstrap-dialog.css",
+        "dist/css/bootstrap-dialog.min.css",
+        "dist/js/bootstrap-dialog.js",
+        "dist/js/bootstrap-dialog.min.js"
+    ],
+    "ignore": [
+        "source",
+        "spec",
+        ".bowerrc",
+        ".gitignore",
+        ".jshintignore",
+        ".jshintrc",
+        "bower.json",
+        "gruntfile.js",
+        "package.json",
+        "README.md"
+    ],
+    "dependencies": {
+        "bootstrap": "~3.1.1",
+        "jquery": ">= 1.9.0"
+    }
+}
