@@ -315,7 +315,7 @@
         },
         setCloseByKeyboard: function(closeByKeyboard) {
             this.options.closeByKeyboard = closeByKeyboard;
-            
+
             return this;
         },
         canCloseByKeyboard: function() {
