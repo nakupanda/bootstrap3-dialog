@@ -468,24 +468,24 @@
             $button.prop('id', button.id);
 
             // Icon
-            if (typeof button.icon !== undefined && $.trim(button.icon) !== '') {
+            if (typeof button.icon !== 'undefined' && $.trim(button.icon) !== '') {
                 $button.append(this.createButtonIcon(button.icon));
             }
 
             // Label
-            if (typeof button.label !== undefined) {
+            if (typeof button.label !== 'undefined') {
                 $button.append(button.label);
             }
 
             // Css class
-            if (typeof button.cssClass !== undefined && $.trim(button.cssClass) !== '') {
+            if (typeof button.cssClass !== 'undefined' && $.trim(button.cssClass) !== '') {
                 $button.addClass(button.cssClass);
             } else {
                 $button.addClass('btn-default');
             }
 
             // Hotkey
-            if (typeof button.hotkey !== undefined) {
+            if (typeof button.hotkey !== 'undefined') {
                 this.registeredButtonHotkeys[button.hotkey] = $button;
             }
 
