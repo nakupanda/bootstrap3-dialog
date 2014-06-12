@@ -103,6 +103,41 @@
         -->
     </div>
 
+    <h3>Loading remote page (1)</h3>
+    <p>
+        There are more workarounds for loading remote page into BootstrapDialog as message, one of those workarounds is as below. <br />
+        Check out the <a href="./remote.html" target="_blank">remote.html</a>.
+    </p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            message: $('<div></div>').load('remote.html')
+        });
+        -->
+    </div>
+    
+    <h3>Loading remote page (2)</h3>
+    <p>
+        Another solution of loading remote page into BootstrapDialog. <br />
+        This one is more flexible and customizable, but it's also a bit more complicated to use.
+    </p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            message: function(dialog) {
+                var $message = $('<div></div>');
+                var pageToLoad = dialog.getData('pageToLoad');
+                $message.load(pageToLoad);
+        
+                return $message;
+            },
+            data: {
+                'pageToLoad': 'remote.html'
+            }
+        });
+        -->
+    </div>    
+    
     <h3>Buttons</h3>
     <div class="source-code runnable">
         <!--
