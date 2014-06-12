@@ -404,7 +404,7 @@
             $container.append(this.createTitleContent());
 
             // Close button
-            $container.append(this.createCloseButton());
+            $container.prepend(this.createCloseButton());
 
             return $container;
         },
