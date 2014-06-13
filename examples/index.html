@@ -639,6 +639,33 @@
         -->
     </div>
     
+    <a name="stop-closing-dialog"></a>
+    <h3>Stop closing your dialog.</h3>
+    <p>
+        Option 'onhide' gives you an opportunity to stop closing the dialog according to some conditions, making your 'onhide' callback returns false to stop closing the dialog. <br />
+        In the following example, the dialog closes only when your most favorite fruit is '<strong>banana</strong>' (Case insensitive).
+    </p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            message: 'Your most favorite fruit: <input type="text" class="form-control">',
+            onhide: function(dialogRef){
+                var fruit = dialogRef.getModalBody().find('input').val();
+                if($.trim(fruit.toLowerCase()) !== 'banana') {
+                    alert('Need banana!');
+                    return false;
+                }
+            },
+            buttons: [{
+                label: 'Close',
+                action: function(dialogRef) {
+                    dialogRef.close();
+                }
+            }]
+        });
+        -->
+    </div>
+    
     <h2>More shortcut methods</h2>
     <hr />
     <h3>Alert</h3>

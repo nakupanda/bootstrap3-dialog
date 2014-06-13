@@ -656,8 +656,10 @@
         handleModalEvents: function() {
             this.getModal().on('show.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
-                typeof dialog.options.onshow === 'function' && dialog.options.onshow(dialog);
                 dialog.showPageScrollBar(true);
+                if (typeof dialog.options.onshow === 'function') {
+                    return dialog.options.onshow(dialog);
+                }
             });
             this.getModal().on('shown.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
@@ -666,7 +668,9 @@
             });
             this.getModal().on('hide.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
-                typeof dialog.options.onhide === 'function' && dialog.options.onhide(dialog);
+                if (typeof dialog.options.onhide === 'function') {
+                    return dialog.options.onhide(dialog);
+                }
             });
             this.getModal().on('hidden.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
