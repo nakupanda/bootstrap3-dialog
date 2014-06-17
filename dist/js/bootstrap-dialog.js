@@ -64,6 +64,9 @@
 
     BootstrapDialog.ICON_SPINNER = 'glyphicon glyphicon-asterisk';
 
+    BootstrapDialog.ZINDEX_BACKDROP = 1040;
+    BootstrapDialog.ZINDEX_MODAL = 1050;
+
     /**
      * Default options.
      */
@@ -731,6 +734,20 @@
         showPageScrollBar: function(show) {
             $(document.body).toggleClass('modal-open', show);
         },
+        /**
+         * To make multiple opened dialogs look better.
+         */
+        updateZIndex: function() {
+            var dialogCount = Object.keys(BootstrapDialog.dialogs).length;
+            if (dialogCount > 1) {
+                var $modal = this.getModal();
+                var $backdrop = $modal.data('bs.modal').$backdrop;
+                $modal.css('z-index', BootstrapDialog.ZINDEX_MODAL + (dialogCount - 1) * 20);
+                $backdrop.css('z-index', BootstrapDialog.ZINDEX_BACKDROP + (dialogCount - 1) * 20);
+            }
+
+            return this;
+        },
         realize: function() {
             this.initModalStuff();
             this.getModal().addClass(BootstrapDialog.NAMESPACE)
@@ -758,6 +775,7 @@
         open: function() {
             !this.isRealized() && this.realize();
             this.getModal().modal('show');
+            this.updateZIndex();
             this.setOpened(true);
 
             return this;
