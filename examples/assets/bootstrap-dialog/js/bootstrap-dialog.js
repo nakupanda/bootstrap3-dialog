@@ -1,3 +1,5 @@
+/* global define */
+
 /* ================================================
  * Make use of Bootstrap's modal more monkey-friendly.
  * 
@@ -9,7 +11,25 @@
  * 
  * Licensed under The MIT License.
  * ================================================ */
-(function($) {
+(function(root, factory) {
+
+    "use strict";
+
+    // CommonJS module is defined
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = factory(require('jquery')(root));
+    }
+    // AMD module is defined
+    else if (typeof define === "function" && define.amd) {
+        define("bootstrap-dialog", ["jquery"], function($) {
+            return factory($);
+        });
+    } else {
+      // planted over the root!
+      root.BootstrapDialog = factory(root.jQuery);
+    }
+
+}(this, function($) {
 
     "use strict";
 
@@ -900,20 +920,6 @@
         }).open();
     };
 
-    BootstrapDialog.init = function() {
-        // check for nodeJS
-        var hasModule = (typeof module !== 'undefined' && module.exports);
-
-        // CommonJS module is defined
-        if (hasModule)
-            module.exports = BootstrapDialog;
-        else if (typeof define === "function" && define.amd)
-            define("bootstrap-dialog", function() {
                 return BootstrapDialog;
-            });
-        else
-            window.BootstrapDialog = BootstrapDialog;
-    };
-    BootstrapDialog.init();
 
-})(window.jQuery);
+}));
