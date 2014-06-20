@@ -13,10 +13,25 @@ Thanks for [akinoniku](https://github.com/akinoniku)'s suggestions on dialog app
 
 ## Use Guidances from contributors
 
-<a href="https://gist.github.com/Genkilabs/bdcc5f62c5b46a8e0904">How to use bootstrap-dialog as Rails 4 confirm</a> - @[Genkilabs](https://github.com/Genkilabs) 
+<a href="https://gist.github.com/Genkilabs/bdcc5f62c5b46a8e0904">How to use bootstrap-dialog as Rails 4 confirm</a> - @[Genkilabs](https://github.com/Genkilabs)
 
 
 ================
 
+## Build instructions:
+
+Prepare:
+
+```
+npm install
+```
+
+Build:
+
+```
+gulp dist
+```
+
+================
 
 Licensed under The MIT License.
