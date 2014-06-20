@@ -920,6 +920,6 @@
         }).open();
     };
 
-                return BootstrapDialog;
+    return BootstrapDialog;
 
 }));
