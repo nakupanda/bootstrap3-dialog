@@ -920,6 +920,45 @@
         }).open();
     };
 
+    /**
+     * Warning window
+     * 
+     * @param {type} message
+     * @returns the created dialog instance
+     */
+    BootstrapDialog.warning = function(message, callback) {
+        return new BootstrapDialog({
+            type: BootstrapDialog.TYPE_WARNING,
+            message: message
+        }).open();
+    };
+
+    /**
+     * Danger window
+     * 
+     * @param {type} message
+     * @returns the created dialog instance
+     */
+    BootstrapDialog.danger = function(message, callback) {
+        return new BootstrapDialog({
+            type: BootstrapDialog.TYPE_DANGER,
+            message: message
+        }).open();
+    };
+
+    /**
+     * Success window
+     * 
+     * @param {type} message
+     * @returns the created dialog instance
+     */
+    BootstrapDialog.success = function(message, callback) {
+        return new BootstrapDialog({
+            type: BootstrapDialog.TYPE_SUCCESS,
+            message: message
+        }).open();
+    };
+
     return BootstrapDialog;
 
 }));
