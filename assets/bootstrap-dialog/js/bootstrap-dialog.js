@@ -1,3 +1,5 @@
+/* global define */
+
 /* ================================================
  * Make use of Bootstrap's modal more monkey-friendly.
  * 
@@ -9,7 +11,25 @@
  * 
  * Licensed under The MIT License.
  * ================================================ */
-(function($) {
+(function(root, factory) {
+
+    "use strict";
+
+    // CommonJS module is defined
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = factory(require('jquery')(root));
+    }
+    // AMD module is defined
+    else if (typeof define === "function" && define.amd) {
+        define("bootstrap-dialog", ["jquery"], function($) {
+            return factory($);
+        });
+    } else {
+        // planted over the root!
+        root.BootstrapDialog = factory(root.jQuery);
+    }
+
+}(this, function($) {
 
     "use strict";
 
@@ -82,7 +102,8 @@
         closeByKeyboard: true,
         spinicon: BootstrapDialog.ICON_SPINNER,
         autodestroy: true,
-        draggable: false
+        draggable: false,
+        animate: true
     };
 
     /**
@@ -137,7 +158,7 @@
             return this;
         },
         createModal: function() {
-            var $modal = $('<div class="modal fade" tabindex="-1"></div>');
+            var $modal = $('<div class="modal" tabindex="-1"></div>');
             $modal.prop('id', this.getId());
 
             return $modal;
@@ -323,6 +344,21 @@
         },
         canCloseByKeyboard: function() {
             return this.options.closeByKeyboard;
+        },
+        isAnimate: function() {
+            return this.options.animate;
+        },
+        setAnimate: function(animate) {
+            this.options.animate = animate;
+
+            return this;
+        },
+        updateAnimate: function() {
+            if (this.isRealized()) {
+                this.getModal().toggleClass('fade', this.isAnimate());
+            }
+
+            return this;
         },
         getSpinicon: function() {
             return this.options.spinicon;
@@ -769,6 +805,7 @@
             this.updateTitle();
             this.updateMessage();
             this.updateClosable();
+            this.updateAnimate();
 
             return this;
         },
@@ -900,20 +937,6 @@
         }).open();
     };
 
-    BootstrapDialog.init = function() {
-        // check for nodeJS
-        var hasModule = (typeof module !== 'undefined' && module.exports);
+    return BootstrapDialog;
 
-        // CommonJS module is defined
-        if (hasModule)
-            module.exports = BootstrapDialog;
-        else if (typeof define === "function" && define.amd)
-            define("bootstrap-dialog", function() {
-                return BootstrapDialog;
-            });
-        else
-            window.BootstrapDialog = BootstrapDialog;
-    };
-    BootstrapDialog.init();
-
-})(window.jQuery);
+}));
