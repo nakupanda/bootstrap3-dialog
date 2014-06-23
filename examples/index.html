@@ -483,6 +483,30 @@
         -->
     </div>
     
+    <a name="dialog-animate"></a>
+    <h3>Disabling Animation</h3>
+    <p>
+        Setting option 'animate' to false to disable animation for the opening dialog. <br />
+        If you want to disable animation globally, try to do this: <br />
+        BootstrapDialog.configDefaultOptions({
+            animate: false
+        });
+    </p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            message: 'There is no fading effects on this dialog.',
+            animate: false,
+            buttons: [{
+                label: 'Close the dialog',
+                action: function(dialogRef){
+                    dialogRef.close();
+                }
+            }]
+        });
+        -->
+    </div>
+    
     <h3>Auto spinning icon</h3>
     <p>
         Lazy guys must love this.

@@ -25,8 +25,8 @@
             return factory($);
         });
     } else {
-      // planted over the root!
-      root.BootstrapDialog = factory(root.jQuery);
+        // planted over the root!
+        root.BootstrapDialog = factory(root.jQuery);
     }
 
 }(this, function($) {
@@ -102,7 +102,8 @@
         closeByKeyboard: true,
         spinicon: BootstrapDialog.ICON_SPINNER,
         autodestroy: true,
-        draggable: false
+        draggable: false,
+        animate: true
     };
 
     /**
@@ -157,7 +158,7 @@
             return this;
         },
         createModal: function() {
-            var $modal = $('<div class="modal fade" tabindex="-1"></div>');
+            var $modal = $('<div class="modal" tabindex="-1"></div>');
             $modal.prop('id', this.getId());
 
             return $modal;
@@ -343,6 +344,21 @@
         },
         canCloseByKeyboard: function() {
             return this.options.closeByKeyboard;
+        },
+        isAnimate: function() {
+            return this.options.animate;
+        },
+        setAnimate: function(animate) {
+            this.options.animate = animate;
+
+            return this;
+        },
+        updateAnimate: function() {
+            if (this.isRealized()) {
+                this.getModal().toggleClass('fade', this.isAnimate());
+            }
+
+            return this;
         },
         getSpinicon: function() {
             return this.options.spinicon;
@@ -789,6 +805,7 @@
             this.updateTitle();
             this.updateMessage();
             this.updateClosable();
+            this.updateAnimate();
 
             return this;
         },
@@ -920,6 +937,6 @@
         }).open();
     };
 
-                return BootstrapDialog;
+    return BootstrapDialog;
 
 }));
