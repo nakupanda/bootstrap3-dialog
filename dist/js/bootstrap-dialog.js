@@ -774,7 +774,10 @@
          * To make multiple opened dialogs look better.
          */
         updateZIndex: function() {
-            var dialogCount = Object.keys(BootstrapDialog.dialogs).length;
+            var dialogCount = 0;
+            $.each(BootstrapDialog.dialogs, function(dialogId, dialogInstance) {
+                dialogCount++;
+            });
             if (dialogCount > 1) {
                 var $modal = this.getModal();
                 var $backdrop = $modal.data('bs.modal').$backdrop;
