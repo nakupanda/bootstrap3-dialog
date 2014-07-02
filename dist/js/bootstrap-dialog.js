@@ -2,13 +2,13 @@
 
 /* ================================================
  * Make use of Bootstrap's modal more monkey-friendly.
- * 
+ *
  * For Bootstrap 3.
- * 
+ *
  * javanoob@hotmail.com
- * 
+ *
  * https://github.com/nakupanda/bootstrap3-dialog
- * 
+ *
  * Licensed under The MIT License.
  * ================================================ */
 (function(root, factory) {
@@ -392,9 +392,9 @@
         },
         /**
          * If there is id provided for a button option, it will be in dialog.indexedButtons list.
-         * 
+         *
          * In that case you can use dialog.getButton(id) to find the button.
-         * 
+         *
          * @param {type} id
          * @returns {undefined}
          */
@@ -549,9 +549,9 @@
         },
         /**
          * Dynamically add extra functions to $button
-         * 
+         *
          * Using '$this' to reference 'this' is just for better readability.
-         * 
+         *
          * @param {type} $button
          * @returns {_L13.BootstrapDialog.prototype}
          */
@@ -616,7 +616,7 @@
         },
         /**
          * Invoke this only after the dialog is realized.
-         * 
+         *
          * @param {type} enable
          * @returns {undefined}
          */
@@ -629,7 +629,7 @@
         },
         /**
          * Invoke this only after the dialog is realized.
-         * 
+         *
          * @returns {undefined}
          */
         updateClosable: function() {
@@ -848,7 +848,7 @@
 
     /**
      * Shortcut function: show
-     * 
+     *
      * @param {type} options
      * @returns the created dialog instance
      */
@@ -858,7 +858,7 @@
 
     /**
      * Alert window
-     * 
+     *
      * @returns the created dialog instance
      */
     BootstrapDialog.alert = function() {
@@ -907,27 +907,29 @@
 
     /**
      * Confirm window
-     * 
-     * @param {type} message
-     * @param {type} callback
-     * @returns the created dialog instance
+     *
+     * @param {string} message
+     * @param {function} [callback]
+     * @param {string} [title=Confirmation]
+     * @param {array} [buttons=[Cancel, OK]]
+     * @returns {type} the created dialog instance
      */
-    BootstrapDialog.confirm = function(message, callback) {
+    BootstrapDialog.confirm = function(message, callback, title, buttons) {
         return new BootstrapDialog({
-            title: 'Confirmation',
+            title: title || 'Confirmation',
             message: message,
             closable: false,
             data: {
                 'callback': callback
             },
             buttons: [{
-                    label: 'Cancel',
+                    label: (buttons && buttons.length > 0) ? buttons[0] : 'Cancel',
                     action: function(dialog) {
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
                         dialog.close();
                     }
                 }, {
-                    label: 'OK',
+                    label: (buttons && buttons.length > 1) ? buttons[1] : 'OK',
                     cssClass: 'btn-primary',
                     action: function(dialog) {
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
@@ -939,39 +941,45 @@
 
     /**
      * Warning window
-     * 
-     * @param {type} message
-     * @returns the created dialog instance
+     *
+     * @param {string} message
+     * @param {string} [title]
+     * @returns {type} the created dialog instance
      */
-    BootstrapDialog.warning = function(message, callback) {
+    BootstrapDialog.warning = function(message, title) {
         return new BootstrapDialog({
             type: BootstrapDialog.TYPE_WARNING,
+            title: title || null,
             message: message
         }).open();
     };
 
     /**
      * Danger window
-     * 
-     * @param {type} message
-     * @returns the created dialog instance
+     *
+     * @param {string} message
+     * @param {string} [title]
+     * @returns {type} the created dialog instance
      */
-    BootstrapDialog.danger = function(message, callback) {
+    BootstrapDialog.danger = function(message, title) {
         return new BootstrapDialog({
             type: BootstrapDialog.TYPE_DANGER,
+            title: title || null,
             message: message
         }).open();
     };
 
     /**
      * Success window
-     * 
-     * @param {type} message
-     * @returns the created dialog instance
+     *
+     * @param {string} message
+     * @param {string} [title]
+     * @returns {type} the created dialog instance
      */
-    BootstrapDialog.success = function(message, callback) {
+    BootstrapDialog.success = function(message, title) {
         return new BootstrapDialog({
             type: BootstrapDialog.TYPE_SUCCESS,
+            title: title || null,
             message: message
         }).open();
     };
