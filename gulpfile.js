@@ -14,7 +14,7 @@ var gulp = require("gulp"),
 
 
 gulp.task("less", function() {
-  gulp.src("less/bootstrap-dialog.less")
+  gulp.src("src/less/bootstrap-dialog.less")
     .pipe(gulp.dest("dist/less"))
     .pipe(less({
       paths: [path.join(__dirname, "less", "includes")]
@@ -28,13 +28,13 @@ gulp.task("less", function() {
 });
 
 gulp.task("lint", function() {
-  gulp.src(["js/bootstrap-dialog.js"])
+  gulp.src(["src/js/bootstrap-dialog.js"])
     .pipe(eslint())
     .pipe(eslint.format());
 });
 
 gulp.task("dist", ["clean", "less"], function() {
-  gulp.src(["js/bootstrap-dialog.js"])
+  gulp.src(["src/js/bootstrap-dialog.js"])
     .pipe(gulp.dest("dist/js"))
     .pipe(gulp.dest("examples/assets/bootstrap-dialog/js"))
     .pipe(rename("bootstrap-dialog.min.js"))
