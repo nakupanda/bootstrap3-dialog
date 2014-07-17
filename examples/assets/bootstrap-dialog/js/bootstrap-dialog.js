@@ -561,7 +561,11 @@
             // Enable / Disable
             $button.toggleEnable = function(enable) {
                 var $this = this;
-                $this.prop("disabled", !enable).toggleClass('disabled', !enable);
+                if (typeof enable !== 'undefined') {
+                    $this.prop("disabled", !enable).toggleClass('disabled', !enable);
+                } else {
+                    $this.prop("disabled", !$this.prop("disabled"));
+                }
 
                 return $this;
             };
@@ -583,6 +587,9 @@
                 var $this = this;
                 var dialog = $this.dialog;
                 var $icon = $this.find('.' + dialog.getNamespace('button-icon'));
+                if (typeof spin === 'undefined') {
+                    spin = !($button.find('.icon-spin').length > 0);
+                }
                 if (spin) {
                     $icon.hide();
                     $button.prepend(dialog.createButtonIcon(dialog.getSpinicon()).addClass('icon-spin'));
