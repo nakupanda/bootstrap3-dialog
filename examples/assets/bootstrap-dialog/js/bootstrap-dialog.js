@@ -128,6 +128,19 @@
         });
     };
 
+    /**
+     * Move focus to next visible dialog.
+     */
+    BootstrapDialog.moveFocus = function() {
+        var lastDialogInstance = null;
+        $.each(BootstrapDialog.dialogs, function(id, dialogInstance) {
+            lastDialogInstance = dialogInstance;
+        });
+        if (lastDialogInstance !== null && lastDialogInstance.isRealized()) {
+            lastDialogInstance.getModal().focus();
+        }
+    };
+
     BootstrapDialog.prototype = {
         constructor: BootstrapDialog,
         initOptions: function(options) {
@@ -833,6 +846,9 @@
                 delete BootstrapDialog.dialogs[this.getId()];
             }
             this.setOpened(false);
+
+            // Move focus to the last visible dialog.
+            BootstrapDialog.moveFocus();
 
             return this;
         }
