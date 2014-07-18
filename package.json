@@ -1,6 +1,6 @@
 {
   "name": "bootstrap3-dialog",
-  "version": "1.33.0",
+  "version": "1.33",
   "description": "Make use of Twitter Bootstrap's modal more monkey-friendly.",
   "private": true,
   "directories": {
