@@ -141,6 +141,22 @@
         }
     };
 
+    /**
+     * Show scrollbar if the last visible dialog needs one.
+     */
+    BootstrapDialog.showScrollbar = function() {
+        var lastDialogInstance = null;
+        $.each(BootstrapDialog.dialogs, function(id, dialogInstance) {
+            lastDialogInstance = dialogInstance;
+        });
+        if (lastDialogInstance !== null && lastDialogInstance.isRealized() && lastDialogInstance.isOpened()) {
+            var bsModal = lastDialogInstance.getModal().data('bs.modal');
+            bsModal.checkScrollbar();
+            $('body').addClass('modal-open');
+            bsModal.setScrollbar();
+        }
+    };
+
     BootstrapDialog.prototype = {
         constructor: BootstrapDialog,
         initOptions: function(options) {
@@ -715,7 +731,6 @@
         handleModalEvents: function() {
             this.getModal().on('show.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
-                dialog.showPageScrollBar(true);
                 if (typeof dialog.options.onshow === 'function') {
                     return dialog.options.onshow(dialog);
                 }
@@ -723,7 +738,6 @@
             this.getModal().on('shown.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
                 typeof dialog.options.onshown === 'function' && dialog.options.onshown(dialog);
-                dialog.showPageScrollBar(true);
             });
             this.getModal().on('hide.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
@@ -735,7 +749,6 @@
                 var dialog = event.data.dialog;
                 typeof dialog.options.onhidden === 'function' && dialog.options.onhidden(dialog);
                 dialog.isAutodestroy() && $(this).remove();
-                dialog.showPageScrollBar(false);
             });
 
             // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is popped up, so here's a new wheel.
@@ -786,9 +799,6 @@
             }
 
             return this;
-        },
-        showPageScrollBar: function(show) {
-            $(document.body).toggleClass('modal-open', show);
         },
         /**
          * To make multiple opened dialogs look better.
@@ -849,6 +859,9 @@
 
             // Move focus to the last visible dialog.
             BootstrapDialog.moveFocus();
+
+            // Show scrollbar if the last visible dialog needs one.
+            BootstrapDialog.showScrollbar();
 
             return this;
         }
