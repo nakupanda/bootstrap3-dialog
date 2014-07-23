@@ -24,6 +24,12 @@ Thanks for [akinoniku](https://github.com/akinoniku)'s suggestions on dialog app
 bower install bootstrap-dialog
 ```
 
+Or
+
+```
+bower install bootstrap3-dialog
+```
+
 ================
 
 ## Build instructions:
