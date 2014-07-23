@@ -18,6 +18,14 @@ Thanks for [akinoniku](https://github.com/akinoniku)'s suggestions on dialog app
 
 ================
 
+## Install using Bower
+
+```
+bower install bootstrap-dialog
+```
+
+================
+
 ## Build instructions:
 
 Prepare:
