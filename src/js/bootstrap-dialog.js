@@ -296,6 +296,21 @@
         },
         setType: function(type) {
             this.options.type = type;
+            this.updateType();
+
+            return this;
+        },
+        updateType: function() {
+            if (this.isRealized()) {
+                var types = [BootstrapDialog.TYPE_DEFAULT,
+                    BootstrapDialog.TYPE_INFO,
+                    BootstrapDialog.TYPE_PRIMARY,
+                    BootstrapDialog.TYPE_SUCCESS,
+                    BootstrapDialog.TYPE_WARNING,
+                    BootstrapDialog.TYPE_DANGER];
+
+                this.getModal().removeClass(types.join(' ')).addClass(this.getType());
+            }
 
             return this;
         },
@@ -820,7 +835,6 @@
         realize: function() {
             this.initModalStuff();
             this.getModal().addClass(BootstrapDialog.NAMESPACE)
-            .addClass(this.getType())
             .addClass(this.getSize())
             .addClass(this.getCssClass());
             this.getModalFooter().append(this.createFooterContent());
@@ -835,6 +849,7 @@
             this.handleModalEvents();
             this.setRealized(true);
             this.updateButtons();
+            this.updateType();
             this.updateTitle();
             this.updateMessage();
             this.updateClosable();
