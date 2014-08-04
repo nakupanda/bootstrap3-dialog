@@ -371,6 +371,36 @@
         -->
     </div>
     
+    <a name="changing-dialog-type"></a>
+    <h3>Changing dialog type</h3>
+    <div class="source-code runnable">
+        <!--
+        var types = [BootstrapDialog.TYPE_DEFAULT, 
+                     BootstrapDialog.TYPE_INFO, 
+                     BootstrapDialog.TYPE_PRIMARY, 
+                     BootstrapDialog.TYPE_SUCCESS, 
+                     BootstrapDialog.TYPE_WARNING, 
+                     BootstrapDialog.TYPE_DANGER];
+                     
+        var buttons = [];
+        $.each(types, function(index, type) {
+            buttons.push({
+                label: type,
+                cssClass: 'btn-default btn-sm',
+                action: function(dialog) {
+                    dialog.setType(type);
+                }
+            });
+        });
+
+        BootstrapDialog.show({
+            title: 'Changing dialog type',
+            message: 'Click buttons below...',
+            buttons: buttons
+        });
+        -->
+    </div>
+    
     <h3>Larger dialog</h3>
     <p>
         By default, the dialog size is 'size-normal' or BootstrapDialog.SIZE_NORMAL, but you can have a larger dialog by setting option 'size' to 'size-large' or BootstrapDialog.SIZE_LARGE.
