@@ -1,3 +1,4 @@
 LASTEST NOT RELEASED
 ------------------------------
 * FIXED #62 *
+* IMPLEMENTED #67 *
