@@ -1,6 +1,6 @@
 {
   "name": "bootstrap3-dialog",
-  "version": "1.33.3",
+  "version": "1.33.4",
   "description": "Make use of Bootstrap Modal more monkey-friendly.",
   "private": true,
   "directories": {

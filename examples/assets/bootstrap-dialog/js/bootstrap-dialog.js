@@ -764,10 +764,11 @@
                 var dialog = event.data.dialog;
                 typeof dialog.options.onhidden === 'function' && dialog.options.onhidden(dialog);
                 dialog.isAutodestroy() && $(this).remove();
+                BootstrapDialog.moveFocus();
             });
 
             // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is popped up, so here's a new wheel.
-            this.getModal().on('mouseup', {dialog: this}, function(event) {
+            this.getModal().on('click', {dialog: this}, function(event) {
                 event.target === this && event.data.dialog.isClosable() && event.data.dialog.canCloseByBackdrop() && event.data.dialog.close();
             });
 
@@ -871,9 +872,6 @@
                 delete BootstrapDialog.dialogs[this.getId()];
             }
             this.setOpened(false);
-
-            // Move focus to the last visible dialog.
-            BootstrapDialog.moveFocus();
 
             // Show scrollbar if the last visible dialog needs one.
             BootstrapDialog.showScrollbar();
