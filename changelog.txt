@@ -1,6 +1,6 @@
 LASTEST NOT RELEASED
 ------------------------------
-* NONE so far *
+* PULL REQUEST: #72 *
 
 V1.33.4
 ------------------------------
