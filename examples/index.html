@@ -643,6 +643,18 @@
         -->
     </div>
     
+    <h3>Adding a description to your dialog (for accessibility)</h3>
+    <p>This adds an 'aria-describedby' attribute to your dialog, which provides a description of the dialog for screen readers.</p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'Add Description',
+            message: 'The description is shown to screen readers.',
+            description: 'This is a Bootstrap Dialog'
+        });
+        -->
+    </div>
+    
     <h3>Data binding</h3>
     <div class="source-code runnable">
         <!--
@@ -941,7 +953,7 @@ BootstrapDialog.show({
 </div>
                     <strong>id</strong>: optional, if id is set, you can use dialogInstance.getButton(id) to get the button later. <br />
                     <strong>icon</strong>: optional, if set, the specified icon will be added to the button. <br />
-                    <strong>cssClass</strong>: optinal, additional css class to be added to the button. <br />
+                    <strong>cssClass</strong>: optional, additional css class to be added to the button. <br />
                     <strong>autospin</strong>: optinal, if it's true, after clicked the button a spinning icon appears. <br />
                     <strong>action</strong>: optional, if provided, the callback will be invoked after the button is clicked, and the dialog instance will be passed to the callback function.
                 </td>
@@ -1022,6 +1034,15 @@ BootstrapDialog.show({
                 </td>
                 <td>
                     When it's true, all modal stuff will be removed from the DOM tree after the dialog is popped down, set it to false if you need your dialog (same instance) pups up and down again and again.
+                </td>
+            </tr>
+            <tr>
+                <td>description</td>
+                <td>
+                    String
+                </td>
+                <td>
+                    If provided, 'aria-describedby' attribute will be added to the dialog with the description string as its value.  This can improve accessibility, as the description can be read by screen readers.
                 </td>
             </tr>
         </tbody>

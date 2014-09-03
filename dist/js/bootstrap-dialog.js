@@ -103,7 +103,8 @@
         spinicon: BootstrapDialog.ICON_SPINNER,
         autodestroy: true,
         draggable: false,
-        animate: true
+        animate: true,
+        description: ''
     };
 
     /**
@@ -187,8 +188,8 @@
             return this;
         },
         createModal: function() {
-            var $modal = $('<div class="modal" tabindex="-1"></div>');
-            $modal.prop('id', this.getId());
+            var $modal = $('<div class="modal" tabindex="-1" role="dialog" aria-hidden="true"></div>');
+            $modal.prop('id', this.getId()).attr('aria-labelledby', this.getId() + '_title');
 
             return $modal;
         },
@@ -342,7 +343,7 @@
         updateTitle: function() {
             if (this.isRealized()) {
                 var title = this.getTitle() !== null ? this.createDynamicContent(this.getTitle()) : this.getDefaultText();
-                this.getModalHeader().find('.' + this.getNamespace('title')).html('').append(title);
+                this.getModalHeader().find('.' + this.getNamespace('title')).html('').append(title).prop('id', this.getId() + '_title');
             }
 
             return this;
@@ -472,6 +473,14 @@
         },
         setAutodestroy: function(autodestroy) {
             this.options.autodestroy = autodestroy;
+        },
+        getDescription: function() {
+            return this.options.description;
+        },
+        setDescription: function(description) {
+            this.options.description = description;
+
+            return this;
         },
         getDefaultText: function() {
             return BootstrapDialog.DEFAULT_TEXTS[this.getType()];
@@ -838,6 +847,9 @@
             this.getModal().addClass(BootstrapDialog.NAMESPACE)
             .addClass(this.getSize())
             .addClass(this.getCssClass());
+            if(this.getDescription()){
+            	this.getModal().attr('aria-describedby', this.getDescription());
+            }
             this.getModalFooter().append(this.createFooterContent());
             this.getModalHeader().append(this.createHeaderContent());
             this.getModalBody().append(this.createBodyContent());
