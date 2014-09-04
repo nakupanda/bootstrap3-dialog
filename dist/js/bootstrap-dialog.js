@@ -833,12 +833,10 @@
             $.each(BootstrapDialog.dialogs, function(dialogId, dialogInstance) {
                 dialogCount++;
             });
-            // if (dialogCount > 1) {
-                var $modal = this.getModal();
-                var $backdrop = $modal.data('bs.modal').$backdrop;
-                $modal.css('z-index', BootstrapDialog.ZINDEX_MODAL + (dialogCount - 1) * 20);
-                $backdrop.css('z-index', BootstrapDialog.ZINDEX_BACKDROP + (dialogCount - 1) * 20);
-            // }
+            var $modal = this.getModal();
+            var $backdrop = $modal.data('bs.modal').$backdrop;
+            $modal.css('z-index', BootstrapDialog.ZINDEX_MODAL + (dialogCount - 1) * 20);
+            $backdrop.css('z-index', BootstrapDialog.ZINDEX_BACKDROP + (dialogCount - 1) * 20);
 
             return this;
         },
@@ -848,7 +846,7 @@
             .addClass(this.getSize())
             .addClass(this.getCssClass());
             if(this.getDescription()){
-            	this.getModal().attr('aria-describedby', this.getDescription());
+                this.getModal().attr('aria-describedby', this.getDescription());
             }
             this.getModalFooter().append(this.createFooterContent());
             this.getModalHeader().append(this.createHeaderContent());
