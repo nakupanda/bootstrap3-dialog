@@ -103,7 +103,8 @@
         spinicon: BootstrapDialog.ICON_SPINNER,
         autodestroy: true,
         draggable: false,
-        animate: true
+        animate: true,
+        description: ''
     };
 
     /**
@@ -187,8 +188,8 @@
             return this;
         },
         createModal: function() {
-            var $modal = $('<div class="modal" tabindex="-1"></div>');
-            $modal.prop('id', this.getId());
+            var $modal = $('<div class="modal" tabindex="-1" role="dialog" aria-hidden="true"></div>');
+            $modal.prop('id', this.getId()).attr('aria-labelledby', this.getId() + '_title');
 
             return $modal;
         },
@@ -342,7 +343,7 @@
         updateTitle: function() {
             if (this.isRealized()) {
                 var title = this.getTitle() !== null ? this.createDynamicContent(this.getTitle()) : this.getDefaultText();
-                this.getModalHeader().find('.' + this.getNamespace('title')).html('').append(title);
+                this.getModalHeader().find('.' + this.getNamespace('title')).html('').append(title).prop('id', this.getId() + '_title');
             }
 
             return this;
@@ -472,6 +473,14 @@
         },
         setAutodestroy: function(autodestroy) {
             this.options.autodestroy = autodestroy;
+        },
+        getDescription: function() {
+            return this.options.description;
+        },
+        setDescription: function(description) {
+            this.options.description = description;
+
+            return this;
         },
         getDefaultText: function() {
             return BootstrapDialog.DEFAULT_TEXTS[this.getType()];
@@ -764,10 +773,11 @@
                 var dialog = event.data.dialog;
                 typeof dialog.options.onhidden === 'function' && dialog.options.onhidden(dialog);
                 dialog.isAutodestroy() && $(this).remove();
+                BootstrapDialog.moveFocus();
             });
 
             // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is popped up, so here's a new wheel.
-            this.getModal().on('mouseup', {dialog: this}, function(event) {
+            this.getModal().on('click', {dialog: this}, function(event) {
                 event.target === this && event.data.dialog.isClosable() && event.data.dialog.canCloseByBackdrop() && event.data.dialog.close();
             });
 
@@ -823,12 +833,10 @@
             $.each(BootstrapDialog.dialogs, function(dialogId, dialogInstance) {
                 dialogCount++;
             });
-            if (dialogCount > 1) {
-                var $modal = this.getModal();
-                var $backdrop = $modal.data('bs.modal').$backdrop;
-                $modal.css('z-index', BootstrapDialog.ZINDEX_MODAL + (dialogCount - 1) * 20);
-                $backdrop.css('z-index', BootstrapDialog.ZINDEX_BACKDROP + (dialogCount - 1) * 20);
-            }
+            var $modal = this.getModal();
+            var $backdrop = $modal.data('bs.modal').$backdrop;
+            $modal.css('z-index', BootstrapDialog.ZINDEX_MODAL + (dialogCount - 1) * 20);
+            $backdrop.css('z-index', BootstrapDialog.ZINDEX_BACKDROP + (dialogCount - 1) * 20);
 
             return this;
         },
@@ -837,6 +845,9 @@
             this.getModal().addClass(BootstrapDialog.NAMESPACE)
             .addClass(this.getSize())
             .addClass(this.getCssClass());
+            if(this.getDescription()){
+                this.getModal().attr('aria-describedby', this.getDescription());
+            }
             this.getModalFooter().append(this.createFooterContent());
             this.getModalHeader().append(this.createHeaderContent());
             this.getModalBody().append(this.createBodyContent());
@@ -871,9 +882,6 @@
                 delete BootstrapDialog.dialogs[this.getId()];
             }
             this.setOpened(false);
-
-            // Move focus to the last visible dialog.
-            BootstrapDialog.moveFocus();
 
             // Show scrollbar if the last visible dialog needs one.
             BootstrapDialog.showScrollbar();
