@@ -2,6 +2,7 @@ LASTEST NOT RELEASED
 ------------------------------
 * PULL REQUEST: #72 *
 * PULL REQUEST: #83 *
+* Fixed a bug that after dragging the dialog to another place, the original place prevents closing the dialog by clicking on backdrop. *
 
 V1.33.4
 ------------------------------
