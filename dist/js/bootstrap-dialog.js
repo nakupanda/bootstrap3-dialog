@@ -804,7 +804,7 @@
                 this.getModalHeader().addClass(this.getNamespace('draggable')).on('mousedown', {dialog: this}, function(event) {
                     var dialog = event.data.dialog;
                     dialog.draggableData.isMouseDown = true;
-                    var dialogOffset = dialog.getModalContent().offset();
+                    var dialogOffset = dialog.getModalDialog().offset();
                     dialog.draggableData.mouseOffset = {
                         top: event.clientY - dialogOffset.top,
                         left: event.clientX - dialogOffset.left
@@ -818,7 +818,7 @@
                     if (!dialog.draggableData.isMouseDown) {
                         return;
                     }
-                    dialog.getModalContent().offset({
+                    dialog.getModalDialog().offset({
                         top: event.clientY - dialog.draggableData.mouseOffset.top,
                         left: event.clientX - dialog.draggableData.mouseOffset.left
                     });
