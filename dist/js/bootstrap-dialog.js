@@ -932,7 +932,7 @@
             title: null,
             message: null,
             closable: true,
-            buttonLabel: Bootstrap.DEFAULT_TEXTS.OK,
+            buttonLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
             callback: null
         };
 
@@ -942,7 +942,7 @@
             options = $.extend(true, defaultOptions, {
                 message: arguments[0],
                 closable: false,
-                buttonLabel: Bootstrap.DEFAULT_TEXTS.OK,
+                buttonLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
                 callback: typeof arguments[1] !== 'undefined' ? arguments[1] : null
             });
         }
@@ -985,13 +985,13 @@
                 'callback': callback
             },
             buttons: [{
-                    label: Bootstrap.DEFAULT_TEXTS.CANCEL,
+                    label: BootstrapDialog.DEFAULT_TEXTS.CANCEL,
                     action: function(dialog) {
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
                         dialog.close();
                     }
                 }, {
-                    label: Bootstrap.DEFAULT_TEXTS.OK,
+                    label: BootstrapDialog.DEFAULT_TEXTS.OK,
                     cssClass: 'btn-primary',
                     action: function(dialog) {
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
