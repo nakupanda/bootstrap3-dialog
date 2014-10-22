@@ -74,8 +74,8 @@
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_SUCCESS] = 'Success';
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_WARNING] = 'Warning';
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DANGER] = 'Danger';
-    BootstrapDialog.DEFAULT_TEXTS.ok = 'OK';
-    BootstrapDialog.DEFAULT_TEXTS.cancel = 'Cancel';
+    BootstrapDialog.DEFAULT_TEXTS['OK'] = 'OK';
+    BootstrapDialog.DEFAULT_TEXTS['CANCEL'] = 'Cancel';
 
     BootstrapDialog.SIZE_NORMAL = 'size-normal';
     BootstrapDialog.SIZE_LARGE = 'size-large';
@@ -932,7 +932,7 @@
             title: null,
             message: null,
             closable: true,
-            buttonLabel: Bootstrap.DEFAULT_TEXTS.ok,
+            buttonLabel: Bootstrap.DEFAULT_TEXTS.OK,
             callback: null
         };
 
@@ -942,7 +942,7 @@
             options = $.extend(true, defaultOptions, {
                 message: arguments[0],
                 closable: false,
-                buttonLabel: Bootstrap.DEFAULT_TEXTS.ok,
+                buttonLabel: Bootstrap.DEFAULT_TEXTS.OK,
                 callback: typeof arguments[1] !== 'undefined' ? arguments[1] : null
             });
         }
@@ -985,13 +985,13 @@
                 'callback': callback
             },
             buttons: [{
-                    label: Bootstrap.DEFAULT_TEXTS.cancel,
+                    label: Bootstrap.DEFAULT_TEXTS.CANCEL,
                     action: function(dialog) {
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
                         dialog.close();
                     }
                 }, {
-                    label: Bootstrap.DEFAULT_TEXTS.ok,
+                    label: Bootstrap.DEFAULT_TEXTS.OK,
                     cssClass: 'btn-primary',
                     action: function(dialog) {
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
