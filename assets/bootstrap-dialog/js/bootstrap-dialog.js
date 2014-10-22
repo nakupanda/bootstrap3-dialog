@@ -2,13 +2,13 @@
 
 /* ================================================
  * Make use of Bootstrap's modal more monkey-friendly.
- * 
+ *
  * For Bootstrap 3.
- * 
+ *
  * javanoob@hotmail.com
- * 
+ *
  * https://github.com/nakupanda/bootstrap3-dialog
- * 
+ *
  * Licensed under The MIT License.
  * ================================================ */
 (function(root, factory) {
@@ -74,6 +74,8 @@
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_SUCCESS] = 'Success';
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_WARNING] = 'Warning';
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DANGER] = 'Danger';
+    BootstrapDialog.DEFAULT_TEXTS['OK'] = 'OK';
+    BootstrapDialog.DEFAULT_TEXTS['CANCEL'] = 'Cancel';
 
     BootstrapDialog.SIZE_NORMAL = 'size-normal';
     BootstrapDialog.SIZE_LARGE = 'size-large';
@@ -437,9 +439,9 @@
         },
         /**
          * If there is id provided for a button option, it will be in dialog.indexedButtons list.
-         * 
+         *
          * In that case you can use dialog.getButton(id) to find the button.
-         * 
+         *
          * @param {type} id
          * @returns {undefined}
          */
@@ -602,9 +604,9 @@
         },
         /**
          * Dynamically add extra functions to $button
-         * 
+         *
          * Using '$this' to reference 'this' is just for better readability.
-         * 
+         *
          * @param {type} $button
          * @returns {_L13.BootstrapDialog.prototype}
          */
@@ -676,7 +678,7 @@
         },
         /**
          * Invoke this only after the dialog is realized.
-         * 
+         *
          * @param {type} enable
          * @returns {undefined}
          */
@@ -689,7 +691,7 @@
         },
         /**
          * Invoke this only after the dialog is realized.
-         * 
+         *
          * @returns {undefined}
          */
         updateClosable: function() {
@@ -910,7 +912,7 @@
 
     /**
      * Shortcut function: show
-     * 
+     *
      * @param {type} options
      * @returns the created dialog instance
      */
@@ -920,7 +922,7 @@
 
     /**
      * Alert window
-     * 
+     *
      * @returns the created dialog instance
      */
     BootstrapDialog.alert = function() {
@@ -930,7 +932,7 @@
             title: null,
             message: null,
             closable: true,
-            buttonLabel: 'OK',
+            buttonLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
             callback: null
         };
 
@@ -940,7 +942,7 @@
             options = $.extend(true, defaultOptions, {
                 message: arguments[0],
                 closable: false,
-                buttonLabel: 'OK',
+                buttonLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
                 callback: typeof arguments[1] !== 'undefined' ? arguments[1] : null
             });
         }
@@ -969,7 +971,7 @@
 
     /**
      * Confirm window
-     * 
+     *
      * @param {type} message
      * @param {type} callback
      * @returns the created dialog instance
@@ -983,13 +985,13 @@
                 'callback': callback
             },
             buttons: [{
-                    label: 'Cancel',
+                    label: BootstrapDialog.DEFAULT_TEXTS.CANCEL,
                     action: function(dialog) {
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
                         dialog.close();
                     }
                 }, {
-                    label: 'OK',
+                    label: BootstrapDialog.DEFAULT_TEXTS.OK,
                     cssClass: 'btn-primary',
                     action: function(dialog) {
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
@@ -1001,7 +1003,7 @@
 
     /**
      * Warning window
-     * 
+     *
      * @param {type} message
      * @returns the created dialog instance
      */
@@ -1014,7 +1016,7 @@
 
     /**
      * Danger window
-     * 
+     *
      * @param {type} message
      * @returns the created dialog instance
      */
@@ -1027,7 +1029,7 @@
 
     /**
      * Success window
-     * 
+     *
      * @param {type} message
      * @returns the created dialog instance
      */
