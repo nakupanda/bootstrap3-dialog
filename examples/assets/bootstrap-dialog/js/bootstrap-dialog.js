@@ -757,23 +757,23 @@
         handleModalEvents: function() {
             this.getModal().on('show.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
-                if (typeof dialog.options.onshow === 'function') {
+                if (dialog.isModalEvent(event) && typeof dialog.options.onshow === 'function') {
                     return dialog.options.onshow(dialog);
                 }
             });
             this.getModal().on('shown.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
-                typeof dialog.options.onshown === 'function' && dialog.options.onshown(dialog);
+                dialog.isModalEvent(event) && typeof dialog.options.onshown === 'function' && dialog.options.onshown(dialog);
             });
             this.getModal().on('hide.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
-                if (typeof dialog.options.onhide === 'function') {
+                if (dialog.isModalEvent(event) && typeof dialog.options.onhide === 'function') {
                     return dialog.options.onhide(dialog);
                 }
             });
             this.getModal().on('hidden.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
-                typeof dialog.options.onhidden === 'function' && dialog.options.onhidden(dialog);
+                dialog.isModalEvent(event) && typeof dialog.options.onhidden === 'function' && dialog.options.onhidden(dialog);
                 dialog.isAutodestroy() && $(this).remove();
                 BootstrapDialog.moveFocus();
             });
@@ -798,6 +798,9 @@
             });
 
             return this;
+        },
+        isModalEvent: function(event) {
+            return typeof event.namespace !== 'undefined' && event.namespace === 'bs.modal';
         },
         makeModalDraggable: function() {
             if (this.options.draggable) {
@@ -847,7 +850,7 @@
             this.getModal().addClass(BootstrapDialog.NAMESPACE)
             .addClass(this.getSize())
             .addClass(this.getCssClass());
-            if(this.getDescription()){
+            if (this.getDescription()) {
                 this.getModal().attr('aria-describedby', this.getDescription());
             }
             this.getModalFooter().append(this.createFooterContent());
