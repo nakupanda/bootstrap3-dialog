@@ -432,6 +432,39 @@
         -->
     </div>
     
+    <a name="more-dialog-sizes"></a>
+    <h3>More dialog sizes</h3>
+    <p>
+        Please note that specifying BootstrapDialog.SIZE_WIDE is equal to using css class 'modal-lg' on Bootstrap Modal.
+    </p>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.show({
+            title: 'More dialog sizes',
+            message: 'Hi Apple!',
+            buttons: [{
+                label: 'Normal',
+                action: function(dialog){
+                    dialog.setTitle('Normal');
+                    dialog.setSize(BootstrapDialog.SIZE_NORMAL);
+                }
+            }, {
+                label: 'Wide',
+                action: function(dialog){
+                    dialog.setTitle('Wide');
+                    dialog.setSize(BootstrapDialog.SIZE_WIDE);
+                }
+            }, {
+                label: 'Large',
+                action: function(dialog){
+                    dialog.setTitle('Large');
+                    dialog.setSize(BootstrapDialog.SIZE_LARGE);
+                }
+            }]
+        });
+        -->
+    </div>
+    
     <h3>Rich message</h3>
     <p>BootstrapDialog supports displaying rich content, so you can even use a video clip as your message in the dialog.</p>
     <div class="source-code runnable">
