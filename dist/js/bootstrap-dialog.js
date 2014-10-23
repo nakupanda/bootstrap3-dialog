@@ -78,10 +78,12 @@
     BootstrapDialog.DEFAULT_TEXTS['CANCEL'] = 'Cancel';
 
     BootstrapDialog.SIZE_NORMAL = 'size-normal';
+    BootstrapDialog.SIZE_WIDE = 'size-wide';    // size-wide is equal to modal-lg
     BootstrapDialog.SIZE_LARGE = 'size-large';
 
     BootstrapDialog.BUTTON_SIZES = {};
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_NORMAL] = '';
+    BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_WIDE] = '';
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_LARGE] = 'btn-lg';
 
     BootstrapDialog.ICON_SPINNER = 'glyphicon glyphicon-asterisk';
@@ -322,6 +324,45 @@
         },
         setSize: function(size) {
             this.options.size = size;
+            this.updateSize();
+
+            return this;
+        },
+        updateSize: function() {
+            if (this.isRealized()) {
+                var dialog = this;
+
+                // Dialog size
+                this.getModal().removeClass(BootstrapDialog.SIZE_NORMAL)
+                .removeClass(BootstrapDialog.SIZE_WIDE)
+                .removeClass(BootstrapDialog.SIZE_LARGE);
+                this.getModal().addClass(this.getSize());
+
+                // Wider dialog.
+                this.getModalDialog().removeClass('modal-lg');
+                if (this.getSize() === BootstrapDialog.SIZE_WIDE) {
+                    this.getModalDialog().addClass('modal-lg');
+                }
+
+                // Button size
+                $.each(this.options.buttons, function(index, button) {
+                    var $button = dialog.getButton(button.id);
+                    var buttonSizes = ['btn-lg', 'btn-sm', 'btn-xs'];
+                    var sizeClassSpecified = false;
+                    if (typeof button['cssClass'] === 'string') {
+                        var btnClasses = button['cssClass'].split(' ');
+                        $.each(btnClasses, function(index, btnClass) {
+                            if ($.inArray(btnClass, buttonSizes) !== -1) {
+                                sizeClassSpecified = true;
+                            }
+                        });
+                    }
+                    if (!sizeClassSpecified) {
+                        $button.removeClass(buttonSizes.join(' '));
+                        $button.addClass(dialog.getButtonSize());
+                    }
+                });
+            }
 
             return this;
         },
@@ -558,7 +599,6 @@
         },
         createButton: function(button) {
             var $button = $('<button class="btn"></button>');
-            $button.addClass(this.getButtonSize());
             $button.prop('id', button.id);
 
             // Icon
@@ -848,8 +888,8 @@
         realize: function() {
             this.initModalStuff();
             this.getModal().addClass(BootstrapDialog.NAMESPACE)
-            .addClass(this.getSize())
             .addClass(this.getCssClass());
+            this.updateSize();
             if (this.getDescription()) {
                 this.getModal().attr('aria-describedby', this.getDescription());
             }
@@ -870,6 +910,7 @@
             this.updateMessage();
             this.updateClosable();
             this.updateAnimate();
+            this.updateSize();
 
             return this;
         },
