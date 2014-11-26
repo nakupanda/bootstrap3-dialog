@@ -15,9 +15,7 @@
     "homepage": "http://nakupanda.github.io/bootstrap3-dialog/",
     "main": [
         "dist/less/bootstrap-dialog.less",
-        "dist/css/bootstrap-dialog.css",
         "dist/css/bootstrap-dialog.min.css",
-        "dist/js/bootstrap-dialog.js",
         "dist/js/bootstrap-dialog.min.js"
     ],
     "ignore": [
