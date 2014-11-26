@@ -88,6 +88,7 @@
 
     BootstrapDialog.ICON_SPINNER = 'glyphicon glyphicon-asterisk';
 
+    // Will be removed in later version, after Bootstrap Modal >= 3.3.0, updating z-index is unnecessary.
     BootstrapDialog.ZINDEX_BACKDROP = 1040;
     BootstrapDialog.ZINDEX_MODAL = 1050;
 
@@ -147,19 +148,14 @@
     };
 
     /**
-     * Show scrollbar if the last visible dialog needs one.
+     * Determin if current version of Bootstrap Modal is greater than 3.3.0
+     * 
+     * @returns boolean
      */
-    BootstrapDialog.showScrollbar = function() {
-        var lastDialogInstance = null;
-        $.each(BootstrapDialog.dialogs, function(id, dialogInstance) {
-            lastDialogInstance = dialogInstance;
-        });
-        if (lastDialogInstance !== null && lastDialogInstance.isRealized() && lastDialogInstance.isOpened()) {
-            var bsModal = lastDialogInstance.getModal().data('bs.modal');
-            bsModal.checkScrollbar();
-            $('body').addClass('modal-open');
-            bsModal.setScrollbar();
-        }
+    BootstrapDialog.isModernModal = function() {
+        var modal = $.fn.modal.Constructor;
+
+        return typeof $.fn.modal.Constructor.VERSION !== 'undefined' && /3\.3\.\d+/.test($.fn.modal.Constructor.VERSION);
     };
 
     BootstrapDialog.prototype = {
@@ -820,7 +816,11 @@
 
             // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is popped up, so here's a new wheel.
             this.getModal().on('click', {dialog: this}, function(event) {
-                event.target === this && event.data.dialog.isClosable() && event.data.dialog.canCloseByBackdrop() && event.data.dialog.close();
+                if (!BootstrapDialog.isModernModal()) {
+                    event.target === this && event.data.dialog.isClosable() && event.data.dialog.canCloseByBackdrop() && event.data.dialog.close();
+                } else {
+                    $(event.target).hasClass('modal-backdrop') && event.data.dialog.isClosable() && event.data.dialog.canCloseByBackdrop() && event.data.dialog.close();
+                }
             });
 
             // ESC key support
@@ -872,6 +872,8 @@
         },
         /**
          * To make multiple opened dialogs look better.
+         * 
+         * Will be removed in later version, after Bootstrap Modal >= 3.3.0, updating z-index is unnecessary.
          */
         updateZIndex: function() {
             var dialogCount = 0;
@@ -917,7 +919,7 @@
         open: function() {
             !this.isRealized() && this.realize();
             this.getModal().modal('show');
-            this.updateZIndex();
+            !BootstrapDialog.isModernModal() && this.updateZIndex(); // Will be removed in later version.
             this.setOpened(true);
 
             return this;
@@ -928,9 +930,6 @@
                 delete BootstrapDialog.dialogs[this.getId()];
             }
             this.setOpened(false);
-
-            // Show scrollbar if the last visible dialog needs one.
-            BootstrapDialog.showScrollbar();
 
             return this;
         }
