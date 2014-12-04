@@ -11,6 +11,14 @@ Thanks for [akinoniku](https://github.com/akinoniku)'s suggestions on dialog app
 
 ================
 
+## The newer, the better!
+
+We have been adding too much for making BootstrapDialog being compatible with older version of Bootstrap Modal, that's not cool. 
+
+We encourage you always choose the latest Bootstrap and BootstrapDialog.
+
+================
+
 ## Use Guidances from contributors
 
 <a href="https://gist.github.com/Genkilabs/bdcc5f62c5b46a8e0904">How to use bootstrap-dialog as Rails 4 confirm</a> - @[Genkilabs](https://github.com/Genkilabs)

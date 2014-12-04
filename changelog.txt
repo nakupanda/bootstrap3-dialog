@@ -2,6 +2,10 @@ LASTEST NOT RELEASED
 ------------------------------
 NONE
 
+V1.34.1
+------------------------------
+* Added more compatible methods to make BootstrapDialog works better with older version of Bootstrap Modal. *
+
 V1.34.0
 ------------------------------
 * FIXED #84 *
