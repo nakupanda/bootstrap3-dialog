@@ -263,6 +263,37 @@
         -->
     </div>
 
+    <a name="opening-multiple-dialogs"></a>
+    <h3>Opening multiple dialogs</h3>
+    <p>A good looking stacked dialogs. Please also note the second and the third dialog are draggable.</p>
+    <div class="source-code runnable">
+        <!--
+        var shortContent = '<p>Something here.</p>';
+        var longContent = '';
+        for(var i = 1; i <= 200; i++) {
+            longContent += shortContent;
+        }
+        BootstrapDialog.show({
+            title: 'Another long dialog',
+            message: longContent
+        });
+        BootstrapDialog.show({
+            title: 'Another short dialog',
+            message: shortContent,
+            draggable: true
+        });
+        BootstrapDialog.show({
+            title: 'A long dialog',
+            message: longContent,
+            draggable: true
+        });
+        BootstrapDialog.show({
+            title: 'A short dialog',
+            message: shortContent
+        });
+        -->
+    </div>
+    
     <h3>Creating dialog instances</h3>
     <p>BootstrapDialog.show(...) is just a shortcut method, if you need dialog instances, use 'new'.</p>
     <div class="source-code runnable">
