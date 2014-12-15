@@ -1064,10 +1064,10 @@
             return this;
         },
         close: function() {
-            this.getModal().modal('hide');
             if (this.isAutodestroy()) {
                 delete BootstrapDialog.dialogs[this.getId()];
             }
+            this.getModal().modal('hide');
             this.setOpened(false);
 
             return this;
