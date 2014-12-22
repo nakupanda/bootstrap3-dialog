@@ -1,6 +1,7 @@
 LASTEST NOT RELEASED
 ------------------------------
 * FIXED #102 *
+* Implemented modal-sm, REFS #105 *
 
 V1.34.1
 ------------------------------

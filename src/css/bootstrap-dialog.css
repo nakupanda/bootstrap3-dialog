@@ -12,7 +12,7 @@
 .bootstrap-dialog.type-default .bootstrap-dialog-title {
     color: #333;
 }
-.bootstrap-dialog.size-normal .bootstrap-dialog-title {
+.bootstrap-dialog .bootstrap-dialog-title {
     font-size: 16px;
 }
 .bootstrap-dialog.size-large .bootstrap-dialog-title {
@@ -25,7 +25,7 @@
     -khtml-opacity: 0.9;
     opacity: 0.9;
 }
-.bootstrap-dialog.size-normal .bootstrap-dialog-close-button {
+.bootstrap-dialog .bootstrap-dialog-close-button {
     font-size: 20px;
 }
 .bootstrap-dialog.size-large .bootstrap-dialog-close-button {
@@ -38,7 +38,7 @@
     -khtml-opacity: 1;
     opacity: 1;
 }
-.bootstrap-dialog.size-normal .bootstrap-dialog-message {
+.bootstrap-dialog .bootstrap-dialog-message {
     font-size: 14px;
 }
 .bootstrap-dialog.size-large .bootstrap-dialog-message {

@@ -206,11 +206,13 @@
     BootstrapDialog.DEFAULT_TEXTS['CANCEL'] = 'Cancel';
 
     BootstrapDialog.SIZE_NORMAL = 'size-normal';
+    BootstrapDialog.SIZE_SMALL = 'size-small';
     BootstrapDialog.SIZE_WIDE = 'size-wide';    // size-wide is equal to modal-lg
     BootstrapDialog.SIZE_LARGE = 'size-large';
 
     BootstrapDialog.BUTTON_SIZES = {};
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_NORMAL] = '';
+    BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_SMALL] = '';
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_WIDE] = '';
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_LARGE] = 'btn-lg';
 
@@ -486,9 +488,16 @@
 
                 // Dialog size
                 this.getModal().removeClass(BootstrapDialog.SIZE_NORMAL)
+                .removeClass(BootstrapDialog.SIZE_SMALL)
                 .removeClass(BootstrapDialog.SIZE_WIDE)
                 .removeClass(BootstrapDialog.SIZE_LARGE);
                 this.getModal().addClass(this.getSize());
+
+                // Smaller dialog.
+                this.getModalDialog().removeClass('modal-sm');
+                if (this.getSize() === BootstrapDialog.SIZE_SMALL) {
+                    this.getModalDialog().addClass('modal-sm');
+                }
 
                 // Wider dialog.
                 this.getModalDialog().removeClass('modal-lg');
