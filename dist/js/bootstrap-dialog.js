@@ -667,6 +667,7 @@
                     this.getModalFooter().hide();
                 } else {
                     this.getModalFooter().find('.' + this.getNamespace('footer')).html('').append(this.createFooterButtons());
+                    this.getModalFooter().show();
                 }
             }
 
