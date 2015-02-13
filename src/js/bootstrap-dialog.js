@@ -39,8 +39,9 @@
      * BootstrapDialogModal === Modified Modal.
      * ================================================ */
     var Modal = $.fn.modal.Constructor;
-    var BootstrapDialogModal = function(element, options) {
+    var BootstrapDialogModal = function(dialog, element, options) {
         Modal.call(this, element, options);
+        this.dialog = dialog;
     };
     BootstrapDialogModal.getModalVersion = function() {
         var version = null;
@@ -124,6 +125,7 @@
          * @returns {undefined}
          */
         hideModal: function() {
+            this.dialog.setOpened(false);
             this.$element.hide();
             this.backdrop($.proxy(function() {
                 var openedDialogs = this.getGlobalOpenedDialogs();
@@ -1053,7 +1055,7 @@
             this.getModalFooter().append(this.createFooterContent());
             this.getModalHeader().append(this.createHeaderContent());
             this.getModalBody().append(this.createBodyContent());
-            this.getModal().data('bs.modal', new BootstrapDialogModal(this.getModal(), {
+            this.getModal().data('bs.modal', new BootstrapDialogModal(this, this.getModal(), {
                 backdrop: 'static',
                 keyboard: false,
                 show: false
@@ -1080,7 +1082,6 @@
         },
         close: function() {
             this.getModal().modal('hide');
-            this.setOpened(false);
 
             return this;
         }
