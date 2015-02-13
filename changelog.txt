@@ -1,7 +1,10 @@
 LASTEST NOT RELEASED
 ------------------------------
 * FIXED #102 *
+* FIXED #121 *
 * Implemented modal-sm, REFS #105 *
+* More controls on confirm dialog, REFS #105 *
+* Added I18N example *
 
 V1.34.1
 ------------------------------

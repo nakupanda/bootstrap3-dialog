@@ -829,7 +829,8 @@
             title: 'WARNING',
             message: 'Warning! No Banana!',
             type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-            closable: true, // <-- Default value is true
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
             buttonLabel: 'Roar! Why!', // <-- Default value is 'OK',
             callback: function(result) {
                 // result will be true if button was click, while it will be false if users close the dialog directly.
@@ -858,68 +859,53 @@
         });
         -->
     </div>
-    
-    <h3>Source code of the shortcut methods above</h3>
-    <p>
-        I mean you can write your own handy stuff :)
-    </p>
-    <div class="source-code">
-        <!--
-        /**
-         * Alert window
-         * 
-         * @param {type} message
-         * @param {type} callback
-         * @returns {undefined}
-         */
-        BootstrapDialog.alert = function(message, callback) {
-            new BootstrapDialog({
-                message: message,
-                data: {
-                    'callback': callback
-                },
-                closable: false,
-                buttons: [{
-                        label: 'OK',
-                        action: function(dialog) {
-                            typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
-                            dialog.close();
-                        }
-                    }]
-            }).open();
-        };
 
-        /**
-         * Confirm window
-         * 
-         * @param {type} message
-         * @param {type} callback
-         * @returns {undefined}
-         */
-        BootstrapDialog.confirm = function(message, callback) {
-            new BootstrapDialog({
-                title: 'Confirmation',
-                message: message,
-                closable: false,
-                data: {
-                    'callback': callback
-                },
-                buttons: [{
-                        label: 'Cancel',
-                        action: function(dialog) {
-                            typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
-                            dialog.close();
-                        }
-                    }, {
-                        label: 'OK',
-                        cssClass: 'btn-primary',
-                        action: function(dialog) {
-                            typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
-                            dialog.close();
-                        }
-                    }]
-            }).open();
-        };
+    <a name="advanced-confirm-window"></a>
+    <h3>Just like what we have done in alert, we can control confirm dialog more.</h3>
+    <div class="source-code runnable">
+        <!--
+        BootstrapDialog.confirm({
+            title: 'WARNING',
+            message: 'Warning! Drop your banana?',
+            type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'Do not drop it!', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Drop it!', // <-- Default value is 'OK',
+            btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+                    alert('Yup.');
+                }else {
+                    alert('Nope.');
+                }
+            }
+        });
+        -->
+    </div>
+    
+    <a name="i18n-message"></a>
+    <h3>I18N</h3>
+    <p>BootstrapDialog has prepared for i18n purpose, you can write something into a .js file to restore default texts and reference the file after loading BootstrapDialog, see below an example.</p>
+    <p>Refresh the page to restore texts after running this example.</p>
+    <div class="source-code runnable">
+        <!--
+        /** Contents of file i18n-zh_cn.js **/
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DEFAULT] = '信息';
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_INFO] = '信息';
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_PRIMARY] = '信息';
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_SUCCESS] = '成功';
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_WARNING] = '警告';
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DANGER] = '错误';
+        BootstrapDialog.DEFAULT_TEXTS['OK'] = '确认';
+        BootstrapDialog.DEFAULT_TEXTS['CANCEL'] = '取消';
+        BootstrapDialog.DEFAULT_TEXTS['CONFIRM'] = '确认';
+        
+        // <script src="js/bootstrap-dialog.js"></script>
+        // <script src="js/i18n-zh_cn.js.js"></script>
+        BootstrapDialog.alert('Hello');
+        BootstrapDialog.confirm('Hello');
         -->
     </div>
     
