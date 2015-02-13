@@ -204,6 +204,7 @@
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DANGER] = 'Danger';
     BootstrapDialog.DEFAULT_TEXTS['OK'] = 'OK';
     BootstrapDialog.DEFAULT_TEXTS['CANCEL'] = 'Cancel';
+    BootstrapDialog.DEFAULT_TEXTS['CONFIRM'] = 'Confirmation';
 
     BootstrapDialog.SIZE_NORMAL = 'size-normal';
     BootstrapDialog.SIZE_SMALL = 'size-small';
@@ -975,7 +976,10 @@
             this.getModal().on('hidden.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
                 dialog.isModalEvent(event) && typeof dialog.options.onhidden === 'function' && dialog.options.onhidden(dialog);
-                dialog.isAutodestroy() && $(this).remove();
+                if (dialog.isAutodestroy()) {
+                    delete BootstrapDialog.dialogs[dialog.getId()];
+                    $(this).remove();
+                }
                 BootstrapDialog.moveFocus();
             });
 
@@ -1073,9 +1077,6 @@
             return this;
         },
         close: function() {
-            if (this.isAutodestroy()) {
-                delete BootstrapDialog.dialogs[this.getId()];
-            }
             this.getModal().modal('hide');
             this.setOpened(false);
 
@@ -1125,7 +1126,8 @@
             type: BootstrapDialog.TYPE_PRIMARY,
             title: null,
             message: null,
-            closable: true,
+            closable: false,
+            draggable: false,
             buttonLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
             callback: null
         };
@@ -1135,8 +1137,6 @@
         } else {
             options = $.extend(true, defaultOptions, {
                 message: arguments[0],
-                closable: false,
-                buttonLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
                 callback: typeof arguments[1] !== 'undefined' ? arguments[1] : null
             });
         }
@@ -1146,6 +1146,7 @@
             title: options.title,
             message: options.message,
             closable: options.closable,
+            draggable: options.draggable,
             data: {
                 callback: options.callback
             },
@@ -1166,27 +1167,53 @@
     /**
      * Confirm window
      *
-     * @param {type} message
-     * @param {type} callback
      * @returns the created dialog instance
      */
-    BootstrapDialog.confirm = function(message, callback) {
-        return new BootstrapDialog({
-            title: 'Confirmation',
-            message: message,
+    BootstrapDialog.confirm = function() {
+        var options = {};
+        var defaultOptions = {
+            type: BootstrapDialog.TYPE_PRIMARY,
+            title: null,
+            message: null,
             closable: false,
+            draggable: false,
+            btnCancelLabel: BootstrapDialog.DEFAULT_TEXTS.CANCEL,
+            btnOKLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
+            btnOKClass: null,
+            callback: null
+        };
+        if (typeof arguments[0] === 'object' && arguments[0].constructor === {}.constructor) {
+            options = $.extend(true, defaultOptions, arguments[0]);
+        } else {
+            options = $.extend(true, defaultOptions, {
+                message: arguments[0],
+                closable: false,
+                buttonLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
+                callback: typeof arguments[1] !== 'undefined' ? arguments[1] : null
+            });
+        }
+        if (options.btnOKClass === null) {
+            options.btnOKClass = ['btn', options.type.split('-')[1]].join('-');
+        }
+
+        return new BootstrapDialog({
+            type: options.type,
+            title: options.title,
+            message: options.message,
+            closable: options.closable,
+            draggable: options.draggable,
             data: {
-                'callback': callback
+                callback: options.callback
             },
             buttons: [{
-                    label: BootstrapDialog.DEFAULT_TEXTS.CANCEL,
+                    label: options.btnCancelLabel,
                     action: function(dialog) {
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
                         dialog.close();
                     }
                 }, {
-                    label: BootstrapDialog.DEFAULT_TEXTS.OK,
-                    cssClass: 'btn-primary',
+                    label: options.btnOKLabel,
+                    cssClass: options.btnOKClass,
                     action: function(dialog) {
                         typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
                         dialog.close();
