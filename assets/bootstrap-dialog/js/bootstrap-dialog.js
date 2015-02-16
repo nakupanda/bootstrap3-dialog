@@ -183,6 +183,8 @@
         this.holdThisInstance();
     };
 
+    BootstrapDialog.BootstrapDialogModal = BootstrapDialogModal;
+
     /**
      *  Some constants.
      */
