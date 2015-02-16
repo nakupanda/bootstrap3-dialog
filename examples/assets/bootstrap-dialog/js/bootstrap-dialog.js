@@ -959,8 +959,15 @@
         handleModalEvents: function() {
             this.getModal().on('show.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
+                dialog.setOpened(true);
                 if (dialog.isModalEvent(event) && typeof dialog.options.onshow === 'function') {
-                    return dialog.options.onshow(dialog);
+                    var openIt = dialog.options.onshow(dialog);
+                    if (openIt === false) {
+                        alert('Stopped!');
+                        dialog.setOpened(false);
+                    }
+
+                    return openIt;
                 }
             });
             this.getModal().on('shown.bs.modal', {dialog: this}, function(event) {
@@ -969,8 +976,14 @@
             });
             this.getModal().on('hide.bs.modal', {dialog: this}, function(event) {
                 var dialog = event.data.dialog;
+                dialog.setOpened(false);
                 if (dialog.isModalEvent(event) && typeof dialog.options.onhide === 'function') {
-                    return dialog.options.onhide(dialog);
+                    var hideIt = dialog.options.onhide(dialog);
+                    if (hideIt === false) {
+                        dialog.setOpened(true);
+                    }
+
+                    return hideIt;
                 }
             });
             this.getModal().on('hidden.bs.modal', {dialog: this}, function(event) {
@@ -1072,13 +1085,11 @@
         open: function() {
             !this.isRealized() && this.realize();
             this.getModal().modal('show');
-            this.setOpened(true);
 
             return this;
         },
         close: function() {
             this.getModal().modal('hide');
-            this.setOpened(false);
 
             return this;
         }
