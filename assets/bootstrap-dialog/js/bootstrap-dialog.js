@@ -965,7 +965,6 @@
                 if (dialog.isModalEvent(event) && typeof dialog.options.onshow === 'function') {
                     var openIt = dialog.options.onshow(dialog);
                     if (openIt === false) {
-                        alert('Stopped!');
                         dialog.setOpened(false);
                     }
 
