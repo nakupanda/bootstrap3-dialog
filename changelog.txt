@@ -1,6 +1,6 @@
 LASTEST NOT RELEASED
 ------------------------------
-NONE
+* Fixed #125, a bug that dialog footer won't be shown if it was hidden by a no button realization. *
 
 V1.34.2
 ------------------------------
