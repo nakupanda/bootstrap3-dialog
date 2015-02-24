@@ -764,6 +764,7 @@
         createButton: function(button) {
             var $button = $('<button class="btn"></button>');
             $button.prop('id', button.id);
+            $button.data('button', button);
 
             // Icon
             if (typeof button.icon !== 'undefined' && $.trim(button.icon) !== '') {
@@ -791,9 +792,9 @@
             $button.on('click', {dialog: this, $button: $button, button: button}, function(event) {
                 var dialog = event.data.dialog;
                 var $button = event.data.$button;
-                var button = event.data.button;
+                var button = $button.data('button');
                 if (typeof button.action === 'function') {
-                    button.action.call($button, dialog);
+                    button.action.call($button, dialog, event);
                 }
 
                 if (button.autospin) {
