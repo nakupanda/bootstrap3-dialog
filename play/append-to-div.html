@@ -20,7 +20,8 @@
                     title: 'Not in body',
                     message: 'But somewhere else.'
                 });
-                $('#modal-container').append(dialog);
+                dialog.realize();
+                $('#modal-container').append(dialog.getModal());
                 dialog.open();
             });
         </script>
