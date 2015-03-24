@@ -1,8 +1,12 @@
 LASTEST NOT RELEASED
 ------------------------------
+NONE
+
+V1.34.3
+------------------------------
 * Fixed #125, a bug that dialog footer won't be shown if it was hidden by a no button realization. *
 * Refs #126. Adding a data 'button' to the created button. Passing original event object to button callback action(dialog, event). *
-
+* Support Bootstrap v3.3.4
 
 V1.34.2
 ------------------------------

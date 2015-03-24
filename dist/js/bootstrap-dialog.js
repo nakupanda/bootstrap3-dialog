@@ -48,8 +48,10 @@
             version = 'v3.1';
         } else if (/3\.2\.\d+/.test($.fn.modal.Constructor.VERSION)) {
             version = 'v3.2';
+        } else if (/3\.3\.[1,2]/.test($.fn.modal.Constructor.VERSION)) {
+            version = 'v3.3';  // v3.3.1, v3.3.2
         } else {
-            version = 'v3.3';  // v3.3+
+            version = 'v3.3.4';
         }
 
         return version;
@@ -136,6 +138,7 @@
             }, this));
         }
     };
+    BootstrapDialogModal.METHODS_TO_OVERRIDE['v3.3.4'] = $.extend({}, BootstrapDialogModal.METHODS_TO_OVERRIDE['v3.3']);
     BootstrapDialogModal.prototype = {
         constructor: BootstrapDialogModal,
         /**
@@ -189,14 +192,12 @@
      *  Some constants.
      */
     BootstrapDialog.NAMESPACE = 'bootstrap-dialog';
-
     BootstrapDialog.TYPE_DEFAULT = 'type-default';
     BootstrapDialog.TYPE_INFO = 'type-info';
     BootstrapDialog.TYPE_PRIMARY = 'type-primary';
     BootstrapDialog.TYPE_SUCCESS = 'type-success';
     BootstrapDialog.TYPE_WARNING = 'type-warning';
     BootstrapDialog.TYPE_DANGER = 'type-danger';
-
     BootstrapDialog.DEFAULT_TEXTS = {};
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DEFAULT] = 'Information';
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_INFO] = 'Information';
@@ -207,18 +208,15 @@
     BootstrapDialog.DEFAULT_TEXTS['OK'] = 'OK';
     BootstrapDialog.DEFAULT_TEXTS['CANCEL'] = 'Cancel';
     BootstrapDialog.DEFAULT_TEXTS['CONFIRM'] = 'Confirmation';
-
     BootstrapDialog.SIZE_NORMAL = 'size-normal';
     BootstrapDialog.SIZE_SMALL = 'size-small';
     BootstrapDialog.SIZE_WIDE = 'size-wide';    // size-wide is equal to modal-lg
     BootstrapDialog.SIZE_LARGE = 'size-large';
-
     BootstrapDialog.BUTTON_SIZES = {};
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_NORMAL] = '';
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_SMALL] = '';
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_WIDE] = '';
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_LARGE] = 'btn-lg';
-
     BootstrapDialog.ICON_SPINNER = 'glyphicon glyphicon-asterisk';
 
     /**
@@ -308,7 +306,6 @@
             !this.isRealized() && this.realize();
             this.getModal().modal('show');
             this.updateZIndex();
-            this.setOpened(true);
 
             return this;
         }
@@ -319,6 +316,7 @@
         open: BootstrapDialog.METHODS_TO_OVERRIDE['v3.1']['open']
     };
     BootstrapDialog.METHODS_TO_OVERRIDE['v3.3'] = {};
+    BootstrapDialog.METHODS_TO_OVERRIDE['v3.3.4'] = $.extend({}, BootstrapDialog.METHODS_TO_OVERRIDE['v3.1']);
     BootstrapDialog.prototype = {
         constructor: BootstrapDialog,
         initOptions: function(options) {
