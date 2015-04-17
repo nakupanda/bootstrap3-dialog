@@ -20,6 +20,7 @@ gulp.task("less", function() {
       paths: [path.join(__dirname, "less", "includes")]
     }))
     .pipe(gulp.dest("dist/css"))
+    .pipe(gulp.dest("src/css"))
     .pipe(gulp.dest("examples/assets/bootstrap-dialog/css"))
     .pipe(rename("bootstrap-dialog.min.css"))
     .pipe(minifyCSS())
