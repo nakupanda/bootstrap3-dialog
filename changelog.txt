@@ -1,6 +1,8 @@
 LASTEST NOT RELEASED
 ------------------------------
 * Merged #137, Add missing less and remove stray css file in src folder *
+* Refs #142 *
+* Refs #145 *
 
 V1.34.4
 ------------------------------
