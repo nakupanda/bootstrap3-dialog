@@ -10,6 +10,6 @@
     ],
     "require": {
 	"components/jquery": "*",
-	"twbs/bootstrap": "3.*"
+	"components/bootstrap": "3.*"
     }
 }
