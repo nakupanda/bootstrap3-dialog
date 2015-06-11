@@ -1,6 +1,7 @@
 LASTEST NOT RELEASED
 ------------------------------
 * Merged #137, Add missing less and remove stray css file in src folder *
+* Tabindex is a customizable option now. *
 * Refs #142 *
 * Refs #145 *
 

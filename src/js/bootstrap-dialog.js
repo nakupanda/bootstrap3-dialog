@@ -236,7 +236,8 @@
         autodestroy: true,
         draggable: false,
         animate: true,
-        description: ''
+        description: '',
+        tabindex: -1
     };
 
     /**
@@ -347,8 +348,9 @@
             return this;
         },
         createModal: function() {
-            var $modal = $('<div class="modal" tabindex="-1" role="dialog" aria-hidden="true"></div>');
-            $modal.prop('id', this.getId()).attr('aria-labelledby', this.getId() + '_title');
+            var $modal = $('<div class="modal" role="dialog" aria-hidden="true"></div>');
+            $modal.prop('id', this.getId());
+            $modal.attr('aria-labelledby', this.getId() + '_title');
 
             return $modal;
         },
@@ -684,6 +686,21 @@
         },
         setDescription: function(description) {
             this.options.description = description;
+
+            return this;
+        },
+        setTabindex: function(tabindex) {
+            this.options.tabindex = tabindex;
+
+            return this;
+        },
+        getTabindex: function() {
+            return this.options.tabindex;
+        },
+        updateTabindex: function() {
+            if (this.isRealized()) {
+                this.getModal().attr('tabindex', this.getTabindex());
+            }
 
             return this;
         },
@@ -1079,6 +1096,7 @@
             this.updateClosable();
             this.updateAnimate();
             this.updateSize();
+            this.updateTabindex();
 
             return this;
         },
