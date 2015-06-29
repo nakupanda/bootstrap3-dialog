@@ -56,7 +56,7 @@
 
         return version;
     };
-    BootstrapDialogModal.ORIGINAL_BODY_PADDING = $('body').css('padding-right') || 0;
+    BootstrapDialogModal.ORIGINAL_BODY_PADDING = parseInt(($('body').css('padding-right') || 0), 10);
     BootstrapDialogModal.METHODS_TO_OVERRIDE = {};
     BootstrapDialogModal.METHODS_TO_OVERRIDE['v3.1'] = {};
     BootstrapDialogModal.METHODS_TO_OVERRIDE['v3.2'] = {
