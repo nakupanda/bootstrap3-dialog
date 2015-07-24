@@ -212,10 +212,12 @@
     BootstrapDialog.SIZE_SMALL = 'size-small';
     BootstrapDialog.SIZE_WIDE = 'size-wide';    // size-wide is equal to modal-lg
     BootstrapDialog.SIZE_LARGE = 'size-large';
+    BootstrapDialog.SIZE_FULL_SCREEN = 'size-full-screen'; // size-wide is equal to modal-full-screen
     BootstrapDialog.BUTTON_SIZES = {};
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_NORMAL] = '';
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_SMALL] = '';
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_WIDE] = '';
+    BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_FULL_SCREEN] = '';
     BootstrapDialog.BUTTON_SIZES[BootstrapDialog.SIZE_LARGE] = 'btn-lg';
     BootstrapDialog.ICON_SPINNER = 'glyphicon glyphicon-asterisk';
 
@@ -490,22 +492,24 @@
                 var dialog = this;
 
                 // Dialog size
-                this.getModal().removeClass(BootstrapDialog.SIZE_NORMAL)
-                .removeClass(BootstrapDialog.SIZE_SMALL)
-                .removeClass(BootstrapDialog.SIZE_WIDE)
-                .removeClass(BootstrapDialog.SIZE_LARGE);
+            	this.getModal()
+					.removeClass(BootstrapDialog.SIZE_NORMAL)
+					.removeClass(BootstrapDialog.SIZE_WIDE)
+					.removeClass(BootstrapDialog.SIZE_FULL_SCREEN)
+					.removeClass(BootstrapDialog.SIZE_LARGE);
                 this.getModal().addClass(this.getSize());
-
-                // Smaller dialog.
-                this.getModalDialog().removeClass('modal-sm');
-                if (this.getSize() === BootstrapDialog.SIZE_SMALL) {
-                    this.getModalDialog().addClass('modal-sm');
-                }
 
                 // Wider dialog.
                 this.getModalDialog().removeClass('modal-lg');
-                if (this.getSize() === BootstrapDialog.SIZE_WIDE) {
-                    this.getModalDialog().addClass('modal-lg');
+                this.getModalDialog().removeClass('modal-full-screen');
+                switch(this.getSize()) {
+                    case BootstrapDialog.SIZE_WIDE:
+                        this.getModalDialog().addClass('modal-lg');
+						break;
+                    case
+						BootstrapDialog.SIZE_FULL_SCREEN:
+                        this.getModalDialog().addClass('modal-full-screen');
+                        break;
                 }
 
                 // Button size
