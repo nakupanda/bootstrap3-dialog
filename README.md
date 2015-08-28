@@ -23,7 +23,13 @@ We encourage you always choose the latest Bootstrap and BootstrapDialog.
 
 <a href="https://gist.github.com/Genkilabs/bdcc5f62c5b46a8e0904">How to use bootstrap-dialog as Rails 4 confirm</a> - @[Genkilabs](https://github.com/Genkilabs)
 
+================
+## Reference to CDN
 
+```
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/css/bootstrap-dialog.min.css
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/js/bootstrap-dialog.min.js
+```
 ================
 
 ## Install using Bower
