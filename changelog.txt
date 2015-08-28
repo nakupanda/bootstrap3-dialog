@@ -1,7 +1,12 @@
 LASTEST NOT RELEASED
 ------------------------------
+NONE
+
+V1.34.6
+------------------------------
 * Refs #159 *
 * Refs #160*
+* Refs #179, removed local assets for example page, and used files hosted on CDN instead. *
 
 V1.34.5
 ------------------------------
