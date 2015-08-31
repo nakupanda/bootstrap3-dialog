@@ -1107,6 +1107,7 @@
             return this;
         },
         close: function() {
+            !this.isRealized() && this.realize();
             this.getModal().modal('hide');
 
             return this;
