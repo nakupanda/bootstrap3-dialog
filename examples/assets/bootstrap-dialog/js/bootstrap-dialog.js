@@ -19,11 +19,10 @@
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = factory(require('jquery'), require('bootstrap'));
     }
-    // AMD module is defined
-    else if (typeof define === "function" && define.amd) {
-        define("bootstrap-dialog", ["jquery", "bootstrap"], function($) {
-            return factory($);
-        });
+    else if (typeof define === 'function' && define.amd) {
+      define(["jquery", "bootstrap"], function($) {
+        return root.BootstrapDialog = factory($);
+      });
     } else {
         // planted over the root!
         root.BootstrapDialog = factory(root.jQuery);
@@ -100,7 +99,7 @@
     BootstrapDialogModal.METHODS_TO_OVERRIDE['v3.3'] = {
         /**
          * Overrided.
-         * 
+         *
          * @returns {undefined}
          */
         setScrollbar: function() {
@@ -111,7 +110,7 @@
         },
         /**
          * Overrided.
-         * 
+         *
          * @returns {undefined}
          */
         resetScrollbar: function() {
@@ -122,7 +121,7 @@
         },
         /**
          * Overrided.
-         * 
+         *
          * @returns {undefined}
          */
         hideModal: function() {
@@ -143,7 +142,7 @@
         constructor: BootstrapDialogModal,
         /**
          * New function, to get the dialogs that opened by BootstrapDialog.
-         * 
+         *
          * @returns {undefined}
          */
         getGlobalOpenedDialogs: function() {
@@ -286,7 +285,7 @@
         },
         /**
          * To make multiple opened dialogs look better.
-         * 
+         *
          * Will be removed in later version, after Bootstrap Modal >= 3.3.0, updating z-index is unnecessary.
          */
         updateZIndex: function() {
