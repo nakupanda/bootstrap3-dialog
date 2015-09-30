@@ -21,11 +21,9 @@ gulp.task("less", function() {
     }))
     .pipe(gulp.dest("dist/css"))
     .pipe(gulp.dest("src/css"))
-    .pipe(gulp.dest("examples/assets/bootstrap-dialog/css"))
     .pipe(rename("bootstrap-dialog.min.css"))
     .pipe(minifyCSS())
-    .pipe(gulp.dest("dist/css"))
-    .pipe(gulp.dest("examples/assets/bootstrap-dialog/css"));
+    .pipe(gulp.dest("dist/css"));
 });
 
 gulp.task("lint", function() {
@@ -37,11 +35,9 @@ gulp.task("lint", function() {
 gulp.task("dist", ["clean", "less"], function() {
   gulp.src(["src/js/bootstrap-dialog.js"])
     .pipe(gulp.dest("dist/js"))
-    .pipe(gulp.dest("examples/assets/bootstrap-dialog/js"))
     .pipe(rename("bootstrap-dialog.min.js"))
     .pipe(uglify())
     .pipe(gulp.dest("dist/js"))
-    .pipe(gulp.dest("examples/assets/bootstrap-dialog/js"))
     .pipe(notify({
       message: "Build task completed."
     }));

@@ -1,6 +1,7 @@
 LASTEST NOT RELEASED
 ------------------------------
 * Refs #176 *
+* Refs #109, Add methods getDialog(), setDialog() and addDialog() to BootstrapDialog. *
 
 V1.34.6
 ------------------------------
