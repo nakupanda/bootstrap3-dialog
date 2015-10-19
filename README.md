@@ -16,6 +16,7 @@ Thanks for [akinoniku](https://github.com/akinoniku)'s suggestions on dialog app
 It's recommended to provide an online example when asking questions or reporting bugs.
 Fork this all-ready jsfiddle and start writing your example:
 <a href="https://jsfiddle.net/o5k0eaws/1/">http://jsfiddle.net/o5k0eaws/1/</a>
+
 ================
 
 ## Use Guidances from contributors
