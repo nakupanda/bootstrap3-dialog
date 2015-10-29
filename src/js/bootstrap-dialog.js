@@ -855,6 +855,11 @@
             // Dynamically add extra functions to $button
             this.enhanceButton($button);
 
+            //Initialize enabled or not
+            if(typeof button.enabled !== 'undefined') {
+              $button.toggleEnable(button.enabled);
+            }
+
             return $button;
         },
         /**
