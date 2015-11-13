@@ -1053,6 +1053,7 @@
                 var dialog = event.data.dialog;
                 dialog.isModalEvent(event) && typeof dialog.options.onhidden === 'function' && dialog.options.onhidden(dialog);
                 if (dialog.isAutodestroy()) {
+                    dialog.setRealized(false);
                     delete BootstrapDialog.dialogs[dialog.getId()];
                     $(this).remove();
                 }
