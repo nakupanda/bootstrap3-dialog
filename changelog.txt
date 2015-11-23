@@ -1,6 +1,7 @@
 LASTEST NOT RELEASED
 ------------------------------
 * Set 'realized' status to false when closing a 'autodestroy' dialog. *
+* Merged #136 *
 
 V1.34.7
 ------------------------------
