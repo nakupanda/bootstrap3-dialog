@@ -243,7 +243,8 @@
         draggable: false,
         animate: true,
         description: '',
-        tabindex: -1
+        tabindex: -1,
+        autoResize: false
     };
 
     /**
@@ -745,6 +746,14 @@
 
             return this;
         },
+        isAutoResize: function () {
+            return this.options.autoResize;
+        },
+        setAutoResize: function (autoResize) {
+            this.options.autoResize = autoResize;
+
+            return this;
+        },
         getDefaultText: function () {
             return BootstrapDialog.DEFAULT_TEXTS[this.getType()];
         },
@@ -1036,6 +1045,21 @@
             this.getModal().on('shown.bs.modal', {dialog: this}, function (event) {
                 var dialog = event.data.dialog;
                 dialog.isModalEvent(event) && typeof dialog.options.onshown === 'function' && dialog.options.onshown(dialog);
+
+                if (dialog.isAutoResize()) {
+
+                    dialog.getModalBody().css({
+                        width: 'auto',
+                        height: 'auto',
+                        'overflow-y': 'auto'
+                    });
+                    var pars = dialog.getResizeOptions();
+                    $(window).on('resize', function () {
+                        dialog.resizeModalBody(pars);
+                    });
+
+                    dialog.resizeModalBody(pars);
+                }
             });
             this.getModal().on('hide.bs.modal', {dialog: this}, function (event) {
                 var dialog = event.data.dialog;
@@ -1158,6 +1182,56 @@
             this.getModal().modal('hide');
 
             return this;
+        },
+        getResizeOptions: function () {
+            var dialog = this;
+            var dialogWrapper = dialog.getModalDialog();
+            var dialogBody = dialog.getModalBody();
+            var dialogHeader = dialog.getModalHeader();
+            var dialogFooter = dialog.getModalFooter();
+
+            //2 is border width
+            var dialogHeight = dialogWrapper.outerHeight() - 2;
+            var dialogBodyHeight = dialogBody.height();
+            var dialogHeaderHeight = dialogHeader.outerHeight();
+            var dialogFooterHeight = dialogFooter.outerHeight();
+
+
+            var dialogMarginTop = parseInt(dialogWrapper.css('margin-top'));
+            var dialogMarginBottom = parseInt(dialogWrapper.css('margin-bottom'));
+            var dialogVerticalMargin = dialogMarginTop + dialogMarginBottom;
+
+            var dialogBodyPaddingTop = parseInt(dialogBody.css('padding-top'));
+            var dialogBodyPaddingBottom = parseInt(dialogBody.css('padding-bottom'));
+            var dialogBodyVerticalPadding = dialogBodyPaddingTop + dialogBodyPaddingBottom;
+
+            var dialogVerticalHeight = dialogHeight + dialogMarginBottom + dialogMarginTop;
+            var needsReduceHeight = dialogVerticalMargin + dialogHeaderHeight + dialogFooterHeight + dialogBodyVerticalPadding;
+
+            var pars = {
+                dialog: dialog,
+                dialogVeticalHeight: dialogVerticalHeight,
+                dialogToReduceHeight: needsReduceHeight,
+                dialogBodyHeight: dialogBodyHeight
+            };
+
+            return pars;
+        },
+        resizeModalBody: function (pars) {
+            var dialog = pars.dialog;
+            if (dialog.isAutoResize()) {
+                var dialogBody = dialog.getModalBody();
+                var dialogVeticalHeight = pars.dialogVeticalHeight;
+                var dialogToReduceHeight = pars.dialogToReduceHeight;
+                var dialogBodyHeight = pars.dialogBodyHeight;
+                var windowHeight = $(window).height();
+                if (windowHeight < dialogVeticalHeight) {
+                    var height = windowHeight - dialogToReduceHeight;
+                    dialogBody.height(height);
+                } else {
+                    dialogBody.height(dialogBodyHeight);
+                }
+            }
         }
     };
 
