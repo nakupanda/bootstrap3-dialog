@@ -19,7 +19,7 @@
     if (typeof module !== 'undefined' && module.exports) {
         var isNode = (typeof process !== "undefined");
         var isElectron = isNode && ('electron' in process.versions);
-        if(isElectron) {
+        if (isElectron) {
             root.BootstrapDialog = factory(root.jQuery);
         } else {
             module.exports = factory(require('jquery'), require('bootstrap'));
@@ -862,8 +862,8 @@
             this.enhanceButton($button);
 
             //Initialize enabled or not
-            if(typeof button.enabled !== 'undefined') {
-              $button.toggleEnable(button.enabled);
+            if (typeof button.enabled !== 'undefined') {
+                $button.toggleEnable(button.enabled);
             }
 
             return $button;
@@ -1234,8 +1234,9 @@
                     label: options.buttonLabel,
                     action: function (dialog) {
                         dialog.setData('btnClicked', true);
-                        typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
-                        dialog.close();
+                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) !== false) {
+                            dialog.close();
+                        }
                     }
                 }]
         }).open();
@@ -1285,15 +1286,17 @@
             buttons: [{
                     label: options.btnCancelLabel,
                     action: function (dialog) {
-                        typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
-                        dialog.close();
+                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, false) !== false) {
+                            dialog.close();
+                        }
                     }
                 }, {
                     label: options.btnOKLabel,
                     cssClass: options.btnOKClass,
                     action: function (dialog) {
-                        typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
-                        dialog.close();
+                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) !== false) {
+                            dialog.close();
+                        }
                     }
                 }]
         }).open();
