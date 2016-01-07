@@ -849,12 +849,11 @@
                 var dialog = event.data.dialog;
                 var $button = event.data.$button;
                 var button = $button.data('button');
-                if (typeof button.action === 'function') {
-                    button.action.call($button, dialog, event);
-                }
-
                 if (button.autospin) {
                     $button.toggleSpin(true);
+                }
+                if (typeof button.action === 'function') {
+                    button.action.call($button, dialog, event);
                 }
             });
 
