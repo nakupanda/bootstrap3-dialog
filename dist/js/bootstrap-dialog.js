@@ -853,7 +853,7 @@
                     $button.toggleSpin(true);
                 }
                 if (typeof button.action === 'function') {
-                    button.action.call($button, dialog, event);
+                    return button.action.call($button, dialog, event);
                 }
             });
 
@@ -1233,9 +1233,11 @@
                     label: options.buttonLabel,
                     action: function (dialog) {
                         dialog.setData('btnClicked', true);
-                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) !== false) {
-                            dialog.close();
+                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
+                            return false;
                         }
+
+                        return dialog.close();
                     }
                 }]
         }).open();
@@ -1285,17 +1287,21 @@
             buttons: [{
                     label: options.btnCancelLabel,
                     action: function (dialog) {
-                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, false) !== false) {
-                            dialog.close();
+                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, false) === false) {
+                            return false;
                         }
+
+                        return dialog.close();
                     }
                 }, {
                     label: options.btnOKLabel,
                     cssClass: options.btnOKClass,
                     action: function (dialog) {
-                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) !== false) {
-                            dialog.close();
+                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
+                            return false;
                         }
+
+                        return dialog.close();
                     }
                 }]
         }).open();
