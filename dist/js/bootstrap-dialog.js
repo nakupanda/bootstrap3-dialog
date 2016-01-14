@@ -309,9 +309,11 @@
     BootstrapDialog.moveFocus = function () {
         var lastDialogInstance = null;
         $.each(BootstrapDialog.dialogs, function (id, dialogInstance) {
-            lastDialogInstance = dialogInstance;
+            if(dialogInstance.isRealized() && dialogInstance.isOpened()) {
+                lastDialogInstance = dialogInstance;
+            }
         });
-        if (lastDialogInstance !== null && lastDialogInstance.isRealized()) {
+        if (lastDialogInstance !== null) {
             lastDialogInstance.getModal().focus();
         }
     };
