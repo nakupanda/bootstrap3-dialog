@@ -309,7 +309,7 @@
     BootstrapDialog.moveFocus = function () {
         var lastDialogInstance = null;
         $.each(BootstrapDialog.dialogs, function (id, dialogInstance) {
-            if(dialogInstance.isRealized() && dialogInstance.isOpened()) {
+            if (dialogInstance.isRealized() && dialogInstance.isOpened()) {
                 lastDialogInstance = dialogInstance;
             }
         });
@@ -337,7 +337,9 @@
             var zIndexModal = 1050;
             var dialogCount = 0;
             $.each(BootstrapDialog.dialogs, function (dialogId, dialogInstance) {
-                dialogCount++;
+                if (dialogInstance.isRealized() && dialogInstance.isOpened()) {
+                    dialogCount++;
+                }
             });
             var $modal = this.getModal();
             var $backdrop = $modal.data('bs.modal').$backdrop;
