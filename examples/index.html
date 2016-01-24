@@ -145,9 +145,11 @@
         BootstrapDialog.show({
             message: 'Hi Apple!',
             buttons: [{
-                label: 'Button 1'
+                label: 'Button 1',
+                mouseOver: 'Mouse over Button 1'
             }, {
                 label: 'Button 2',
+                // no mouseOver as it is optional
                 cssClass: 'btn-primary',
                 action: function(){
                     alert('Hi Orange!');
@@ -155,6 +157,7 @@
             }, {
                 icon: 'glyphicon glyphicon-ban-circle',
                 label: 'Button 3',
+                mouseOver: 'Mouse over Button 3',
                 cssClass: 'btn-warning'
             }, {
                 label: 'Close',
