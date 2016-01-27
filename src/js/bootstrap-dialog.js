@@ -234,7 +234,7 @@
         cssClass: '',
         title: null,
         message: null,
-        nl2br: true,
+        nl2br: false,
         closable: true,
         closeByBackdrop: true,
         closeByKeyboard: true,
