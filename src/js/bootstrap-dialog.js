@@ -836,9 +836,9 @@
                 $button.append(button.label);
             }
 
-            // mouseOver
-            if (typeof button.mouseOver !== 'undefined') {
-                $button.attr('title',  button.mouseOver);
+            // title
+            if (typeof button.title !== 'undefined') {
+                $button.attr('title',  button.title);
             }
 
             // Css class
