@@ -103,33 +103,78 @@
         -->
     </div>
 
-    <h3>Auto Resize Modal</h3>
+   <h3>Auto Resize Modal</h3>
     <div class="source-code runnable">
-        <!--
-        BootstrapDialog.show({
-            title: 'Default Title',
-            autoResize:true,
-            message: function(){
-                var msg = [];
-                for(var i=0;i<100;i++){
-                    msg.push( " Some message here! <br/> " );
-                }
+         <!--
+         BootstrapDialog.show({
+             title: 'Default Title',
+             autoBodyResize:true,
+             message: function(){
+                 var msg = [];
+                 for(var i=0;i<100;i++){
+                     msg.push( " Some message here! <br/> " );
+                 }
+ 
+                 return msg.join('');
+             },
+             buttons: [{
+                 label: 'Message 1',
+                 action: function(dialog) {
+                     dialog.setMessage('Message 1');
+                 }
+             }, {
+                 label: 'Message 2',
+                 action: function(dialog) {
+                     dialog.setMessage('Message 2');
+                 }
+             }]
+         });
+         -->
+    </div>
 
-                return msg.join('');
-            },
-            buttons: [{
-                label: 'Message 1',
-                action: function(dialog) {
-                    dialog.setMessage('Message 1');
-                }
-            }, {
-                label: 'Message 2',
-                action: function(dialog) {
-                    dialog.setMessage('Message 2');
-                }
-            }]
-        });
-        -->
+    <h3>Auto Resize Modal for tabpanel</h3>
+    <div class="source-code runnable">
+         <!--
+         BootstrapDialog.show({
+             title: 'Default Title',
+             autoBodyResize:true,
+             message: function(){
+                 
+                 var html = [];
+                 html.push('<ul class="nav nav-tabs" role="tablist">');
+                    html.push('<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>');
+                    html.push('<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>');                    
+                  html.push('</ul>');
+
+
+                 html.push('<div class="tab-content">');
+                    html.push('<div role="tabpanel" class="tab-pane active" id="home">');
+                    for(var i=0;i<10;i++){
+                     html.push( " Some message here! <br/> " );
+                    }
+                    html.push('</div>');
+                    html.push('<div role="tabpanel" class="tab-pane" id="profile">');                    
+                    for(var i=0;i<100;i++){
+                     html.push( " Some message here! <br/> " );
+                    }
+                    html.push('</div>');
+                 html.push('</div>');
+
+                 return html.join('');
+             },
+             buttons: [{
+                 label: 'Message 1',
+                 action: function(dialog) {
+                     dialog.setMessage('Message 1');
+                 }
+             }, {
+                 label: 'Message 2',
+                 action: function(dialog) {
+                     dialog.setMessage('Message 2');
+                 }
+             }]
+         });
+         -->
     </div>
 
     <a name="loading-remote-page"></a>
