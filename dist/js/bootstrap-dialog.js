@@ -19,7 +19,7 @@
     if (typeof module !== 'undefined' && module.exports) {
         var isNode = (typeof process !== "undefined");
         var isElectron = isNode && ('electron' in process.versions);
-        if(isElectron) {
+        if (isElectron) {
             root.BootstrapDialog = factory(root.jQuery);
         } else {
             module.exports = factory(require('jquery'), require('bootstrap'));
@@ -309,9 +309,11 @@
     BootstrapDialog.moveFocus = function () {
         var lastDialogInstance = null;
         $.each(BootstrapDialog.dialogs, function (id, dialogInstance) {
-            lastDialogInstance = dialogInstance;
+            if (dialogInstance.isRealized() && dialogInstance.isOpened()) {
+                lastDialogInstance = dialogInstance;
+            }
         });
-        if (lastDialogInstance !== null && lastDialogInstance.isRealized()) {
+        if (lastDialogInstance !== null) {
             lastDialogInstance.getModal().focus();
         }
     };
@@ -335,7 +337,9 @@
             var zIndexModal = 1050;
             var dialogCount = 0;
             $.each(BootstrapDialog.dialogs, function (dialogId, dialogInstance) {
-                dialogCount++;
+                if (dialogInstance.isRealized() && dialogInstance.isOpened()) {
+                    dialogCount++;
+                }
             });
             var $modal = this.getModal();
             var $backdrop = $modal.data('bs.modal').$backdrop;
@@ -849,12 +853,11 @@
                 var dialog = event.data.dialog;
                 var $button = event.data.$button;
                 var button = $button.data('button');
-                if (typeof button.action === 'function') {
-                    button.action.call($button, dialog, event);
-                }
-
                 if (button.autospin) {
                     $button.toggleSpin(true);
+                }
+                if (typeof button.action === 'function') {
+                    return button.action.call($button, dialog, event);
                 }
             });
 
@@ -862,8 +865,8 @@
             this.enhanceButton($button);
 
             //Initialize enabled or not
-            if(typeof button.enabled !== 'undefined') {
-              $button.toggleEnable(button.enabled);
+            if (typeof button.enabled !== 'undefined') {
+                $button.toggleEnable(button.enabled);
             }
 
             return $button;
@@ -1234,8 +1237,11 @@
                     label: options.buttonLabel,
                     action: function (dialog) {
                         dialog.setData('btnClicked', true);
-                        typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
-                        dialog.close();
+                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
+                            return false;
+                        }
+
+                        return dialog.close();
                     }
                 }]
         }).open();
@@ -1285,15 +1291,21 @@
             buttons: [{
                     label: options.btnCancelLabel,
                     action: function (dialog) {
-                        typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
-                        dialog.close();
+                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, false) === false) {
+                            return false;
+                        }
+
+                        return dialog.close();
                     }
                 }, {
                     label: options.btnOKLabel,
                     cssClass: options.btnOKClass,
                     action: function (dialog) {
-                        typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
-                        dialog.close();
+                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
+                            return false;
+                        }
+
+                        return dialog.close();
                     }
                 }]
         }).open();
