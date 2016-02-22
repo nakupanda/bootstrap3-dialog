@@ -244,7 +244,7 @@
         animate: true,
         description: '',
         tabindex: -1,
-        autoResize: false
+        autoBodyResize: false
     };
 
     /**
@@ -364,6 +364,7 @@
     };
     BootstrapDialog.METHODS_TO_OVERRIDE['v3.3'] = {};
     BootstrapDialog.METHODS_TO_OVERRIDE['v3.3.4'] = $.extend({}, BootstrapDialog.METHODS_TO_OVERRIDE['v3.1']);
+    var didUpdate = null;
     BootstrapDialog.prototype = {
         constructor: BootstrapDialog,
         initOptions: function (options) {
@@ -750,14 +751,7 @@
 
             return this;
         },
-        isAutoResize: function () {
-            return this.options.autoResize;
-        },
-        setAutoResize: function (autoResize) {
-            this.options.autoResize = autoResize;
-
-            return this;
-        },
+        
         getDefaultText: function () {
             return BootstrapDialog.DEFAULT_TEXTS[this.getType()];
         },
@@ -1044,25 +1038,27 @@
 
                     return openIt;
                 }
+
+                if(!dialog.options.autoBodyResize)
+                    return;
+
+                var $this = dialog;
+                setTimeout(function() {
+                    $this.setDimension();
+                    $this.updateBodySize();
+                }, 300);
+
+                $(window).resize(function() {
+                    clearTimeout(didUpdate);
+                    didUpdate = setTimeout(function() {
+                        $this.updateBodySize();
+                        didUpdate = null;
+                    }, 200);
+                });
             });
             this.getModal().on('shown.bs.modal', {dialog: this}, function (event) {
                 var dialog = event.data.dialog;
-                dialog.isModalEvent(event) && typeof dialog.options.onshown === 'function' && dialog.options.onshown(dialog);
-
-                if (dialog.isAutoResize()) {
-
-                    dialog.getModalBody().css({
-                        width: 'auto',
-                        height: 'auto',
-                        'overflow-y': 'auto'
-                    });
-                    var pars = dialog.getResizeOptions();
-                    $(window).on('resize', function () {
-                        dialog.resizeModalBody(pars);
-                    });
-
-                    dialog.resizeModalBody(pars);
-                }
+                dialog.isModalEvent(event) && typeof dialog.options.onshown === 'function' && dialog.options.onshown(dialog);                
             });
             this.getModal().on('hide.bs.modal', {dialog: this}, function (event) {
                 var dialog = event.data.dialog;
@@ -1186,54 +1182,102 @@
 
             return this;
         },
-        getResizeOptions: function () {
-            var dialog = this;
-            var dialogWrapper = dialog.getModalDialog();
-            var dialogBody = dialog.getModalBody();
-            var dialogHeader = dialog.getModalHeader();
-            var dialogFooter = dialog.getModalFooter();
-
-            //2 is border width
-            var dialogHeight = dialogWrapper.outerHeight() - 2;
-            var dialogBodyHeight = dialogBody.height();
-            var dialogHeaderHeight = dialogHeader.outerHeight();
-            var dialogFooterHeight = dialogFooter.outerHeight();
-
-
-            var dialogMarginTop = parseInt(dialogWrapper.css('margin-top'));
-            var dialogMarginBottom = parseInt(dialogWrapper.css('margin-bottom'));
-            var dialogVerticalMargin = dialogMarginTop + dialogMarginBottom;
-
-            var dialogBodyPaddingTop = parseInt(dialogBody.css('padding-top'));
-            var dialogBodyPaddingBottom = parseInt(dialogBody.css('padding-bottom'));
-            var dialogBodyVerticalPadding = dialogBodyPaddingTop + dialogBodyPaddingBottom;
-
-            var dialogVerticalHeight = dialogHeight + dialogMarginBottom + dialogMarginTop;
-            var needsReduceHeight = dialogVerticalMargin + dialogHeaderHeight + dialogFooterHeight + dialogBodyVerticalPadding;
-
-            var pars = {
-                dialog: dialog,
-                dialogVeticalHeight: dialogVerticalHeight,
-                dialogToReduceHeight: needsReduceHeight,
-                dialogBodyHeight: dialogBodyHeight
+        // reference fancybox.
+        isPercentage: function(value) {
+            return (value && $.type(value) === "string") && value.indexOf('%') > 0;
+        },
+        getViewport: function() {
+            var size = {
+                x: $(window).scrollLeft(),
+                y: $(window).scrollTop()
             };
 
-            return pars;
+            if (window.innerWidth && window.innerHeight) {
+                size.w = window.innerWidth;
+                size.h = window.innerHeight;
+            } else {
+                size.w = $(window).width();
+                size.h = $(window).height();
+            }
+
+            return size;
         },
-        resizeModalBody: function (pars) {
-            var dialog = pars.dialog;
-            if (dialog.isAutoResize()) {
-                var dialogBody = dialog.getModalBody();
-                var dialogVeticalHeight = pars.dialogVeticalHeight;
-                var dialogToReduceHeight = pars.dialogToReduceHeight;
-                var dialogBodyHeight = pars.dialogBodyHeight;
-                var windowHeight = $(window).height();
-                if (windowHeight < dialogVeticalHeight) {
-                    var height = windowHeight - dialogToReduceHeight;
-                    dialogBody.height(height);
-                } else {
-                    dialogBody.height(dialogBodyHeight);
-                }
+        getScalar: function(orig, dim) {
+            var value = parseInt(orig, 10) || 0;
+            if (dim && isPercentage(orig)) {
+                value = this.getViewSize()[dim] / 100 * value;
+            }
+
+            return Math.ceil(value);
+        },
+        isAutoBodyResize: function() {
+            return this.options.autoBodyResize;
+        },
+        setAutoBodyResize: function(autoResize) {
+            this.options.autoBodyResize = autoResize;
+            return this;
+        },
+        setDimension: function() {
+            var pos = ['top', 'right', 'bottom', 'left'];
+            var viewport = this.getViewport(),
+                wrap = this.getModalDialog(),
+                body = this.getModalBody(),
+                header = this.getModalHeader(),
+                footer = this.getModalFooter(),
+                current = wrap,
+                width = current.width(),
+                height = current.height(),
+                margin = [],
+                padding = [],
+                wMargin,
+                hMargin,
+                wPadding,
+                hPadding;
+
+            $.each(pos, function(i, o) {
+                margin.push(parseInt(current.css('margin-' + o)));
+            });
+            $.each(pos, function(i, o) {
+                padding.push(parseInt(body.css('padding-' + o)));
+            });
+
+            wMargin = this.getScalar(margin[1] + margin[3]);
+            hMargin = this.getScalar(margin[0] + margin[2]);
+            wPadding = this.getScalar(padding[1] + padding[3]);
+            hPadding = this.getScalar(padding[0] + padding[2]);
+
+            var headerHeight = header.outerHeight(true);
+            var footerHeight = footer.outerHeight(true);
+
+            this.dialog = {
+                wMargin: wMargin,
+                hMargin: hMargin,
+                wPadding: wPadding,
+                hPadding: hPadding,
+                width: width,
+                height: height,
+                headerHeight: headerHeight,
+                footerHeight: footerHeight
+            };
+
+            body.css({
+                width: 'auto',
+                height: 'auto',
+                'overflow-y': 'auto'
+            });
+        },
+        updateBodySize: function() {
+            if(!this.options.autoBodyResize)
+                return;
+
+            var body = this.getModalBody();
+            var pars = this.dialog;
+            var winHeight = $(window).height();
+            if (winHeight < pars.height) {
+                var height = winHeight - (pars.headerHeight + pars.footerHeight + pars.hMargin + pars.hPadding + 2);
+                body.height(height);
+            } else {
+                body.height(pars.height);
             }
         }
     };
