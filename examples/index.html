@@ -139,7 +139,11 @@
              title: 'Default Title',
              autoBodyResize:true,
              message: function(){
-                 
+                 var msg = [];
+                 for(var i=0;i<100;i++){
+                     msg.push( " Some message here! <br/> " );
+                 }
+                
                  var html = [];
                  html.push('<ul class="nav nav-tabs" role="tablist">');
                     html.push('<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>');
@@ -154,13 +158,21 @@
                     }
                     html.push('</div>');
                     html.push('<div role="tabpanel" class="tab-pane" id="profile">');                    
-                    for(var i=0;i<100;i++){
+                    for(var i=0;i<50;i++){
                      html.push( " Some message here! <br/> " );
                     }
                     html.push('</div>');
                  html.push('</div>');
 
                  return html.join('');
+             },
+             onshown: function(dialog){
+                var modalBody = dialog.getModalBody();  
+
+                modalBody.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                    console.log(111);
+                    dialog.updateBodySize();
+                });
              },
              buttons: [{
                  label: 'Message 1',
