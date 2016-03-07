@@ -1259,30 +1259,30 @@
                 headerHeight: headerHeight,
                 footerHeight: footerHeight
             };
-
-            body.css({
-                width: 'auto',
-                height: 'auto',
-                'overflow-y': 'auto'
-            });
         },
         updateBodySize: function () {
             if (!this.options.autoBodyResize)
                 return;
 
-            var body = this.getModalBody();
+            var $this = this;
+            var body = $this.getModalBody();
+            body.css({
+                width: 'auto',
+                height: 'auto',
+                'overflow-y': 'auto'
+            });
+            
             var pars = this.dialog;
             var winHeight = $(window).height();
-            var dialogHeight = this.getModalDialog().height();
+            var dialogHeight = $this.getModalDialog().height();
             var lockedHeight = (dialogHeight + pars.hMargin);
-
             if (winHeight < lockedHeight) {
                 var reducingHeight = pars.headerHeight + pars.footerHeight + pars.hMargin + pars.hPadding + 2; // 2 is border with(top and bottom)
                 var height = winHeight - reducingHeight;
                 body.height(height);
             }
             else {
-                body.css({ 'height': 'auto' });                
+                body.css({ 'height': 'auto' });
             }
         }
     };
