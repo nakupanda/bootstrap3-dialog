@@ -1201,8 +1201,8 @@
      * @returns the created dialog instance
      */
     BootstrapDialog.alert = function () {
-        var options = {};
-        var defaultOptions = {
+        var alertOptions = {};
+        var defaultAlertOptions = {
             type: BootstrapDialog.TYPE_PRIMARY,
             title: null,
             message: null,
@@ -1213,38 +1213,54 @@
         };
 
         if (typeof arguments[0] === 'object' && arguments[0].constructor === {}.constructor) {
-            options = $.extend(true, defaultOptions, arguments[0]);
+            alertOptions = $.extend(true, defaultAlertOptions, arguments[0]);
         } else {
-            options = $.extend(true, defaultOptions, {
+            alertOptions = $.extend(true, defaultAlertOptions, {
                 message: arguments[0],
                 callback: typeof arguments[1] !== 'undefined' ? arguments[1] : null
             });
         }
 
-        return new BootstrapDialog({
-            type: options.type,
-            title: options.title,
-            message: options.message,
-            closable: options.closable,
-            draggable: options.draggable,
-            data: {
-                callback: options.callback
-            },
-            onhide: function (dialog) {
-                !dialog.getData('btnClicked') && dialog.isClosable() && typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
-            },
-            buttons: [{
-                    label: options.buttonLabel,
-                    action: function (dialog) {
-                        dialog.setData('btnClicked', true);
-                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
-                            return false;
-                        }
+        var dialog = new BootstrapDialog(alertOptions);
+        dialog.setData('callback', alertOptions.callback);
+        dialog.addButton({
+            label: alertOptions.buttonLabel,
+            action: function (dialog) {
+                if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
+                    return false;
+                }
+                dialog.setData('btnClicked', true);
 
-                        return dialog.close();
-                    }
-                }]
-        }).open();
+                return dialog.close();
+            }
+        });
+        if (typeof dialog.options.onhide === 'function') {
+            dialog.onHide(function (dialog) {
+                var hideIt = true;
+                if (!dialog.getData('btnClicked') && dialog.isClosable() && typeof dialog.getData('callback') === 'function') {
+                    hideIt = dialog.getData('callback')(false);
+                }
+                if(hideIt === false) {
+                    return false;
+                }
+                hideIt = this.onhide(dialog);
+                
+                return hideIt;
+            }.bind({
+                onhide: dialog.options.onhide
+            }));
+        } else {
+            dialog.onHide(function (dialog) {
+                var hideIt = true;
+                if (!dialog.getData('btnClicked') && dialog.isClosable() && typeof dialog.getData('callback') === 'function') {
+                    hideIt = dialog.getData('callback')(false);
+                }
+                
+                return hideIt;
+            });
+        }
+
+        return dialog.open();
     };
 
     /**
@@ -1253,62 +1269,58 @@
      * @returns the created dialog instance
      */
     BootstrapDialog.confirm = function () {
-        var options = {};
-        var defaultOptions = {
+        var confirmOptions = {};
+        var defaultConfirmOptions = {
             type: BootstrapDialog.TYPE_PRIMARY,
             title: null,
             message: null,
             closable: false,
             draggable: false,
             btnCancelLabel: BootstrapDialog.DEFAULT_TEXTS.CANCEL,
+            btnCancelClass: null,
             btnOKLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
             btnOKClass: null,
             callback: null
         };
         if (typeof arguments[0] === 'object' && arguments[0].constructor === {}.constructor) {
-            options = $.extend(true, defaultOptions, arguments[0]);
+            confirmOptions = $.extend(true, defaultConfirmOptions, arguments[0]);
         } else {
-            options = $.extend(true, defaultOptions, {
+            confirmOptions = $.extend(true, defaultConfirmOptions, {
                 message: arguments[0],
-                closable: false,
-                buttonLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
                 callback: typeof arguments[1] !== 'undefined' ? arguments[1] : null
             });
         }
-        if (options.btnOKClass === null) {
-            options.btnOKClass = ['btn', options.type.split('-')[1]].join('-');
+        if (confirmOptions.btnOKClass === null) {
+            confirmOptions.btnOKClass = ['btn', confirmOptions.type.split('-')[1]].join('-');
         }
 
-        return new BootstrapDialog({
-            type: options.type,
-            title: options.title,
-            message: options.message,
-            closable: options.closable,
-            draggable: options.draggable,
-            data: {
-                callback: options.callback
-            },
-            buttons: [{
-                    label: options.btnCancelLabel,
-                    action: function (dialog) {
-                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, false) === false) {
-                            return false;
-                        }
+        var dialog = new BootstrapDialog(confirmOptions);
+        dialog.setData('callback', confirmOptions.callback);
+        dialog.addButton({
+            label: confirmOptions.btnCancelLabel,
+            cssClass: confirmOptions.btnCancelClass,
+            action: function (dialog) {
+                if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, false) === false) {
+                    return false;
+                }
 
-                        return dialog.close();
-                    }
-                }, {
-                    label: options.btnOKLabel,
-                    cssClass: options.btnOKClass,
-                    action: function (dialog) {
-                        if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
-                            return false;
-                        }
+                return dialog.close();
+            }
+        });
+        dialog.addButton({
+            label: confirmOptions.btnOKLabel,
+            cssClass: confirmOptions.btnOKClass,
+            action: function (dialog) {
+                if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
+                    return false;
+                }
 
-                        return dialog.close();
-                    }
-                }]
-        }).open();
+                return dialog.close();
+            }
+        });
+
+        return dialog.open();
+
     };
 
     /**
