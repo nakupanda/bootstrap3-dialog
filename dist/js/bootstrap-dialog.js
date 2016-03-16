@@ -333,18 +333,20 @@
          * Will be removed in later version, after Bootstrap Modal >= 3.3.0, updating z-index is unnecessary.
          */
         updateZIndex: function () {
-            var zIndexBackdrop = 1040;
-            var zIndexModal = 1050;
-            var dialogCount = 0;
-            $.each(BootstrapDialog.dialogs, function (dialogId, dialogInstance) {
-                if (dialogInstance.isRealized() && dialogInstance.isOpened()) {
-                    dialogCount++;
-                }
-            });
-            var $modal = this.getModal();
-            var $backdrop = $modal.data('bs.modal').$backdrop;
-            $modal.css('z-index', zIndexModal + (dialogCount - 1) * 20);
-            $backdrop.css('z-index', zIndexBackdrop + (dialogCount - 1) * 20);
+            if (this.isOpened()) {
+                var zIndexBackdrop = 1040;
+                var zIndexModal = 1050;
+                var dialogCount = 0;
+                $.each(BootstrapDialog.dialogs, function (dialogId, dialogInstance) {
+                    if (dialogInstance.isRealized() && dialogInstance.isOpened()) {
+                        dialogCount++;
+                    }
+                });
+                var $modal = this.getModal();
+                var $backdrop = $modal.data('bs.modal').$backdrop;
+                $modal.css('z-index', zIndexModal + (dialogCount - 1) * 20);
+                $backdrop.css('z-index', zIndexBackdrop + (dialogCount - 1) * 20);
+            }
 
             return this;
         },
@@ -1240,11 +1242,11 @@
                 if (!dialog.getData('btnClicked') && dialog.isClosable() && typeof dialog.getData('callback') === 'function') {
                     hideIt = dialog.getData('callback')(false);
                 }
-                if(hideIt === false) {
+                if (hideIt === false) {
                     return false;
                 }
                 hideIt = this.onhide(dialog);
-                
+
                 return hideIt;
             }.bind({
                 onhide: dialog.options.onhide
@@ -1255,7 +1257,7 @@
                 if (!dialog.getData('btnClicked') && dialog.isClosable() && typeof dialog.getData('callback') === 'function') {
                     hideIt = dialog.getData('callback')(false);
                 }
-                
+
                 return hideIt;
             });
         }
