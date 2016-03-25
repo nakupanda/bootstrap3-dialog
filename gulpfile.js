@@ -22,6 +22,7 @@ var less_src = [
 gulp.task("less", function() {
   gulp.src(less_src)
     .pipe(concat("bootstrap-dialog.less"))
+    .pipe(gulp.dest("dist/less"))
     .pipe(less())
     .pipe(gulp.dest("dist/css"))
     .pipe(gulp.dest("src/css"))
