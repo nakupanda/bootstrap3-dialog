@@ -238,6 +238,7 @@
         closable: true,
         closeByBackdrop: true,
         closeByKeyboard: true,
+        closeIcon: '&#215;',
         spinicon: BootstrapDialog.ICON_SPINNER,
         autodestroy: true,
         draggable: false,
@@ -778,7 +779,8 @@
         createCloseButton: function () {
             var $container = $('<div></div>');
             $container.addClass(this.getNamespace('close-button'));
-            var $icon = $('<button class="close">&times;</button>');
+            var $icon = $('<button class="close"></button>');
+            $icon.append(this.options.closeIcon);
             $container.append($icon);
             $container.on('click', {dialog: this}, function (event) {
                 event.data.dialog.close();
