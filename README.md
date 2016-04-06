@@ -2,7 +2,6 @@ bootstrap-dialog
 ================
 
 [![Latest release](https://img.shields.io/github/release/nakupanda/bootstrap3-dialog.svg)](https://github.com/nakupanda/bootstrap3-dialog/releases/latest)
-[![Bower](https://img.shields.io/bower/v/bootstrap3-dialog.svg)]()
 
 Make use of Bootstrap Modal more monkey-friendly.
 
