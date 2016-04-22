@@ -17,7 +17,7 @@
 
     // CommonJS module is defined
     if (typeof module !== 'undefined' && module.exports) {
-        var isNode = (typeof process !== "undefined");
+        var isNode = (typeof process === "object") && (typeof process.versions === "object");
         var isElectron = isNode && ('electron' in process.versions);
         if (isElectron) {
             root.BootstrapDialog = factory(root.jQuery);
