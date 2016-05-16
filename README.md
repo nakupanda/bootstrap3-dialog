@@ -48,6 +48,14 @@ bower install bootstrap3-dialog
 
 ================
 
+## Install using npm
+
+```
+npm install --save bootstrap3-dialog
+```
+
+================
+
 ## Build instructions:
 
 Prepare:
