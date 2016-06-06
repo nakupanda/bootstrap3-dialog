@@ -92,15 +92,15 @@
             $(document).off('focusin.bs.modal');
 
             this.$element
-                .removeClass('in')
-                .attr('aria-hidden', true)
-                .off('click.dismiss.bs.modal');
+            .removeClass('in')
+            .attr('aria-hidden', true)
+            .off('click.dismiss.bs.modal');
 
             $.support.transition && this.$element.hasClass('fade') ?
-                this.$element
-                    .one('bsTransitionEnd', $.proxy(this.hideModal, this))
-                    .emulateTransitionEnd(300) :
-                this.hideModal();
+            this.$element
+            .one('bsTransitionEnd', $.proxy(this.hideModal, this))
+            .emulateTransitionEnd(300) :
+            this.hideModal();
         }
     };
     BootstrapDialogModal.METHODS_TO_OVERRIDE['v3.3'] = {
@@ -380,18 +380,18 @@
         },
         initModalStuff: function () {
             this.setModal(this.createModal())
-                .setModalDialog(this.createModalDialog())
-                .setModalContent(this.createModalContent())
-                .setModalHeader(this.createModalHeader())
-                .setModalBody(this.createModalBody())
-                .setModalFooter(this.createModalFooter());
+            .setModalDialog(this.createModalDialog())
+            .setModalContent(this.createModalContent())
+            .setModalHeader(this.createModalHeader())
+            .setModalBody(this.createModalBody())
+            .setModalFooter(this.createModalFooter());
 
             this.getModal().append(this.getModalDialog());
             this.getModalDialog().append(this.getModalContent());
             this.getModalContent()
-                .append(this.getModalHeader())
-                .append(this.getModalBody())
-                .append(this.getModalFooter());
+            .append(this.getModalHeader())
+            .append(this.getModalBody())
+            .append(this.getModalFooter());
 
             return this;
         },
@@ -539,9 +539,9 @@
 
                 // Dialog size
                 this.getModal().removeClass(BootstrapDialog.SIZE_NORMAL)
-                    .removeClass(BootstrapDialog.SIZE_SMALL)
-                    .removeClass(BootstrapDialog.SIZE_WIDE)
-                    .removeClass(BootstrapDialog.SIZE_LARGE);
+                .removeClass(BootstrapDialog.SIZE_SMALL)
+                .removeClass(BootstrapDialog.SIZE_WIDE)
+                .removeClass(BootstrapDialog.SIZE_LARGE);
                 this.getModal().addClass(this.getSize());
 
                 // Smaller dialog.
@@ -1127,7 +1127,7 @@
         realize: function () {
             this.initModalStuff();
             this.getModal().addClass(BootstrapDialog.NAMESPACE)
-                .addClass(this.getCssClass());
+            .addClass(this.getCssClass());
             this.updateSize();
             if (this.getDescription()) {
                 this.getModal().attr('aria-describedby', this.getDescription());
