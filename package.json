@@ -5,6 +5,7 @@
   "directories": {
     "example": "examples"
   },
+  "main": "dist/js/bootstrap-dialog.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
