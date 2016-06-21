@@ -1,6 +1,7 @@
 LASTEST NOT RELEASED
 ------------------------------
 * Refs #251 Close icon on the top right is configurable *
+* Refs #249 *
 
 V1.35.1
 ------------------------------
