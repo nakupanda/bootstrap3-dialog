@@ -18,6 +18,7 @@
         "dist/css/bootstrap-dialog.min.css",
         "dist/js/bootstrap-dialog.min.js"
     ],
+    "license": "MIT",
     "ignore": [
         "source",
         "spec",
