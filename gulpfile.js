@@ -3,7 +3,6 @@
 "use strict";
 
 var gulp = require("gulp"),
-  eslint = require("gulp-eslint"),
   less = require("gulp-less"),
   minifyCSS = require("gulp-minify-css"),
   path = require("path"),
