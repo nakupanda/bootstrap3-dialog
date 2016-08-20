@@ -1,0 +1,132 @@
+.bootstrap-dialog {
+
+    .modal-header {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+    .bootstrap-dialog-title {
+        color: #fff;
+        display: inline-block;
+        font-size: 16px;
+    }
+    .bootstrap-dialog-message {
+        font-size: 14px;
+    }
+    .bootstrap-dialog-button-icon {
+        margin-right: 3px;
+    }
+    .bootstrap-dialog-close-button {
+        font-size: 20px;
+        float: right;
+        .opacity(0.9);
+        &:hover {
+            cursor: pointer;
+            .opacity(1.0);
+        }
+    }
+
+    /* dialog types */
+    &.type-default {
+        .modal-header {
+            background-color: @modal-content-bg;
+        }
+        .bootstrap-dialog-title {
+            color: #333;
+        }
+    }
+
+    &.type-info {
+        .modal-header {
+            background-color: @brand-info;
+        }
+    }
+
+    &.type-primary {
+        .modal-header {
+            background-color: @brand-primary;
+        }
+    }
+
+    &.type-success {
+        .modal-header {
+            background-color: @brand-success;
+        }
+    }
+
+    &.type-warning {
+        .modal-header {
+            background-color: @brand-warning;
+        }
+    }
+
+    &.type-danger {
+        .modal-header {
+            background-color: @brand-danger;
+        }
+    }
+
+    &.size-large {
+        .bootstrap-dialog-title {
+            font-size: 24px;
+        }
+        .bootstrap-dialog-close-button {
+            font-size: 30px;
+        }
+        .bootstrap-dialog-message {
+            font-size: 18px;
+        }
+    }
+
+    /**
+     * Icon animation
+     * Copied from font-awesome: http://fontawesome.io/
+     **/
+    .icon-spin {
+        display: inline-block;
+        -moz-animation: spin 2s infinite linear;
+        -o-animation: spin 2s infinite linear;
+        -webkit-animation: spin 2s infinite linear;
+        animation: spin 2s infinite linear;
+    }
+    @-moz-keyframes spin {
+        0% {
+            -moz-transform: rotate(0deg);
+        }
+        100% {
+            -moz-transform: rotate(359deg);
+        }
+    }
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(359deg);
+        }
+    }
+    @-o-keyframes spin {
+        0% {
+            -o-transform: rotate(0deg);
+        }
+        100% {
+            -o-transform: rotate(359deg);
+        }
+    }
+    @-ms-keyframes spin {
+        0% {
+            -ms-transform: rotate(0deg);
+        }
+        100% {
+            -ms-transform: rotate(359deg);
+        }
+    }
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(359deg);
+        }
+    }
+    /** End of icon animation **/
+}

@@ -1,6 +1,8 @@
 bootstrap-dialog
 ================
 
+[![Latest release](https://img.shields.io/github/release/nakupanda/bootstrap3-dialog.svg)](https://github.com/nakupanda/bootstrap3-dialog/releases/latest)
+
 Make use of Bootstrap Modal more monkey-friendly.
 
 See live examples here: <a href="http://nakupanda.github.io/bootstrap3-dialog/">http://nakupanda.github.io/bootstrap3-dialog/</a>
@@ -42,6 +44,14 @@ Or
 
 ```
 bower install bootstrap3-dialog
+```
+
+================
+
+## Install using npm
+
+```
+npm install --save bootstrap3-dialog
 ```
 
 ================
