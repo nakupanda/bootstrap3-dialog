@@ -1303,7 +1303,7 @@
             var headerHeight = header.outerHeight(true);
             var footerHeight = footer.outerHeight(true);
 
-            this.dialog = {
+            this.options.dimensions = {
                 wMargin: wMargin,
                 hMargin: hMargin,
                 wPadding: wPadding,
@@ -1326,7 +1326,12 @@
                 'overflow-y': 'auto'
             });
             
-            var pars = this.dialog;
+            var pars = $this.options.dimensions;
+            if(pars === undefined){
+                $this.setDimension();
+                pars = $this.options.dimensions;
+            }
+
             var winHeight = $(window).height();
             var dialogHeight = $this.getModalDialog().height();
             var lockedHeight = (dialogHeight + pars.hMargin);
