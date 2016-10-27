@@ -844,6 +844,13 @@
                 $button.addClass('btn-default');
             }
 
+            // Data attributes
+            if (typeof button.data === 'object' && button.data.constructor === {}.constructor) {
+                $.each(button.data, function (key, value) {
+                    $button.attr('data-'+key, value);
+                });
+            }
+
             // Hotkey
             if (typeof button.hotkey !== 'undefined') {
                 this.registeredButtonHotkeys[button.hotkey] = $button;
