@@ -149,6 +149,10 @@
             }, {
                 label: 'Button 2',
                 cssClass: 'btn-primary',
+                data: {
+                    js: 'btn-confirm',
+                    'user-id': '3'
+                },
                 action: function(){
                     alert('Hi Orange!');
                 }
@@ -993,7 +997,11 @@ BootstrapDialog.show({
         id: 'btn-ok',   
         icon: 'glyphicon glyphicon-check',       
         label: 'OK',
-        cssClass: 'btn-primary', 
+        cssClass: 'btn-primary',
+        data: {
+            js: 'btn-confirm',
+            'user-id': '3'
+        },
         autospin: false,
         action: function(dialogRef){    
             dialogRef.close();
@@ -1004,7 +1012,8 @@ BootstrapDialog.show({
                     <strong>id</strong>: optional, if id is set, you can use dialogInstance.getButton(id) to get the button later. <br />
                     <strong>icon</strong>: optional, if set, the specified icon will be added to the button. <br />
                     <strong>cssClass</strong>: optional, additional css class to be added to the button. <br />
-                    <strong>autospin</strong>: optinal, if it's true, after clicked the button a spinning icon appears. <br />
+                    <strong>data</strong>: optional, object containing data attributes to be added to the button. <br />
+                    <strong>autospin</strong>: optional, if it's true, after clicked the button a spinning icon appears. <br />
                     <strong>action</strong>: optional, if provided, the callback will be invoked after the button is clicked, and the dialog instance will be passed to the callback function.
                 </td>
             </tr>
