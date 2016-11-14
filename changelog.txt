@@ -2,6 +2,7 @@ LASTEST NOT RELEASED
 ------------------------------
 * Merged PR #300 *
 * Merged PR #308 *
+* Merged PR #232 *
 
 V1.35.3
 ------------------------------
