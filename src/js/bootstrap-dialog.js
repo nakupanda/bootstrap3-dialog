@@ -837,11 +837,6 @@
                 $button.append(button.label);
             }
 
-            // title
-            if (typeof button.title !== 'undefined') {
-                $button.attr('title',  button.title);
-            }
-
             // Css class
             if (typeof button.cssClass !== 'undefined' && $.trim(button.cssClass) !== '') {
                 $button.addClass(button.cssClass);
