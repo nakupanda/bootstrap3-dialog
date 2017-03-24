@@ -1074,6 +1074,9 @@
                     $(this).remove();
                 }
                 BootstrapDialog.moveFocus();
+                if ($('.modal').hasClass('in')) {
+                  $('body').addClass('modal-open');
+                }
             });
 
             // Backdrop, I did't find a way to change bs3 backdrop option after the dialog is popped up, so here's a new wheel.
