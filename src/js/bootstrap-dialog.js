@@ -19,7 +19,7 @@
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = factory(require('jquery'), require('bootstrap'));
     }
-    // AMD module is defined
+        // AMD module is defined
     else if (typeof define === "function" && define.amd) {
         define("bootstrap-dialog", ["jquery", "bootstrap"], function ($) {
             return factory($);
@@ -175,7 +175,7 @@
             onhidden: null
         }, BootstrapDialog.defaultOptions);
         this.indexedButtons = {};
-        this.registeredButtonHotkeys = {};
+        this.registeredButtonHotkeys = [];
         this.draggableData = {
             isMouseDown: false,
             mouseOffset: {}
@@ -319,7 +319,7 @@
     BootstrapDialog.METHODS_TO_OVERRIDE = {};
     BootstrapDialog.METHODS_TO_OVERRIDE['v3.1'] = {
         handleModalBackdropEvent: function () {
-            this.getModal().on('click', {dialog: this}, function (event) {
+            this.getModal().on('click', { dialog: this }, function (event) {
                 event.target === this && event.data.dialog.isClosable() && event.data.dialog.canCloseByBackdrop() && event.data.dialog.close();
             });
 
@@ -779,7 +779,7 @@
             var $icon = $('<button class="close" aria-label="close"></button>');
             $icon.append(this.options.closeIcon);
             $container.append($icon);
-            $container.on('click', {dialog: this}, function (event) {
+            $container.on('click', { dialog: this }, function (event) {
                 event.data.dialog.close();
             });
 
@@ -839,7 +839,7 @@
 
             // title
             if (typeof button.title !== 'undefined') {
-                $button.attr('title',  button.title);
+                $button.attr('title', button.title);
             }
 
             // Css class
@@ -858,11 +858,17 @@
 
             // Hotkey
             if (typeof button.hotkey !== 'undefined') {
-                this.registeredButtonHotkeys[button.hotkey] = $button;
+                this.registeredButtonHotkeys[button.hotkey] = {
+                    button: $button,
+                    shiftKey: ((typeof button.shiftKey !== 'undefined') ? button.shiftKey : false),
+                    altKey: ((typeof button.altKey !== 'undefined') ? button.altKey : false),
+                    ctrlKey: ((typeof button.ctrlKey !== 'undefined') ? button.ctrlKey : false)
+                };
             }
 
+
             // Button on click
-            $button.on('click', {dialog: this, $button: $button, button: button}, function (event) {
+            $button.on('click', { dialog: this, $button: $button, button: button }, function (event) {
                 var dialog = event.data.dialog;
                 var $button = event.data.$button;
                 var button = $button.data('button');
@@ -1037,7 +1043,7 @@
             return this;
         },
         handleModalEvents: function () {
-            this.getModal().on('show.bs.modal', {dialog: this}, function (event) {
+            this.getModal().on('show.bs.modal', { dialog: this }, function (event) {
                 var dialog = event.data.dialog;
                 dialog.setOpened(true);
                 if (dialog.isModalEvent(event) && typeof dialog.options.onshow === 'function') {
@@ -1049,11 +1055,11 @@
                     return openIt;
                 }
             });
-            this.getModal().on('shown.bs.modal', {dialog: this}, function (event) {
+            this.getModal().on('shown.bs.modal', { dialog: this }, function (event) {
                 var dialog = event.data.dialog;
                 dialog.isModalEvent(event) && typeof dialog.options.onshown === 'function' && dialog.options.onshown(dialog);
             });
-            this.getModal().on('hide.bs.modal', {dialog: this}, function (event) {
+            this.getModal().on('hide.bs.modal', { dialog: this }, function (event) {
                 var dialog = event.data.dialog;
                 dialog.setOpened(false);
                 if (dialog.isModalEvent(event) && typeof dialog.options.onhide === 'function') {
@@ -1065,7 +1071,7 @@
                     return hideIt;
                 }
             });
-            this.getModal().on('hidden.bs.modal', {dialog: this}, function (event) {
+            this.getModal().on('hidden.bs.modal', { dialog: this }, function (event) {
                 var dialog = event.data.dialog;
                 dialog.isModalEvent(event) && typeof dialog.options.onhidden === 'function' && dialog.options.onhidden(dialog);
                 if (dialog.isAutodestroy()) {
@@ -1075,7 +1081,7 @@
                 }
                 BootstrapDialog.moveFocus();
                 if ($('.modal').hasClass('in')) {
-                  $('body').addClass('modal-open');
+                    $('body').addClass('modal-open');
                 }
             });
 
@@ -1083,15 +1089,26 @@
             this.handleModalBackdropEvent();
 
             // ESC key support
-            this.getModal().on('keyup', {dialog: this}, function (event) {
+            this.getModal().on('keyup', { dialog: this }, function (event) {
                 event.which === 27 && event.data.dialog.isClosable() && event.data.dialog.canCloseByKeyboard() && event.data.dialog.close();
             });
 
             // Button hotkey
-            this.getModal().on('keyup', {dialog: this}, function (event) {
+            this.getModal().on('keyup', { dialog: this }, function (event) {
                 var dialog = event.data.dialog;
                 if (typeof dialog.registeredButtonHotkeys[event.which] !== 'undefined') {
-                    var $button = $(dialog.registeredButtonHotkeys[event.which]);
+                    //shiftKey,altKey,ctrlKey
+                    if (typeof dialog.registeredButtonHotkeys[event.which].shiftKey !== 'undefined') {
+                        if (dialog.registeredButtonHotkeys[event.which].shiftKey && !event.shiftKey) return this;
+                    }
+                    if (typeof dialog.registeredButtonHotkeys[event.which].altKey !== 'undefined') {
+                        if (dialog.registeredButtonHotkeys[event.which].altKey && !event.altKey) return this;
+                    }
+                    if (typeof dialog.registeredButtonHotkeys[event.which].ctrlKey !== 'undefined') {
+                        if (dialog.registeredButtonHotkeys[event.which].ctrlKey && !event.ctrlKey) return this;
+                    }
+                    var $button = $(dialog.registeredButtonHotkeys[event.which].button);
+
                     !$button.prop('disabled') && $button.focus().trigger('click');
                 }
             });
@@ -1099,7 +1116,7 @@
             return this;
         },
         handleModalBackdropEvent: function () {
-            this.getModal().on('click', {dialog: this}, function (event) {
+            this.getModal().on('click', { dialog: this }, function (event) {
                 $(event.target).hasClass('modal-backdrop') && event.data.dialog.isClosable() && event.data.dialog.canCloseByBackdrop() && event.data.dialog.close();
             });
 
@@ -1110,7 +1127,7 @@
         },
         makeModalDraggable: function () {
             if (this.options.draggable) {
-                this.getModalHeader().addClass(this.getNamespace('draggable')).on('mousedown', {dialog: this}, function (event) {
+                this.getModalHeader().addClass(this.getNamespace('draggable')).on('mousedown', { dialog: this }, function (event) {
                     var dialog = event.data.dialog;
                     dialog.draggableData.isMouseDown = true;
                     var dialogOffset = dialog.getModalDialog().offset();
@@ -1119,10 +1136,10 @@
                         left: event.clientX - dialogOffset.left
                     };
                 });
-                this.getModal().on('mouseup mouseleave', {dialog: this}, function (event) {
+                this.getModal().on('mouseup mouseleave', { dialog: this }, function (event) {
                     event.data.dialog.draggableData.isMouseDown = false;
                 });
-                $('body').on('mousemove', {dialog: this}, function (event) {
+                $('body').on('mousemove', { dialog: this }, function (event) {
                     var dialog = event.data.dialog;
                     if (!dialog.draggableData.isMouseDown) {
                         return;
@@ -1319,28 +1336,28 @@
         dialog.setData('callback', confirmOptions.callback);
 
         var buttons = [{
-                label: confirmOptions.btnCancelLabel,
-                cssClass: confirmOptions.btnCancelClass,
-                hotkey: confirmOptions.btnCancelHotkey,
-                action: function (dialog) {
-                    if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, false) === false) {
-                        return false;
-                    }
-
-                    return dialog.close();
+            label: confirmOptions.btnCancelLabel,
+            cssClass: confirmOptions.btnCancelClass,
+            hotkey: confirmOptions.btnCancelHotkey,
+            action: function (dialog) {
+                if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, false) === false) {
+                    return false;
                 }
-            }, {
-                label: confirmOptions.btnOKLabel,
-                cssClass: confirmOptions.btnOKClass,
-                hotkey: confirmOptions.btnOKHotkey,
-                action: function (dialog) {
-                    if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
-                        return false;
-                    }
 
-                    return dialog.close();
+                return dialog.close();
+            }
+        }, {
+            label: confirmOptions.btnOKLabel,
+            cssClass: confirmOptions.btnOKClass,
+            hotkey: confirmOptions.btnOKHotkey,
+            action: function (dialog) {
+                if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
+                    return false;
                 }
-            }];
+
+                return dialog.close();
+            }
+        }];
         if (confirmOptions.btnsOrder === BootstrapDialog.BUTTONS_ORDER_OK_CANCEL) {
             buttons.reverse();
         }
