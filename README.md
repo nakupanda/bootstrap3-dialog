@@ -25,6 +25,7 @@ Fork this all-ready jsfiddle and start writing your example:
 
 <a href="https://gist.github.com/Genkilabs/bdcc5f62c5b46a8e0904">How to use bootstrap-dialog as Rails 4 confirm</a> - @[Genkilabs](https://github.com/Genkilabs)
 
+<a href="https://github.com/nakupanda/bootstrap3-dialog/issues/364">How to use in ReactJS</a> - @[sonhan](https://github.com/sonhan)
 ================
 ## Reference to CDN
 
