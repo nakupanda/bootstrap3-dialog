@@ -77,7 +77,7 @@
             // Remove css class 'modal-open' when the last opened dialog is closing.
             var openedDialogs = this.getGlobalOpenedDialogs();
             if (openedDialogs.length === 0) {
-                this.$body.removeClass('modal-open');
+                this.$body.removeClass('modal-open').off('mousemove.bs.modal');
             }
 
             this.resetScrollbar();
@@ -1111,25 +1111,30 @@
         makeModalDraggable: function () {
             if (this.options.draggable) {
                 this.getModalHeader().addClass(this.getNamespace('draggable')).on('mousedown', {dialog: this}, function (event) {
-                    var dialog = event.data.dialog;
-                    dialog.draggableData.isMouseDown = true;
-                    var dialogOffset = dialog.getModalDialog().offset();
-                    dialog.draggableData.mouseOffset = {
-                        top: event.clientY - dialogOffset.top,
-                        left: event.clientX - dialogOffset.left
+                    var dialog = event.data.dialog,
+                        dialogOffset = dialog.getModalDialog().offset();
+                    dialog.draggableData = {
+                        isMouseDown: true,
+                        mouseOffset: {
+                            top: event.clientY - dialogOffset.top,
+                            left: event.clientX - dialogOffset.left
+                        }
                     };
                 });
                 this.getModal().on('mouseup mouseleave', {dialog: this}, function (event) {
                     event.data.dialog.draggableData.isMouseDown = false;
                 });
-                $('body').on('mousemove', {dialog: this}, function (event) {
-                    var dialog = event.data.dialog;
+                $('body').on('mousemove.bs.modal', {dialog: this}, function (event) {
+                    var dialog = event.data.dialog, modal, topOffset, leftOffset;
                     if (!dialog.draggableData.isMouseDown) {
                         return;
                     }
-                    dialog.getModalDialog().offset({
-                        top: event.clientY - dialog.draggableData.mouseOffset.top,
-                        left: event.clientX - dialog.draggableData.mouseOffset.left
+                    modal = dialog.getModalDialog();
+                    topOffset = event.clientY - dialog.draggableData.mouseOffset.top;
+                    leftOffset = event.clientX - dialog.draggableData.mouseOffset.left;
+                    modal.offset({
+                        top: Math.max(0, Math.min(topOffset, window.innerHeight - modal[0].clientHeight)),
+                        left: Math.max(0, Math.min(leftOffset, window.innerWidth - modal[0].clientWidth))
                     });
                 });
             }
