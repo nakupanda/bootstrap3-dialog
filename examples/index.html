@@ -190,7 +190,7 @@
             message: function(dialog) {
                 var $content = $('<div><button class="btn btn-success">Revert button status right now.</button></div>');
                 var $footerButton = dialog.getButton('btn-1');
-                $content.find('button').click({$footerButton: $footerButton}, function(event) {
+                $content.find('button').on('click',{$footerButton: $footerButton}, function(event) {
                     event.data.$footerButton.enable();
                     event.data.$footerButton.stopSpin();
                     dialog.setClosable(true);
@@ -379,7 +379,7 @@
         });
         dialog.realize();
         var btn1 = dialog.getButton('btn-1');
-        btn1.click({'name': 'Apple'}, function(event){
+        btn1.on('click',{'name': 'Apple'}, function(event){
             alert('Hi, ' + event.data.name);
         });
         dialog.open();

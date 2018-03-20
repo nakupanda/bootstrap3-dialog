@@ -5,7 +5,7 @@
 var gulp = require("gulp"),
   eslint = require("gulp-eslint"),
   less = require("gulp-less"),
-  minifyCSS = require("gulp-minify-css"),
+  cleanCSS = require("gulp-clean-css"),
   path = require("path"),
   notify = require("gulp-notify"),
   clean = require("gulp-clean"),
@@ -27,7 +27,7 @@ gulp.task("less", function() {
     .pipe(gulp.dest("dist/css"))
     .pipe(gulp.dest("src/css"))
     .pipe(rename("bootstrap-dialog.min.css"))
-    .pipe(minifyCSS())
+    .pipe(cleanCSS())
     .pipe(gulp.dest("dist/css"));
 });
 
