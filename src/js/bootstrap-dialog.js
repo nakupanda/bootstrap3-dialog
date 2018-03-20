@@ -312,7 +312,7 @@
             }
         });
         if (lastDialogInstance !== null) {
-            lastDialogInstance.getModal().focus();
+            lastDialogInstance.getModal().trigger('focus');
         }
     };
 
@@ -1092,7 +1092,7 @@
                 var dialog = event.data.dialog;
                 if (typeof dialog.registeredButtonHotkeys[event.which] !== 'undefined') {
                     var $button = $(dialog.registeredButtonHotkeys[event.which]);
-                    !$button.prop('disabled') && !$button.is(':focus') && $button.focus().trigger('click');
+                    !$button.prop('disabled') && !$button.is(':focus') && $button.trigger('focus').trigger('click');
                 }
             });
 
