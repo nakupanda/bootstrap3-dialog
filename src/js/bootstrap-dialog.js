@@ -39,8 +39,12 @@
      * BootstrapDialogModal === Modified Modal.
      * ================================================ */
     var Modal = $.fn.modal.Constructor;
-    var BootstrapDialogModal = function (element, options) {
-        Modal.call(this, element, options);
+    var BootstrapDialogModal = function(element, options) {
+        if (/4\.\d+/.test($.fn.modal.Constructor.VERSION)) { //FIXME for BootstrapV4
+            return new Modal(element, options);
+        } else {
+            Modal.call(this, element, options);
+        }
     };
     BootstrapDialogModal.getModalVersion = function () {
         var version = null;
@@ -50,6 +54,8 @@
             version = 'v3.2';
         } else if (/3\.3\.[1,2]/.test($.fn.modal.Constructor.VERSION)) {
             version = 'v3.3';  // v3.3.1, v3.3.2
+        } else if (/4\.\d+/.test($.fn.modal.Constructor.VERSION)) { //FIXME for BootstrapV4
+            version = 'v4.0';
         } else {
             version = 'v3.3.4';
         }
@@ -139,6 +145,7 @@
         }
     };
     BootstrapDialogModal.METHODS_TO_OVERRIDE['v3.3.4'] = $.extend({}, BootstrapDialogModal.METHODS_TO_OVERRIDE['v3.3']);
+    BootstrapDialogModal.METHODS_TO_OVERRIDE['v4.0'] = $.extend({}, BootstrapDialogModal.METHODS_TO_OVERRIDE['v3.3']); //FIXME for BootstrapV4
     BootstrapDialogModal.prototype = {
         constructor: BootstrapDialogModal,
         /**
@@ -341,7 +348,7 @@
                     }
                 });
                 var $modal = this.getModal();
-                var $backdrop = $modal.data('bs.modal').$backdrop;
+                var $backdrop = this.getModalBackdrop($modal); //FIXME for BootstrapV4
                 $modal.css('z-index', zIndexModal + (dialogCount - 1) * 20);
                 $backdrop.css('z-index', zIndexBackdrop + (dialogCount - 1) * 20);
             }
@@ -363,6 +370,17 @@
     };
     BootstrapDialog.METHODS_TO_OVERRIDE['v3.3'] = {};
     BootstrapDialog.METHODS_TO_OVERRIDE['v3.3.4'] = $.extend({}, BootstrapDialog.METHODS_TO_OVERRIDE['v3.1']);
+    BootstrapDialog.METHODS_TO_OVERRIDE['v4.0'] = { //FIXME for BootstrapV4
+        getModalBackdrop: function ($modal) {
+            return $($modal.data('bs.modal')._backdrop);
+        },
+        handleModalBackdropEvent: BootstrapDialog.METHODS_TO_OVERRIDE['v3.1']['handleModalBackdropEvent'],
+        updateZIndex: BootstrapDialog.METHODS_TO_OVERRIDE['v3.1']['updateZIndex'],
+        open: BootstrapDialog.METHODS_TO_OVERRIDE['v3.1']['open'],
+        getModalForBootstrapDialogModal : function () {
+            return this.getModal().get(0);
+        }
+    };
     BootstrapDialog.prototype = {
         constructor: BootstrapDialog,
         initOptions: function (options) {
@@ -406,6 +424,12 @@
             this.$modal = $modal;
 
             return this;
+        },
+        getModalBackdrop: function ($modal) { //FIXME for BootstrapV4
+        	return $modal.data('bs.modal').$backdrop;
+        },
+        getModalForBootstrapDialogModal: function () { //FIXME for BootstrapV4
+            return this.getModal();
         },
         createModalDialog: function () {
             return $('<div class="modal-dialog"></div>');
@@ -1147,7 +1171,7 @@
             this.getModalFooter().append(this.createFooterContent());
             this.getModalHeader().append(this.createHeaderContent());
             this.getModalBody().append(this.createBodyContent());
-            this.getModal().data('bs.modal', new BootstrapDialogModal(this.getModal(), {
+            this.getModal().data('bs.modal', new BootstrapDialogModal(this.getModalForBootstrapDialogModal(), { //FIXME for BootstrapV4
                 backdrop: 'static',
                 keyboard: false,
                 show: false
