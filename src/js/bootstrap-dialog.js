@@ -791,6 +791,9 @@
         getNamespace: function (name) {
             return BootstrapDialog.NAMESPACE + '-' + name;
         },
+        getModalVersion:function(){
+            return BootstrapDialogModal.getModalVersion();
+        },
         createHeaderContent: function () {
             var $container = $('<div></div>');
             $container.addClass(this.getNamespace('header'));
@@ -798,21 +801,25 @@
             // title
             $container.append(this.createTitleContent());
 
-            // Close button
-            $container.prepend(this.createCloseButton());
+            if(this.getModalVersion()!=="v4.1")
+                $container.prepend(this.createCloseButton());
+            else{
+                $container.css("width","100%");
+                $container.append(this.createCloseButton());
+            }
 
             return $container;
         },
         createTitleContent: function () {
-            var $title = $('<div></div>');
+            var $title = $('<h5></h5>');
             $title.addClass(this.getNamespace('title'));
-
+            $title.addClass("modal-title");
             return $title;
         },
         createCloseButton: function () {
             var $container = $('<div></div>');
             $container.addClass(this.getNamespace('close-button'));
-            var $icon = $('<button class="close"></button>');
+            var $icon = $('<button class="close" type="button" aria-label="Close"></button>');
             $icon.append(this.options.closeIcon);
             $container.append($icon);
             $container.on('click', {dialog: this}, function (event) {
@@ -853,6 +860,12 @@
                 }
                 var $button = that.createButton(button);
                 that.indexedButtons[button.id] = $button;
+
+                if(that.getModalVersion()=="v4.1"){
+                    $button.css("margin-left","5px");
+                }
+
+
                 $container.append($button);
             });
 
