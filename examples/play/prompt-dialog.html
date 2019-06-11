@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.9/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.9/js/bootstrap-dialog.min.js"></script>-->
+    <script src="../../src/js/bootstrap-dialog.js"></script>
+    <title>Prompt Dialog</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+<div style="margin: 20px;">
+    <h4>Prompt dialogs</h4>
+    <button class="btn btn-primary">Text</button>
+    <button class="btn btn-primary">Email</button>
+    <button class="btn btn-primary">Date</button>
+    <button class="btn btn-primary">Time</button>
+    <button class="btn btn-primary">Number</button>
+    <button class="btn btn-primary">Password</button>
+    <button class="btn btn-primary">Textarea</button>
+    <button class="btn btn-primary">Select</button>
+    <button class="btn btn-primary">Checkbox</button>
+    <hr>
+    <h4>Show by</h4>
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-default active">
+            <input type="radio" name="show" value="alert" checked> Alert
+        </label>
+        <label class="btn btn-default">
+            <input type="radio" name="show" value="console.log"> Console.log
+        </label>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('button').on('click', function () {
+            var type = $(this).text().toLowerCase();
+            var inputMinLength = 3;
+            switch (type) {
+                case 'text':
+                    BootstrapDialog.prompt({
+                        title: 'Input ' + type,
+                        inputType: type,
+                        placeholder: 'min ' + inputMinLength + ' uppercase letters',
+                        minlength: inputMinLength,
+                        pattern: '^[A-Z]+$',
+                        callback: show
+                    });
+                    break;
+                case 'number':
+                    BootstrapDialog.prompt({
+                        title: 'Input ' + type,
+                        inputType: type,
+                        min: 1,
+                        max: 10,
+                        step: 0.5,
+                        callback: show
+                    });
+                    break;
+                case 'email':
+                case 'date':
+                case 'time':
+                case 'password':
+                case 'textarea':
+                    BootstrapDialog.prompt({
+                        title: 'Input ' + type,
+                        inputType: type,
+                        placeholder: 'min ' + inputMinLength + ' letters',
+                        minlength: inputMinLength,
+                        callback: show
+                    });
+                    break;
+                case 'select':
+                    var options = [
+                        {
+                            value: 1,
+                            text: 'one'
+                        }, {
+                            value: 2,
+                            text: 'two',
+                            selected: true
+                        }, {
+                            value: 3,
+                            text: 'three'
+                        }, {
+                            value: 4,
+                            text: 'four'
+                        }
+                    ];
+                    BootstrapDialog.prompt({
+                        title: 'Input ' + type,
+                        inputType: type,
+                        inputOptions: options,
+                        callback: show
+                    });
+                    break;
+                case 'checkbox':
+                    var checkboxes = [
+                        {
+                            value: 1,
+                            text: 'one'
+                        }, {
+                            value: 2,
+                            text: 'two',
+                            checked: true
+                        }, {
+                            value: 3,
+                            text: 'three'
+                        }, {
+                            value: 4,
+                            text: 'four',
+                            checked: true
+                        }
+                    ];
+                    BootstrapDialog.prompt({
+                        title: 'Input ' + type,
+                        inputType: type,
+                        inputOptions: checkboxes,
+                        callback: show
+                    });
+                    break;
+            }
+        });
+
+        function show(result) {
+            if (result === null) return; // cancel clicked
+            $('[name="show"]:checked').val() === 'alert' ? alert(result) : console.log(result);
+        }
+    });
+</script>
+</body>
+</html>

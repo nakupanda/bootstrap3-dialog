@@ -958,6 +958,80 @@
 
             return $icon;
         },
+        createPromptForm: function (promptOptions) {
+            var $form = $('<form></form>'),
+                $formContent = $('<input type="text" class="form-control" autocomplete="off">');
+            switch (promptOptions.inputType) {
+                case 'text':
+                case 'email':
+                case 'date':
+                case 'time':
+                case 'number':
+                case 'password':
+                    $formContent.attr('type', promptOptions.inputType);
+                    $formContent.val($.trim(promptOptions.message));
+                    break;
+                case 'textarea':
+                    $formContent = $('<textarea class="form-control" rows="3"></textarea>');
+                    $formContent.val($.trim(promptOptions.message));
+                    break;
+                case 'select':
+                    $formContent = $('<select class="form-control"></select>');
+                    $.each(promptOptions.inputOptions, function (index, option) {
+                        $formContent.append('<option value="' + option.value + '"' + (option.selected ? ' selected' : '') + '>' + option.text + '</option>');
+                    });
+                    break;
+                case 'checkbox':
+                    $formContent = $('<div></div>');
+                    var input = '<div class="checkbox"><label><input type="checkbox"></label></div>';
+                    $.each(promptOptions.inputOptions, function (index, option) {
+                        var $input = $(input);
+                        $input.find('input').attr('value', option.value).prop({checked: option.checked, indeterminate: option.indeterminate});
+                        $input.find('label').append(option.text);
+                        $formContent.append($input);
+                    });
+                    break;
+            }
+            var inputAttributes = ['placeholder', 'pattern', 'minlength', 'maxlength', 'min', 'max', 'step', 'rows'];
+            $.each(promptOptions, function (key, value) {
+                $.inArray(key, inputAttributes) !== -1 && $formContent.attr(key, value);
+            });
+            $form.append($formContent);
+            $form.append('<button type="submit" class="hidden"></button>');
+            $form.on('submit', {dialog: this}, function (event) {
+                if (promptOptions.btnOKHotkey === 13 && !$(this).data('submit-trigger')) { // prevent double submit on Enter
+                    return false;
+                }
+                if (this.checkValidity()) {
+                    event.preventDefault();
+                    var dialog = event.data.dialog,
+                        $btnOK = dialog.getButton(promptOptions.btnOKId),
+                        result;
+                    if (promptOptions.inputType === 'checkbox') {
+                        var $inputs = dialog.getModalBody().find('input:checked');
+                        result = [];
+                        $.each($inputs, function(index, input) {
+                            result.push(input.value);
+                        });
+                    } else {
+                        result = dialog.getModalBody().find('input, textarea, select').val();
+                    }
+                    if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call($btnOK, result) === false) {
+                        return false;
+                    }
+
+                    return dialog.close();
+                }
+            });
+
+            return $form;
+        },
+        submitPromptForm: function () {
+            var $form = this.getMessage().closest('form');
+            $form.data('submit-trigger', true);
+            $form.find(':submit').trigger('click');
+            $form.data('submit-trigger', false);
+        },
         /**
          * Invoke this only after the dialog is realized.
          *
@@ -1348,6 +1422,81 @@
 
         return dialog.open();
 
+    };
+
+    /**
+     * Prompt window
+     *
+     * @returns the created dialog instance
+     */
+    BootstrapDialog.prompt = function () {
+        var promptOptions = {};
+        var defaultPromptOptions = {
+            type: BootstrapDialog.TYPE_PRIMARY,
+            title: null,
+            message: null,
+            inputType: 'text',
+            inputOptions: [],
+            closable: false,
+            draggable: false,
+            btnCancelLabel: BootstrapDialog.DEFAULT_TEXTS.CANCEL,
+            btnCancelClass: null,
+            btnCancelHotkey: null,
+            btnOKLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
+            btnOKClass: null,
+            btnOKHotkey: null,
+            btnOKId: null,
+            btnsOrder: BootstrapDialog.defaultOptions.btnsOrder,
+            onshown: function (dialog) {
+                dialog.getModalBody().find('input, textarea, select').first().focus();
+            },
+            callback: null
+        };
+        if (typeof arguments[0] === 'object' && arguments[0].constructor === {}.constructor) {
+            promptOptions = $.extend(true, defaultPromptOptions, arguments[0]);
+        } else {
+            promptOptions = $.extend(true, defaultPromptOptions, {
+                title: arguments[0],
+                callback: typeof arguments[1] !== 'undefined' ? arguments[1] : null
+            });
+        }
+        if (promptOptions.btnOKClass === null) {
+            promptOptions.btnOKClass = ['btn', promptOptions.type.split('-')[1]].join('-');
+        }
+        if (promptOptions.btnOKId === null) {
+            promptOptions.btnOKId = BootstrapDialog.newGuid();
+        }
+
+        var dialog = new BootstrapDialog(promptOptions);
+        dialog.setData('callback', promptOptions.callback);
+        dialog.setMessage(dialog.createPromptForm(promptOptions));
+
+        var buttons = [{
+            label: promptOptions.btnCancelLabel,
+            cssClass: promptOptions.btnCancelClass,
+            hotkey: promptOptions.btnCancelHotkey,
+            action: function (dialog) {
+                if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, null) === false) {
+                    return false;
+                }
+
+                return dialog.close();
+            }
+        }, {
+            id: promptOptions.btnOKId,
+            label: promptOptions.btnOKLabel,
+            cssClass: promptOptions.btnOKClass,
+            hotkey: promptOptions.btnOKHotkey,
+            action: function (dialog) {
+                dialog.submitPromptForm();
+            }
+        }];
+        if (promptOptions.btnsOrder === BootstrapDialog.BUTTONS_ORDER_OK_CANCEL) {
+            buttons.reverse();
+        }
+        dialog.addButtons(buttons);
+
+        return dialog.open();
     };
 
     /**
