@@ -319,10 +319,21 @@
     BootstrapDialog.METHODS_TO_OVERRIDE = {};
     BootstrapDialog.METHODS_TO_OVERRIDE['v3.1'] = {
         handleModalBackdropEvent: function () {
-            this.getModal().on('click', {dialog: this}, function (event) {
-                event.target === this && event.data.dialog.isClosable() && event.data.dialog.canCloseByBackdrop() && event.data.dialog.close();
+            var dropbackClicked = 0;
+            this.getModal().on('mousedown', {dialog: this}, function (event) {
+                if (event.target === this) {
+                    dropbackClicked++;
+                } else {
+                    dropbackClicked = 0;
+                }
             });
-
+            this.getModal().on('mouseup', {dialog: this}, function (event) {
+                if (event.target === this && dropbackClicked > 0) {
+                    dropbackClicked++;
+                    event.data.dialog.isClosable() && event.data.dialog.canCloseByBackdrop() && event.data.dialog.close()
+                }
+                dropbackClicked = 0;
+            });
             return this;
         },
         /**
